@@ -691,6 +691,11 @@
                     autoplay: false,
                     complete: () => {
                         try {
+                            // Haptic feedback on success
+                            if (navigator.vibrate) {
+                                navigator.vibrate(200); // Vibrate for 200ms
+                            }
+
                             const villageName = (reportData.location.village || '').trim().toLowerCase();
                             const authority = villageDatabase[villageName] || { name: "District Nodal Officer", department: "District Administration Office" };
                             const maxId = complaints.length > 0 ? Math.max(...complaints.map(c => c.id || 0)) : 0;
@@ -715,7 +720,6 @@
                         } catch (e) {
                             console.error("Failed to save report to localStorage:", e);
                             alert("Could not save report. The data might be too large or localStorage is full.");
-                            // Here you might want to reset the button state, but for now, an alert will notify the user.
                         }
                     }
                 });
