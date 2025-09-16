@@ -392,14 +392,14 @@
     <header class="nav-header sticky top-0 z-50">
         <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
             <div class="flex items-center justify-between">
-                <a href="signup.html" class="logo">
+                <a href="index.html" class="logo">
                     <span id="animated-name">Setu</span>
                 </a>
 
                 <!-- Desktop Navigation -->
                 <div class="hidden md:flex items-center space-x-2">
                     <a href="about.html" class="btn btn-ghost">About</a>
-                    <a href="authority-dashboard.html" rel="noopener noreferrer" class="btn btn-ghost">Dashboard</a>
+                    <a href="dashboard.html" rel="noopener noreferrer" class="btn btn-ghost">Dashboard</a>
                     
                     <div class="language-dropdown">
                         <button id="language-btn" class="btn btn-ghost flex items-center">
@@ -739,7 +739,26 @@
             const fields = {
                 fullname: { el: document.getElementById('fullname'), errorEl: document.getElementById('fullname-error'), validator: (val) => val.length >= 2 ? null : 'Full name is required.' },
                 idCard: { el: document.getElementById('id-card'), errorEl: document.getElementById('id-error'), validator: (val) => /^([0-9]{12}|ID[0-9]{8})$/i.test(val) ? null : 'Enter a 12-digit Aadhaar or Authority ID (e.g., ID12345678).' },
-                dob: { el: document.getElementById('dob'), errorEl: document.getElementById('dob-error'), validator: (val) => val ? null : 'Date of birth is required.' },
+                dob: {
+                    el: document.getElementById('dob'),
+                    errorEl: document.getElementById('dob-error'),
+                    validator: (val) => {
+                        if (!val) return 'Date of birth is required.';
+                        const dob = new Date(val);
+                        const today = new Date();
+                        if (dob > today) return 'Date of birth cannot be in the future.';
+                        
+                        let age = today.getFullYear() - dob.getFullYear();
+                        const m = today.getMonth() - dob.getMonth();
+                        if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
+                            age--;
+                        }
+                        
+                        if (age < 18) return 'You must be at least 18 years old to sign up.';
+                        
+                        return null; // All checks passed
+                    }
+                },
                 mobile: { el: document.getElementById('mobile'), errorEl: document.getElementById('mobile-error'), validator: (val) => /^[6-9][0-9]{9}$/.test(val) ? null : 'Enter a valid 10-digit mobile number.' },
                 city: { el: document.getElementById('city'), errorEl: document.getElementById('city-error'), validator: (val) => val.length > 0 ? null : 'City is required.' },
                 otp: { el: document.getElementById('otp'), errorEl: document.getElementById('otp-error'), successEl: document.getElementById('otp-success') }
@@ -781,6 +800,13 @@
                 }
             });
             
+            fields.mobile.el.addEventListener('input', function() {
+                this.value = this.value.replace(/[^0-9]/g, '');
+            });
+             fields.otp.el.addEventListener('input', function() {
+                this.value = this.value.replace(/[^0-9]/g, '');
+            });
+
             // Special handling for ID card length
             fields.idCard.el.addEventListener('input', function() {
                 let value = this.value;
