@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+    <style>
+        :root {
+            /* New color theme based on your palette */
+            --bg-primary: #f8f9fa; /* A very light grey */
+            --bg-secondary: #FFFFFF;
+            --bg-secondary-translucent: rgba(255, 255, 255, 0.85);
+            --bg-accent: #fff5eb; /* Very light orange */
+            --text-primary: #1D2228; /* Dark */
+            --text-secondary: #343a40; /* Slightly lighter dark */
+            --text-muted: #6c757d; /* Muted gray */
+            --border-light: #E1E2E2; /* Light Gray */
+            --border-medium: #ced4da; /* Medium Gray */
+            --accent-primary: #FB8122; /* Orange */
+            --accent-primary-hover: #e0721d; /* Darker Orange */
+            --accent-secondary: #1D2228; /* Dark color as secondary accent */
+            --accent-secondary-hover: #343a40; /* Lighter dark */
+            --shadow-light: rgba(29, 34, 40, 0.07);
+            --shadow-medium: rgba(29, 34, 40, 0.12);
+        }
+
+        [data-theme="dark"] {
+            /* New dark theme based on your palette */
+            --bg-primary: #1D2228; /* Dark */
+            --bg-secondary: #252b31; /* Slightly lighter dark */
+            --bg-secondary-translucent: rgba(37, 43, 49, 0.85);
+            --bg-accent: #373d42; /* Even lighter dark for accents */
+            --text-primary: #E1E2E2; /* Light Gray */
+            --text-secondary: #adb5bd; /* Lighter, muted gray */
+            --text-muted: #6c757d; /* Muted gray */
+            --border-light: #373d42; /* Corresponds to bg-accent */
+            --border-medium: #495057; /* A step lighter */
+            --accent-primary: #FB8122; /* Orange */
+            --accent-primary-hover: #fc9344; /* Lighter Orange */
+            --accent-secondary: #E1E2E2; /* Light Gray as secondary accent */
+            --accent-secondary-hover: #ffffff; /* White */
+            --shadow-light: rgba(0, 0, 0, 0.2);
+            --shadow-medium: rgba(0, 0, 0, 0.3);
+        }
+        
+        #google_translate_element, .skiptranslate { display: none !important; }
+        body { top: 0 !important; }
+        .goog-te-banner-frame { display: none !important; }
+
+        * {
+            transition: background-color 0.2s cubic-bezier(0.4, 0.0, 0.2, 1), 
+                       color 0.2s cubic-bezier(0.4, 0.0, 0.2, 1), 
+                       border-color 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-secondary);
+        }
+        
+        .page { animation: fadeInPage 0.5s ease-in-out; }
+        @keyframes fadeInPage {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .nav-content-wrapper {
+            background-color: var(--bg-secondary-translucent);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-light);
+            box-shadow: 0 4px 16px var(--shadow-light);
+        }
+
+        .logo { font-size: 1.75rem; font-weight: 800; color: var(--text-primary); transition: transform 0.2s cubic-bezier(0.4, 0.0, 0.2, 1); text-decoration: none;}
+        .logo:hover { transform: scale(1.08) rotate(2deg); }
+        
+        #animated-name-desktop-sidebar, #animated-name-mobile { transition: opacity 0.4s ease-in-out; }
+        #animated-name-desktop-sidebar.fade-out, #animated-name-mobile.fade-out { opacity: 0; }
+
+        .nav-link.active svg { color: var(--accent-primary); }
+        .nav-link.active span { color: var(--text-primary); }
+        
+        .complaint-card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-light);
+            box-shadow: 0 4px 16px var(--shadow-light);
+            transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+            cursor: pointer;
+        }
+        .complaint-card:hover { 
+            transform: translateY(-6px); 
+            box-shadow: 0 10px 25px var(--shadow-medium); 
+            border-color: var(--accent-primary); 
+        }
+        .complaint-card.selected {
+             visibility: hidden; /* Hide original card during animation */
+        }
+
+        .complaint-card.rated-by-user {
+            border-width: 2px;
+            border-color: var(--accent-secondary);
+            box-shadow: 0 0 0 2px var(--accent-secondary), 0 10px 25px var(--shadow-medium);
+        }
+        .complaint-card.rated-by-user:hover { border-color: var(--accent-secondary-hover); }
+
+        /* Modal overlay for expanded view on desktop */
+        #modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            display: none;
+            padding: 2rem;
+        }
+         #modal-overlay.active { display: flex; align-items: center; justify-content: center; }
+         #modal-overlay.visible { opacity: 1; }
+        
+        #modal-content-wrapper {
+             position: relative;
+             width: 100%;
+             height: 100%;
+        }
+
+        .modal-card {
+            background-color: var(--bg-secondary);
+            border-radius: 1rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            width: 100%;
+            max-width: 80vw; /* Covers more screen width */
+            max-height: 90vh; /* Limits height to 90% of viewport */
+            display: flex;
+            overflow: hidden; /* Changed to hidden to contain rounded corners */
+            position: absolute;
+            will-change: transform, opacity; /* OPTIMIZED */
+            opacity: 0;
+        }
+        .modal-card.visible {
+            opacity: 1;
+            transition: opacity 0.2s ease 0.1s;
+        }
+        .modal-card .card-image-container { display: block !important; }
+        .modal-close-btn {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            background: rgba(0,0,0,0.3);
+            color: white;
+            border-radius: 9999px;
+            padding: 0.5rem;
+            cursor: pointer;
+            z-index: 110;
+            transition: transform 0.2s ease;
+        }
+        .modal-close-btn:hover {
+            transform: scale(1.1) rotate(90deg);
+        }
+        
+        /* Details are now always visible */
+        .card-details {
+            margin-top: 1rem;
+            overflow: visible;
+        }
+        .card-details-inner {
+            overflow: hidden;
+        }
+
+        .card-image-container, .card-details-image-wrapper {
+             cursor: zoom-in;
+             background-color: var(--bg-accent);
+        }
+        .card-image-container img, .card-details-image-wrapper img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .card-details-image-wrapper img {
+             aspect-ratio: 16/9;
+        }
+
+        /* Fullscreen Image Viewer */
+        #image-viewer-overlay {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            cursor: zoom-out;
+        }
+        #image-viewer-overlay:not(.hidden) {
+            display: flex;
+        }
+        #image-viewer-overlay.visible {
+            opacity: 1;
+        }
+        #image-viewer-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 44px;
+            height: 44px;
+            line-height: 44px;
+            text-align: center;
+            background: rgba(0,0,0,0.5);
+            border-radius: 50%;
+            border: none;
+            font-size: 2rem;
+            color: white;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            z-index: 121;
+        }
+        #image-viewer-close:hover {
+            transform: scale(1.1) rotate(90deg);
+        }
+        #fullscreen-image {
+            cursor: grab;
+            touch-action: none; /* Important for pointer events */
+            object-fit: contain;
+        }
+        #fullscreen-image:active {
+            cursor: grabbing;
+        }
+
+
+        /* Rating section polishing */
+        .rating-container {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: all 0.5s ease-in-out;
+        }
+        .rating-container.expanded {
+            max-height: 200px;
+            opacity: 1;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-light);
+        }
+        .rating-stars button {
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .rating-stars button.selected {
+            transform: scale(1.25);
+        }
+         .rating-stars button:hover {
+            transform: scale(1.15);
+        }
+        .rating-feedback {
+            min-height: 24px;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .btn { position: relative; display: inline-flex; align-items: center; justify-content: center; font-weight: 600; border-radius: 0.5rem; transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1); cursor: pointer; border: none; padding: 0.5rem 1rem; overflow: hidden; -webkit-tap-highlight-color: transparent; touch-action: manipulation; user-select: none; }
+        .btn:active { transform: scale(0.97); }
+        .btn-primary { background-color: var(--accent-primary); color: #FFFFFF; }
+        .btn-primary:hover { background-color: var(--accent-primary-hover); transform: scale(1.03); }
+        .btn-secondary { background-color: transparent; color: var(--text-primary); border: 2px solid var(--border-medium); }
+        .btn-secondary:hover { border-color: var(--accent-secondary); color: var(--accent-secondary); }
+        
+        @keyframes animated-gradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        .btn-cta { background-image: linear-gradient(120deg, var(--accent-primary) 0%, #ff9a4f 100%); background-size: 200% 200%; animation: animated-gradient 3s ease-in-out infinite; }
+        .bottom-nav-content { background-color: var(--bg-secondary-translucent); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid var(--border-light); border-radius: 1.5rem; box-shadow: 0 4px 16px var(--shadow-light); }
+        .theme-toggle { background-color: var(--bg-accent); border-radius: 0.75rem; padding: 0.5rem; cursor: pointer; transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1); border: 2px solid transparent; }
+        .theme-toggle:hover { transform: scale(1.1) rotate(10deg); border-color: var(--accent-primary); }
+        .dropdown-content { display: none; position: absolute; right: 0; top: 100%; min-width: 12.5rem; background-color: var(--bg-secondary); border: 1px solid var(--border-light); border-radius: 0.75rem; box-shadow: 0 8px 32px var(--shadow-medium); z-index: 1000; padding: 0.5rem 0; margin-top: 0.25rem; max-height: 18.75rem; overflow-y: auto; opacity: 0; transform: translateY(-10px); transition: opacity 0.2s cubic-bezier(0.4, 0.0, 0.2, 1), transform 0.2s cubic-bezier(0.4, 0.0, 0.2, 1); }
+        .dropdown-content.show { display: block; opacity: 1; transform: translateY(0); }
+        .dropdown-item { display: block; padding: 0.75rem 1rem; color: var(--text-primary); text-decoration: none; cursor: pointer; transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1); }
+        .dropdown-item:hover { color: var(--accent-primary); transform: translateX(5px); background-color: var(--bg-accent); }
+        .language-indicator { font-size: 0.7rem; background-color: var(--accent-primary); color: #FFFFFF; font-weight: 600; padding: 2px 6px; border-radius: 0.375rem; margin-left: 0.5rem; transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1); }
+        .form-select { appearance: none; background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236c757d' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e"); background-position: right 0.5rem center; background-repeat: no-repeat; background-size: 1.5em 1.5em; padding-right: 2.5rem; }
+        [data-theme="dark"] .form-select { background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23adb5bd' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e"); }
+    
+        /* Styles for new Desktop Vertical Navbar */
+        .desktop-sidebar {
+            /* Sidebar is now permanently expanded */
+        }
+
+        .desktop-nav-link {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start; /* Changed from center to left-align content */
+            padding: 0.75rem;
+            width: 100%;
+            border-radius: 0.75rem;
+            color: var(--text-muted);
+            transition: all 0.2s ease-in-out;
+        }
+
+        .desktop-nav-text {
+            margin-left: 1rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            opacity: 1; /* Always visible */
+            white-space: nowrap;
+            width: auto;
+            overflow: visible;
+        }
+
+        .desktop-nav-link:hover {
+            background-color: var(--bg-accent);
+            color: var(--text-primary);
+            transform: scale(1.05);
+        }
+        .desktop-nav-link.active {
+            background-color: var(--bg-accent);
+            color: var(--text-primary);
+        }
+        .desktop-nav-link.active svg {
+            color: var(--accent-primary) !important;
+        }
+        .desktop-nav-link.active:hover svg {
+            color: var(--accent-primary) !important;
+        }
+    </style>
+</head>
+<body class="antialiased pb-28 sm:pb-0">
+
+    <!-- Desktop Vertical Navbar -->
+    <nav class="hidden sm:flex flex-col fixed top-0 left-0 h-full bg-[var(--bg-secondary)] border-r border-[var(--border-light)] w-56 shadow-lg z-50 p-2 desktop-sidebar">
+        <!-- Logo -->
+        <div class="flex-shrink-0 flex justify-center pt-2 pb-8">
+            <a href="index.html" class="logo !text-2xl">
+                <span id="animated-name-desktop-sidebar">Setu</span>
+            </a>
+        </div>
+
+        <!-- Main Navigation Links -->
+        <div class="flex-grow flex flex-col items-center justify-start space-y-2">
+            <a href="index.html" title="Home" class="desktop-nav-link active">
+                <svg class="w-7 h-7 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h7.5" /></svg>
+                <span class="desktop-nav-text">Home</span>
+            </a>
+            <a href="search.html" title="Search" class="desktop-nav-link">
+                 <svg class="w-7 h-7 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" /></svg>
+                 <span class="desktop-nav-text">Search</span>
+            </a>
+            <a href="report.html" title="Report Issue" class="desktop-nav-link btn-cta !text-white transform hover:!scale-105 my-2 !py-4">
+                <svg class="w-8 h-8 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+                <span class="desktop-nav-text">Report</span>
+            </a>
+            <button id="open-filter-btn-desktop" title="Filter" class="desktop-nav-link">
+                <svg class="w-7 h-7 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" /></svg>
+                <span class="desktop-nav-text">Filter</span>
+            </button>
+            <a href="profile.html" title="Profile" class="desktop-nav-link">
+                 <svg class="w-7 h-7 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                 <span class="desktop-nav-text">Profile</span>
+            </a>
+        </div>
+
+        <!-- Bottom Controls -->
+        <div class="flex-shrink-0 w-full flex flex-col items-center space-y-2 pb-2">
+            <div class="relative w-full">
+                <button id="language-btn-desktop" class="desktop-nav-link w-full" title="Change Language">
+                    <svg class="w-7 h-7 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 21l5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 016-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502" /></svg>
+                    <span class="desktop-nav-text">Language</span>
+                </button>
+                <div id="language-dropdown-desktop" class="dropdown-content !bottom-0 !top-auto !left-full !ml-2"></div>
+            </div>
+            <button id="theme-toggle-desktop" class="desktop-nav-link w-full" title="Toggle Theme">
+                 <svg class="w-7 h-7 sun-icon flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                 <svg class="w-7 h-7 hidden moon-icon flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                 <span class="desktop-nav-text">Theme</span>
+            </button>
+        </div>
+    </nav>
+
+
+    <div id="app" class="min-h-screen sm:pl-56">
+        <!-- Header for Mobile -->
+        <header class="sm:hidden sticky top-0 z-40 py-2 px-2">
+             <div class="nav-content-wrapper rounded-xl max-w-7xl mx-auto">
+                <div class="flex justify-between items-center py-2 px-4">
+                    <a href="index.html" class="logo w-24"><span id="animated-name-mobile">Setu</span></a>
+                    <div class="flex items-center space-x-1">
+                        <div class="relative">
+                             <button id="language-btn-mobile" class="btn btn-secondary flex items-center !p-2">
+                                <span class="language-text-mobile text-sm hidden"></span>
+                                <span id="current-lang-mobile" class="language-indicator"></span>
+                            </button>
+                            <div id="language-dropdown-mobile" class="dropdown-content"></div>
+                        </div>
+                        <button id="theme-toggle-mobile" class="theme-toggle" aria-label="Toggle theme">
+                            <svg class="w-5 h-5 sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                            <svg class="w-5 h-5 hidden moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div id="home-page" class="page active">
+                <div id="feed-container" class="space-y-8"></div>
+            </div>
+        </main>
+        
+        <div id="filter-backdrop" class="fixed inset-0 bg-black bg-opacity-60 z-40 hidden"></div>
+        <div id="filter-panel" class="fixed top-0 left-0 h-full w-80 max-w-full bg-[var(--bg-secondary)] shadow-xl z-50 transform -translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
+             <div class="p-4 border-b border-[var(--border-light)] flex justify-between items-center flex-shrink-0">
+                 <h3 class="text-lg font-semibold flex items-center text-[var(--text-primary)]">Filters</h3>
+                <button id="close-filter-btn" class="text-[var(--text-muted)] hover:text-[var(--text-primary)]"><svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg></button>
+             </div>
+             <div class="p-4 space-y-4 flex-grow overflow-y-auto flex items-center justify-center">
+                 <p class="text-center text-[var(--text-muted)] p-4 bg-[var(--bg-accent)] rounded-lg">Filters will be available soon.</p>
+             </div>
+             <div class="p-4 border-t border-[var(--border-light)] flex-shrink-0 flex gap-4 hidden">
+                 <button id="reset-filter-btn" class="btn btn-secondary w-full">Reset</button>
+                 <button id="apply-filter-btn" class="btn btn-primary w-full">Apply</button>
+             </div>
+        </div>
+
+        <!-- Bottom Nav for Mobile -->
+        <div class="fixed bottom-0 left-0 right-0 z-30 p-2 sm:hidden">
+            <nav class="bottom-nav-content max-w-md mx-auto flex justify-around py-2">
+                 <a href="index.html" id="home-nav-link" class="nav-link active flex flex-col items-center text-[var(--text-muted)] p-2 w-1/5"><svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h7.5" /></svg><span class="text-xs font-semibold">Home</span></a>
+                 <a href="search.html" class="nav-link flex flex-col items-center text-[var(--text-muted)] hover:text-[var(--text-primary)] transition p-2 w-1/5"><svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" /></svg><span class="text-xs">Search</span></a>
+                 <a href="report.html" class="flex flex-col items-center justify-center p-2 w-1/5"><div class="btn-cta text-white p-3.5 rounded-full transition duration-300 ease-in-out transform hover:scale-110 flex items-center justify-center shadow-lg -mt-6 border-4 border-[var(--bg-primary)]"><svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg></div></a>
+                 <button id="open-filter-btn" class="nav-link flex flex-col items-center text-[var(--text-muted)] hover:text-[var(--text-primary)] transition p-2 w-1/5"><svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" /></svg><span class="text-xs">Filter</span></button>
+                 <a href="profile.html" class="nav-link flex flex-col items-center text-[var(--text-muted)] hover:text-[var(--text-primary)] transition p-2 w-1/5"><svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" /></svg><span class="text-xs">Profile</span></a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Desktop Modal for Expanded View -->
+    <div id="modal-overlay">
+        <div id="modal-content-wrapper"></div>
+    </div>
+
+    <!-- Fullscreen Image Viewer -->
+    <div id="image-viewer-overlay" class="fixed inset-0 z-[120] flex items-center justify-center bg-black bg-opacity-80 backdrop-filter backdrop-blur-lg hidden">
+        <button id="image-viewer-close">&times;</button>
+        <img id="fullscreen-image" src="" alt="Full screen complaint image" class="max-w-[90vw] max-h-[90vh] transition-transform duration-200">
+    </div>
+
+    <div id="google_translate_element"></div>
+
+    <script>
+        let complaints = [];
+
+        function googleTranslateElementInit() { new google.translate.TranslateElement({ pageLanguage: 'en', includedLanguages: 'en,hi,bn,te,mr,ta,ur,gu,kn,ml,pa,or,as,ne', layout: google.translate.TranslateElement.InlineLayout.SIMPLE, autoDisplay: false }, 'google_translate_element'); }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            const LANGUAGES = {'en':{name:'English',short:'EN'},'hi':{name:'हिन्दी',short:'HI'},'bn':{name:'বাংলা',short:'BN'},'te':{name:'తెలుగు',short:'TE'},'mr':{name:'मराठी',short:'MR'},'ta':{name:'தமிழ்',short:'TA'},'ur':{name:'اردو',short:'UR'},'gu':{name:'ગુજરાતી',short:'GU'},'kn':{name:'ಕನ್ನಡ',short:'KN'},'ml':{name:'മലയാളം',short:'ML'},'pa':{name:'ਪੰਜਾਬੀ',short:'PA'},'or':{name:'ଓଡ଼ିଆ',short:'OR'},'as':{name:'অসমীয়া',short:'AS'},'ne':{name:'नेपाली',short:'NE'}};
+            const issueTypes = { "Garbage Dump":{}, "No Dustbins":{}, "Open Sewage":{}, "Bad Roads":{} };
+            const statusStyles = { "Submitted": { bg: "bg-yellow-100", text: "text-yellow-800" }, "In Progress": { bg: "bg-blue-100", text: "text-blue-800" }, "Resolved": { bg: "bg-green-100", text: "text-green-800" } };
+            const authorities = [ { name: "Mr. Alok Verma", designation: "Sanitation Officer, Circle 1", department: "Municipal Corporation" }, { name: "Ms. Priya Singh", designation: "Executive Engineer", department: "Public Works Dept." } ];
+            const issueStyles = {
+                "Garbage Dump": { bg: "bg-rose-100", text: "text-rose-700", darkBg: "dark:bg-rose-500/20", darkText: "dark:text-rose-300" },
+                "No Dustbins": { bg: "bg-amber-100", text: "text-amber-700", darkBg: "dark:bg-amber-500/20", darkText: "dark:text-amber-300" },
+                "Open Sewage": { bg: "bg-sky-100", text: "text-sky-700", darkBg: "dark:bg-sky-500/20", darkText: "dark:text-sky-300" },
+                "Bad Roads": { bg: "bg-slate-200", text: "text-slate-700", darkBg: "dark:bg-slate-700/40", darkText: "dark:text-slate-300" }
+            };
+            const ratingFeedbacks = ["", "Terrible resolution", "Not satisfied", "It's okay", "Good resolution", "Excellent!"];
+            const ratingStarColors = ['', 'text-red-500', 'text-orange-400', 'text-yellow-400', 'text-lime-500', 'text-green-500'];
+
+            const UI = {
+                feedContainer: document.getElementById('feed-container'),
+                filterPanel: document.getElementById('filter-panel'), 
+                filterBackdrop: document.getElementById('filter-backdrop'), 
+                openFilterBtn: document.getElementById('open-filter-btn'), 
+                openFilterBtnDesktop: document.getElementById('open-filter-btn-desktop'), 
+                closeFilterBtn: document.getElementById('close-filter-btn'), 
+                animatedNameMobile: document.getElementById('animated-name-mobile'),
+                animatedNameDesktopSidebar: document.getElementById('animated-name-desktop-sidebar'),
+                themeToggles: [document.getElementById('theme-toggle-mobile'), document.getElementById('theme-toggle-desktop')],
+                sunIcons: document.querySelectorAll('.sun-icon'),
+                moonIcons: document.querySelectorAll('.moon-icon'),
+                languageBtnMobile: document.getElementById('language-btn-mobile'), languageDropdownMobile: document.getElementById('language-dropdown-mobile'), languageTextMobile: document.querySelector('.language-text-mobile'), currentLangMobile: document.getElementById('current-lang-mobile'),
+                languageBtnDesktop: document.getElementById('language-btn-desktop'), languageDropdownDesktop: document.getElementById('language-dropdown-desktop'),
+                modalOverlay: document.getElementById('modal-overlay'), modalContentWrapper: document.getElementById('modal-content-wrapper'),
+                homeNavLink: document.getElementById('home-nav-link'),
+                imageViewerOverlay: document.getElementById('image-viewer-overlay'),
+                imageViewerClose: document.getElementById('image-viewer-close'),
+                fullscreenImage: document.getElementById('fullscreen-image'),
+            };
+            let scrollObserver;
+
+            function saveComplaints() { localStorage.setItem('complaintsData', JSON.stringify(complaints)); }
+            
+            function loadComplaints() {
+                let stored = localStorage.getItem('complaintsData');
+                complaints = JSON.parse(stored || '[]');
+            }
+
+            const applyTheme = t => { const isDark=t==='dark';document.documentElement.setAttribute('data-theme',isDark?'dark':'light');UI.sunIcons.forEach(i=>i.classList.toggle('hidden',isDark));UI.moonIcons.forEach(i=>i.classList.toggle('hidden',!isDark));};
+            const setupTheme = () => { const i=localStorage.getItem('theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');applyTheme(i);UI.themeToggles.forEach(btn=>btn.addEventListener('click',()=>{const n=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';localStorage.setItem('theme',n);applyTheme(n);}));};
+            
+            const setupLogoAnimation = () => {
+                const names = ['Setu', 'सेतु', 'সেতু', 'सेतू', 'સેતુ', 'ಸೇತು'];
+                let currentIndex = 0;
+                const logoElements = [UI.animatedNameDesktopSidebar, UI.animatedNameMobile].filter(el => el);
+                if (logoElements.length === 0) return;
+                setInterval(() => {
+                    logoElements.forEach(el => el.classList.add('fade-out'));
+                    setTimeout(() => {
+                        currentIndex = (currentIndex + 1) % names.length;
+                        logoElements.forEach(el => {
+                            el.textContent = names[currentIndex];
+                            el.classList.remove('fade-out');
+                        });
+                    }, 400);
+                }, 4000);
+            };
+
+            const populateLanguageDropdowns = () => { const html=Object.entries(LANGUAGES).map(([c,{name,short}])=>`<a href="#" class="dropdown-item flex justify-between items-center" data-lang="${c}" data-name="${name}"><span>${name}</span><span class="language-indicator !bg-[var(--bg-accent)] !text-[var(--text-primary)]">${short}</span></a>`).join('');UI.languageDropdownMobile.innerHTML=html; UI.languageDropdownDesktop.innerHTML = html;};
+            const restoreLanguageDisplay = () => { const l=localStorage.getItem('selectedLanguage')||'en'; const n=localStorage.getItem('selectedLanguageName')||'English'; const s=LANGUAGES[l]?.short||l.toUpperCase(); UI.languageTextMobile.textContent=n;UI.currentLangMobile.textContent=s;};
+            const setupLanguageSwitcher = () => {const close=()=>[UI.languageDropdownMobile, UI.languageDropdownDesktop].forEach(d=>d.classList.remove('show'));const handler=e=>{const item=e.target.closest('.dropdown-item');if(item){e.preventDefault();const l=item.dataset.lang,n=item.dataset.name;localStorage.setItem('selectedLanguage',l);localStorage.setItem('selectedLanguageName',n);if(l==='en'){document.cookie='googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';}else{document.cookie=`googtrans=/en/${l}; path=/`;}location.reload();}};UI.languageBtnMobile.addEventListener('click',e=>{e.stopPropagation();UI.languageDropdownMobile.classList.toggle('show');});UI.languageBtnDesktop.addEventListener('click', e => { e.stopPropagation(); UI.languageDropdownDesktop.classList.toggle('show'); });document.addEventListener('click',close);UI.languageDropdownMobile.addEventListener('click',handler); UI.languageDropdownDesktop.addEventListener('click', handler);};
+            const setupScrollAnimations = () => { scrollObserver = new IntersectionObserver((e)=>{e.forEach(i=>{if(i.isIntersecting){i.target.classList.add('visible');scrollObserver.unobserve(i.target);}});},{threshold:0.1}); };
+            const formatTimeAgo = t => {
+                const seconds = Math.floor((new Date() - new Date(t)) / 1000);
+                if (seconds < 2) return 'Just now';
+                if (seconds < 60) return `${seconds}s ago`;
+                const minutes = Math.floor(seconds / 60);
+                if (minutes < 60) return `${minutes}m ago`;
+                const hours = Math.floor(minutes / 60);
+                if (hours < 24) return `${hours}h ago`;
+                return `${Math.floor(hours / 24)}d ago`;
+            };
+            const getAverageRating = r => r.length === 0 ? {avg:0, count:0} : {avg:(r.reduce((a,c)=>a+c,0)/r.length).toFixed(1), count:r.length};
+            
+            const createCardContent = (c, isModal = false) => {
+                const s = statusStyles[c.status];
+                const i = issueStyles[c.issue] || { bg: "bg-gray-200", text: "text-gray-800", darkBg: "dark:bg-gray-700", darkText: "dark:text-gray-200" };
+                let ratingSectionHtml = '';
+
+                if (c.status === 'Resolved') {
+                    const { avg, count } = getAverageRating(c.ratings);
+                    const avgRatingColor = ratingStarColors[Math.round(avg)] || 'text-yellow-400';
+                    const starIconSvg = `<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>`;
+                    const actionButton = c.userRated ? `<span class="text-sm font-semibold text-[var(--accent-secondary)]">You Rated This</span>` : `<button class="rate-now-btn btn btn-secondary text-xs py-1 px-3" data-complaint-id="${c.id}">Rate Resolution</button>`;
+                    let ratingStarsHtml = '';
+                    for (let i = 1; i <= 5; i++) {
+                        ratingStarsHtml += `<button class="rating-star p-1 text-gray-300" data-value="${i}">${starIconSvg.replace('w-4 h-4', 'w-8 h-8')}</button>`;
+                    }
+                    const inlineRatingForm = c.userRated ? '' : `<div class="rating-container"><p class="text-md font-semibold text-[var(--text-primary)] mb-2">How was the resolution?</p><div class="rating-stars flex justify-center items-center mb-2 space-x-2">${ratingStarsHtml}</div><p class="rating-feedback text-center text-[var(--text-muted)] text-sm mb-4"></p><div class="flex justify-end"><button class="submit-rating-btn btn btn-primary" data-complaint-id="${c.id}" disabled>Submit</button></div></div>`;
+                    ratingSectionHtml = `<div class="mt-auto"><div class="pt-4 border-t border-[var(--border-light)] flex justify-between items-center"><div class="flex items-center space-x-2"><span class="${avgRatingColor}">${starIconSvg}</span><p class="text-[var(--text-primary)] font-bold text-lg">${avg}</p><p class="text-[var(--text-muted)] text-sm">(${count} votes)</p></div>${actionButton}</div>${inlineRatingForm}</div>`;
+                }
+
+                if (isModal) {
+                     const imageClass = 'object-contain';
+                     const imageHtml = `<div class="card-image-container w-1/2 flex-shrink-0"><img src="${c.image}" onerror="this.src='https://placehold.co/800x600/E1E2E2/1D2228?text=Image+Not+Available';" class="w-full h-full ${imageClass}"/></div>`;
+                     const wrapperClasses = `main-content-wrapper flex-grow p-5 flex flex-col w-1/2 overflow-y-auto !p-8`;
+                     const contentHtml = `
+                         <div class="${wrapperClasses}">
+                              <div class="flex items-center justify-between gap-2 mb-3">
+                                  <span class="font-bold px-3 py-1 rounded-full text-xs ${i.bg} ${i.text} ${i.darkBg} ${i.darkText}">${c.issue}</span>
+                                  <span class="px-3 py-1 text-xs font-bold rounded-full ${s.bg} ${s.text}">${c.status}</span>
+                              </div>
+                              <div class="mb-2">
+                                  <p class="text-[var(--text-primary)] text-2xl font-bold flex items-center gap-2">
+                                      <svg class="w-6 h-6 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9.69 18.933l.003.001C9.89 19.02 10 19 10 19s.11.02.308-.066l.002-.001.006-.003.018-.008a5.741 5.741 0 00.281-.14c.186-.1.4-.27.61-.473A10.935 10.935 0 0014 15.25a10.934 10.934 0 00-4-10.75 10.934 10.934 0 00-4 10.75 10.935 10.935 0 003.11 3.213c.21.203.424.373.61.473a5.741 5.741 0 00.28.14l.018.008.006.003zM10 11.25a2.25 2.25 0 100-4.5 2.25 2.25 0 000 4.5z" clip-rule="evenodd" /></svg>
+                                      <span>${c.location}</span>
+                                  </p>
+                                  <p class="text-sm text-[var(--text-muted)] mt-1">Submitted ${formatTimeAgo(c.timestamp)}</p>
+                              </div>
+                             <div class="card-details flex-grow flex flex-col">
+                                 <div class="card-details-inner">
+                                     <p class="text-[var(--text-secondary)] leading-relaxed my-4">${c.description}</p>
+                                     <div class="border-t border-[var(--border-light)] my-4"></div>
+                                     <div class="grid grid-cols-2 gap-4 text-sm">
+                                        <div>
+                                            <p class="font-semibold text-[var(--text-muted)] text-xs uppercase tracking-wider">Reported By</p>
+                                            <p class="font-medium text-[var(--text-primary)]">${c.reporter}</p>
+                                        </div>
+                                        <div>
+                                            <p class="font-semibold text-[var(--text-muted)] text-xs uppercase tracking-wider">Assigned To</p>
+                                            <p class="font-medium text-[var(--text-primary)]">${c.authority.name}</p>
+                                            <p class="text-xs text-[var(--text-muted)]">${c.authority.department}</p>
+                                        </div>
+                                     </div>
+                                 </div>
+                             </div>
+                             ${ratingSectionHtml}
+                         </div>`;
+                     return imageHtml + contentHtml;
+                }
+                
+                // New horizontal layout for feed cards on desktop
+                const desktopImageHtml = `
+                    <div class="hidden md:block md:w-1/3 lg:w-1/4 flex-shrink-0 relative card-image-container">
+                        <img src="${c.image}" onerror="this.src='https://placehold.co/400x600/E1E2E2/1D2228?text=Image+Not+Available';" class="absolute top-0 left-0 w-full h-full object-contain" alt="Complaint Image"/>
+                    </div>
+                `;
+                
+                const wrapperClasses = `main-content-wrapper flex-grow p-5 flex flex-col`;
+
+                const contentHtml = `
+                    <div class="${wrapperClasses}">
+                         <div class="flex items-center justify-between gap-2 mb-3">
+                             <span class="font-bold px-3 py-1 rounded-full text-xs ${i.bg} ${i.text} ${i.darkBg} ${i.darkText}">${c.issue}</span>
+                             <span class="px-3 py-1 text-xs font-bold rounded-full ${s.bg} ${s.text}">${c.status}</span>
+                         </div>
+                         <div class="mb-2">
+                             <p class="text-[var(--text-primary)] text-2xl font-bold flex items-center gap-2">
+                                 <svg class="w-6 h-6 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9.69 18.933l.003.001C9.89 19.02 10 19 10 19s.11.02.308-.066l.002-.001.006-.003.018-.008a5.741 5.741 0 00.281-.14c.186-.1.4-.27.61-.473A10.935 10.935 0 0014 15.25a10.934 10.934 0 00-4-10.75 10.934 10.934 0 00-4 10.75 10.935 10.935 0 003.11 3.213c.21.203.424.373.61.473a5.741 5.741 0 00.28.14l.018.008.006.003zM10 11.25a2.25 2.25 0 100-4.5 2.25 2.25 0 000 4.5z" clip-rule="evenodd" /></svg>
+                                 <span>${c.location}</span>
+                             </p>
+                             <p class="text-sm text-[var(--text-muted)] mt-1">Submitted ${formatTimeAgo(c.timestamp)}</p>
+                         </div>
+
+                        <div class="card-details flex-grow flex flex-col">
+                            <div class="card-details-inner">
+                                <!-- This image is for the main card view ON MOBILE -->
+                                <div class="card-details-image-wrapper my-4 -mx-5 rounded-lg overflow-hidden md:hidden"><img src="${c.image}" onerror="this.src='https://placehold.co/800x400/E1E2E2/1D2228?text=Image+Not+Available';" class="w-full h-48 object-contain"/></div>
+                                
+                                <p class="text-[var(--text-secondary)] leading-relaxed my-4">${c.description}</p>
+                                
+                                <div class="border-t border-[var(--border-light)] my-4"></div>
+                                
+                                <div class="grid grid-cols-2 gap-4 text-sm">
+                                    <div>
+                                        <p class="font-semibold text-[var(--text-muted)] text-xs uppercase tracking-wider">Reported By</p>
+                                        <p class="font-medium text-[var(--text-primary)]">${c.reporter}</p>
+                                    </div>
+                                    <div>
+                                        <p class="font-semibold text-[var(--text-muted)] text-xs uppercase tracking-wider">Assigned To</p>
+                                        <p class="font-medium text-[var(--text-primary)]">${c.authority.name}</p>
+                                        <p class="text-xs text-[var(--text-muted)]">${c.authority.department}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        ${ratingSectionHtml}
+                    </div>`;
+                return desktopImageHtml + contentHtml;
+            };
+
+            const createPostElement = c => {
+                const post = document.createElement('div');
+                post.className = `complaint-card rounded-2xl overflow-hidden md:flex md:flex-row fade-in ${c.userRated ? 'rated-by-user' : ''}`;
+                post.dataset.complaintId = c.id;
+                post.innerHTML = createCardContent(c, false);
+                scrollObserver.observe(post);
+                return post;
+            };
+
+            const renderFeed = cList => {
+                UI.feedContainer.innerHTML = '';
+                if (!cList || cList.length === 0) {
+                    UI.feedContainer.innerHTML = `
+                        <div class="text-center py-16 px-6 bg-[var(--bg-secondary)] rounded-2xl shadow-sm fade-in visible col-span-1 md:col-span-2 lg:col-span-3">
+                            <svg class="mx-auto h-12 w-12 text-[var(--text-muted)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+                            </svg>
+                            <h3 class="mt-4 text-lg font-semibold text-[var(--text-primary)]">No Reports Found</h3>
+                            <p class="mt-1 text-sm text-[var(--text-muted)]">
+                                It looks like there are no reports in your area yet.
+                            </p>
+                            <div class="mt-6">
+                                <a href="report.html" class="btn btn-primary">
+                                    <svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
+                                    </svg>
+                                    Create the First Report
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    cList.sort((a,b)=>new Date(b.timestamp)-new Date(a.timestamp)).forEach(c => UI.feedContainer.appendChild(createPostElement(c)));
+                }
+            };
+
+            const openFilter = () => { UI.filterBackdrop.classList.remove('hidden'); UI.filterPanel.classList.remove('-translate-x-full'); };
+            const closeFilter = () => { UI.filterBackdrop.classList.add('hidden'); UI.filterPanel.classList.add('-translate-x-full'); };
+            const isDesktop = () => window.innerWidth >= 640;
+
+            const handleCardClick = (e) => {
+                const card = e.target.closest('.complaint-card');
+                if (!card || e.target.closest('button, a, .card-image-container, .card-details-image-wrapper')) return;
+
+                if (isDesktop()) {
+                    openModal(card);
+                }
+            };
+            
+            const openModal = (card) => {
+                const complaintId = parseInt(card.dataset.complaintId);
+                const complaint = complaints.find(c => c.id === complaintId);
+                if (!complaint) return;
+                
+                const cardRect = card.getBoundingClientRect();
+                card.classList.add('selected');
+                
+                const modal = document.createElement('div');
+                modal.className = 'modal-card';
+                modal.dataset.complaintId = complaintId;
+                modal.innerHTML = createCardContent(complaint, true) + `<button class="modal-close-btn"><svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg></button>`;
+                
+                UI.modalContentWrapper.innerHTML = '';
+                UI.modalContentWrapper.appendChild(modal);
+                UI.modalOverlay.classList.add('active');
+
+                const finalRect = modal.getBoundingClientRect();
+                const dx = cardRect.left - finalRect.left;
+                const dy = cardRect.top - finalRect.top;
+                const dw = cardRect.width / finalRect.width;
+                const dh = cardRect.height / finalRect.height;
+
+                modal.style.transform = `translate(${dx}px, ${dy}px) scale(${dw}, ${dh})`;
+                modal.style.transformOrigin = 'top left';
+
+                requestAnimationFrame(() => {
+                    UI.modalOverlay.classList.add('visible');
+                    modal.style.transition = 'transform 0.35s cubic-bezier(0.4, 0, 0.2, 1)';
+                    modal.style.transform = 'none';
+                    modal.classList.add('visible');
+                });
+                 modal.querySelector('.modal-close-btn').addEventListener('click', () => closeModal(card, modal));
+                 UI.modalOverlay.addEventListener('click', (e) => { if(e.target === UI.modalOverlay) closeModal(card, modal) });
+            };
+
+            const closeModal = (originalCard, modalCard) => {
+                if (!originalCard) return;
+                const cardRect = originalCard.getBoundingClientRect();
+                const finalRect = modalCard.getBoundingClientRect();
+
+                const dx = cardRect.left - finalRect.left;
+                const dy = cardRect.top - finalRect.top;
+                const dw = cardRect.width / finalRect.width;
+                const dh = cardRect.height / finalRect.height;
+                
+                modalCard.style.transition = 'transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease';
+
+                requestAnimationFrame(() => {
+                    UI.modalOverlay.classList.remove('visible');
+                    modalCard.style.opacity = '0';
+                    modalCard.style.transform = `translate(${dx}px, ${dy}px) scale(${dw}, ${dh})`;
+                });
+                
+                setTimeout(() => {
+                    UI.modalOverlay.classList.remove('active');
+                    UI.modalContentWrapper.innerHTML = '';
+                    originalCard.classList.remove('selected');
+                }, 350);
+            };
+
+            // --- Image Viewer Logic ---
+            let isPanning = false, startX, startY, transformX = 0, transformY = 0, scale = 1;
+
+            const openImageViewer = (src) => {
+                UI.fullscreenImage.src = src;
+                UI.imageViewerOverlay.classList.remove('hidden');
+                scale = 1; transformX = 0; transformY = 0;
+                UI.fullscreenImage.style.transform = `translate(${transformX}px, ${transformY}px) scale(${scale})`;
+                setTimeout(() => UI.imageViewerOverlay.classList.add('visible'), 10);
+            };
+
+            const closeImageViewer = () => {
+                UI.imageViewerOverlay.classList.remove('visible');
+                setTimeout(() => {
+                    UI.imageViewerOverlay.classList.add('hidden');
+                    UI.fullscreenImage.src = '';
+                }, 300);
+            };
+
+            const handleWheel = (e) => { e.preventDefault(); const scaleAmount = 0.1; scale += e.deltaY > 0 ? -scaleAmount : scaleAmount; scale = Math.min(Math.max(0.5, scale), 4); UI.fullscreenImage.style.transform = `translate(${transformX}px, ${transformY}px) scale(${scale})`; };
+            const handlePointerDown = (e) => { isPanning = true; startX = e.clientX - transformX; startY = e.clientY - transformY; UI.fullscreenImage.style.cursor = 'grabbing'; };
+            const handlePointerMove = (e) => { if (!isPanning) return; e.preventDefault(); transformX = e.clientX - startX; transformY = e.clientY - startY; UI.fullscreenImage.style.transform = `translate(${transformX}px, ${transformY}px) scale(${scale})`; };
+            const handlePointerUp = () => { isPanning = false; UI.fullscreenImage.style.cursor = 'grab'; };
+
+            const handleInteractiveElements = (e) => {
+                const parent = e.target.closest('.complaint-card, .modal-card');
+
+                // Image Viewer Click
+                const imageContainer = e.target.closest('.card-image-container, .card-details-image-wrapper');
+                if (imageContainer) {
+                    e.stopPropagation();
+                    const image = imageContainer.querySelector('img');
+                    if (image && image.src) openImageViewer(image.src);
+                    return;
+                }
+                
+                if (!parent) return;
+
+                const rateNowBtn = e.target.closest('.rate-now-btn');
+                if (rateNowBtn) {
+                    e.stopPropagation();
+                    const ratingContainer = parent.querySelector('.rating-container');
+                    if (ratingContainer) ratingContainer.classList.toggle('expanded');
+                    return;
+                }
+
+                const ratingStar = e.target.closest('.rating-star');
+                if (ratingStar) {
+                    e.stopPropagation();
+                    const stars = parent.querySelectorAll('.rating-star');
+                    const feedbackEl = parent.querySelector('.rating-feedback');
+                    const submitBtn = parent.querySelector('.submit-rating-btn');
+                    const ratingValue = parseInt(ratingStar.dataset.value);
+                    const selectedColor = ratingStarColors[ratingValue];
+
+                    feedbackEl.textContent = ratingFeedbacks[ratingValue];
+                    stars.forEach(star => {
+                        const starValue = parseInt(star.dataset.value);
+                        star.classList.remove(...ratingStarColors.filter(c => c), 'text-gray-300', 'selected');
+                        if (starValue <= ratingValue) {
+                            star.classList.add(selectedColor);
+                            if(starValue === ratingValue) star.classList.add('selected');
+                        } else {
+                            star.classList.add('text-gray-300');
+                        }
+                    });
+                    submitBtn.disabled = false;
+                    submitBtn.dataset.rating = ratingValue;
+                    return;
+                }
+                
+                const submitRatingBtn = e.target.closest('.submit-rating-btn');
+                if (submitRatingBtn) {
+                    e.stopPropagation();
+                    const complaintId = parseInt(submitRatingBtn.dataset.complaintId);
+                    const selectedRating = parseInt(submitRatingBtn.dataset.rating);
+                    const complaint = complaints.find(c => c.id === complaintId);
+                    if (complaint && selectedRating > 0) {
+                        complaint.ratings.push(selectedRating);
+                        complaint.userRated = true;
+                        saveComplaints();
+                        renderFeed(complaints);
+                        if(parent.classList.contains('modal-card')) {
+                             const originalCard = UI.feedContainer.querySelector(`.complaint-card[data-complaint-id="${complaintId}"]`);
+                             if (originalCard) closeModal(originalCard, parent);
+                        }
+                    }
+                    return;
+                }
+            };
+            
+            // Initial setup
+            loadComplaints();
+            setupTheme(); 
+            setupLogoAnimation(); 
+            populateLanguageDropdowns(); 
+            setupLanguageSwitcher(); 
+            restoreLanguageDisplay(); 
+            setupScrollAnimations(); 
+            renderFeed(complaints);
+
+            // Event Listeners
+            let lastHomeClick = 0;
+            UI.homeNavLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                const now = new Date().getTime();
+                if (now - lastHomeClick < 300) { // Double click
+                    location.reload();
+                } else { // Single click
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+                lastHomeClick = now;
+            });
+
+            UI.feedContainer.addEventListener('click', handleCardClick);
+            document.body.addEventListener('click', handleInteractiveElements);
+            UI.openFilterBtn.addEventListener('click',openFilter); 
+            if (UI.openFilterBtnDesktop) {
+                UI.openFilterBtnDesktop.addEventListener('click',openFilter); 
+            }
+            UI.closeFilterBtn.addEventListener('click',closeFilter); 
+            UI.filterBackdrop.addEventListener('click',closeFilter);
+
+            // Image Viewer Listeners
+            UI.imageViewerClose.addEventListener('click', closeImageViewer);
+            UI.imageViewerOverlay.addEventListener('click', (e) => { if (e.target === UI.imageViewerOverlay) closeImageViewer(); });
+            UI.fullscreenImage.addEventListener('wheel', handleWheel, { passive: false });
+            UI.fullscreenImage.addEventListener('pointerdown', handlePointerDown);
+            window.addEventListener('pointermove', handlePointerMove);
+            window.addEventListener('pointerup', handlePointerUp);
+        });
+    </script>
+    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async defer></script>
+</body>
+</html>

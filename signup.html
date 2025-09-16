@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up – Setu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* New color theme based on your palette */
+            --bg-primary: #f8f9fa; /* A very light grey */
+            --bg-secondary: #FFFFFF;
+            --bg-secondary-translucent: rgba(255, 255, 255, 0.85);
+            --bg-accent: #fff5eb; /* Very light orange */
+            --text-primary: #1D2228; /* Dark */
+            --text-secondary: #343a40; /* Slightly lighter dark */
+            --text-muted: #6c757d; /* Muted gray */
+            --border-light: #E1E2E2; /* Light Gray */
+            --border-medium: #ced4da; /* Medium Gray */
+            --accent-primary: #FB8122; /* Orange */
+            --accent-primary-hover: #e0721d; /* Darker Orange */
+            --accent-secondary: #1D2228; /* Dark color as secondary accent */
+            --accent-secondary-hover: #343a40; /* Lighter dark */
+            --shadow-light: rgba(29, 34, 40, 0.07);
+            --shadow-medium: rgba(29, 34, 40, 0.12);
+            --error-color: #dc2626;
+            --success-color: #16a34a;
+            --warning-color: #f59e0b;
+        }
+
+        [data-theme="dark"] {
+            /* New dark theme based on your palette */
+            --bg-primary: #1D2228; /* Dark */
+            --bg-secondary: #252b31; /* Slightly lighter dark */
+            --bg-secondary-translucent: rgba(37, 43, 49, 0.85);
+            --bg-accent: #373d42; /* Even lighter dark for accents */
+            --text-primary: #E1E2E2; /* Light Gray */
+            --text-secondary: #adb5bd; /* Lighter, muted gray */
+            --text-muted: #6c757d; /* Muted gray */
+            --border-light: #373d42; /* Corresponds to bg-accent */
+            --border-medium: #495057; /* A step lighter */
+            --accent-primary: #FB8122; /* Orange */
+            --accent-primary-hover: #fc9344; /* Lighter Orange */
+            --accent-secondary: #E1E2E2; /* Light Gray as secondary accent */
+            --accent-secondary-hover: #ffffff; /* White */
+            --shadow-light: rgba(0, 0, 0, 0.2);
+            --shadow-medium: rgba(0, 0, 0, 0.3);
+            --error-color: #ef4444;
+            --success-color: #22c55e;
+            --warning-color: #fbbf24;
+        }
+
+        /* Base Styles & Transitions */
+        * {
+            transition: background-color 0.2s cubic-bezier(0.4, 0.0, 0.2, 1), 
+                       color 0.2s cubic-bezier(0.4, 0.0, 0.2, 1), 
+                       border-color 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            scroll-behavior: smooth;
+        }
+
+        /* Button System from Homepage */
+        .btn {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            border-radius: 0.5rem;
+            transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            font-size: 0.825rem;
+            padding: 0.6rem 1.3rem;
+            overflow: hidden;
+            will-change: transform, box-shadow, background-color;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            user-select: none;
+        }
+
+        .btn:active {
+            transform: scale(0.97);
+            transition: transform 0.1s ease-out;
+        }
+        
+        .btn:disabled {
+            background-color: var(--bg-accent);
+            color: var(--text-muted);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-primary);
+            color: #FFFFFF;
+            font-weight: 700;
+            border: 2px solid transparent;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background-color: var(--accent-primary-hover);
+            transform: scale(1.03);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--border-medium);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-secondary:hover:not(:disabled) {
+            color: var(--accent-secondary);
+            border-color: var(--accent-secondary);
+            transform: scale(1.02);
+        }
+
+        .btn-ghost {
+            background-color: transparent;
+            color: var(--text-secondary);
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-ghost::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background-color: var(--bg-accent);
+            transition: width 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+            z-index: -1;
+        }
+
+        .btn-ghost:hover {
+            color: var(--text-primary);
+            transform: scale(1.02);
+        }
+
+        .btn-ghost:hover::after {
+            width: 100%;
+        }
+        
+        /* Header & Navigation */
+        .nav-header {
+            background-color: rgba(248, 249, 250, 0.85); /* Matches --bg-primary */
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        [data-theme="dark"] .nav-header {
+            background-color: rgba(29, 34, 40, 0.85); /* Matches dark --bg-primary */
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: transform 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+        
+        .logo:hover {
+            transform: scale(1.08) rotate(2deg);
+        }
+        
+        #animated-name {
+             transition: opacity 0.3s ease-in-out;
+        }
+
+        /* Language Dropdown */
+        .language-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            min-width: 12.5rem;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-light);
+            border-radius: 0.75rem;
+            box-shadow: 0 8px 32px var(--shadow-medium);
+            z-index: 1000;
+            padding: 0.5rem 0;
+            margin-top: 0.25rem;
+            max-height: 18.75rem;
+            overflow-y: auto;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.2s cubic-bezier(0.4, 0.0, 0.2, 1), transform 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+
+        .dropdown-content.show {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+
+        .dropdown-item:hover {
+            color: var(--accent-primary);
+            transform: translateX(5px);
+            background-color: var(--bg-accent);
+        }
+
+        .language-indicator {
+            font-size: 0.75rem;
+            background-color: var(--accent-primary);
+            color: #FFFFFF;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 0.375rem;
+            margin-left: 0.5rem;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            background-color: var(--bg-accent);
+            border-radius: 0.75rem;
+            padding: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+            border: 2px solid transparent;
+            will-change: transform, background-color;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1) rotate(10deg);
+            border-color: var(--accent-primary);
+        }
+        
+        /* Signup Form Styles */
+        .signup-container {
+            min-height: calc(100vh - 70px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .signup-card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-light);
+            border-radius: 1rem;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px var(--shadow-light);
+            max-width: 600px;
+            width: 100%;
+            transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+
+        .signup-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px var(--shadow-medium);
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .form-label.required::after {
+            content: ' *';
+            color: var(--error-color);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-medium);
+            border-radius: 0.5rem;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+            outline: none;
+        }
+
+        .form-input:focus {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(251, 129, 34, 0.2);
+        }
+        
+        .error-message, .success-message, .info-message {
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            display: none; /* Hidden by default */
+            font-weight: 500;
+        }
+        .error-message { color: var(--error-color); }
+        .success-message { color: var(--success-color); }
+        .info-message { color: var(--text-secondary); }
+
+        .otp-section {
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+
+        .otp-section.show {
+            opacity: 1;
+            max-height: 200px;
+        }
+
+        /* Google Translate Widget Hiding */
+        #google_translate_element, .skiptranslate {
+            display: none !important;
+        }
+        body { top: 0 !important; }
+        .goog-te-banner-frame { display: none !important; }
+
+        /* Loading Spinner */
+        .loading-spinner {
+            border: 2px solid var(--border-light);
+            border-top: 2px solid var(--accent-primary);
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Mobile Optimizations */
+        @media (max-width: 768px) {
+            .signup-card {
+                padding: 2rem;
+                margin: 1rem;
+                border-radius: 1rem;
+            }
+            .signup-card:hover { transform: none; }
+            .form-row { grid-template-columns: 1fr; gap: 0; }
+            .btn {
+                padding: 0.7rem 1.4rem;
+                font-size: 0.85rem;
+                min-height: 44px;
+                border-radius: 0.6rem;
+            }
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+    <!-- Navigation Header -->
+    <header class="nav-header sticky top-0 z-50">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <div class="flex items-center justify-between">
+                <a href="signup.html" class="logo">
+                    <span id="animated-name">Setu</span>
+                </a>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-2">
+                    <a href="about.html" class="btn btn-ghost">About</a>
+                    <a href="authority-dashboard.html" rel="noopener noreferrer" class="btn btn-ghost">Dashboard</a>
+                    
+                    <div class="language-dropdown">
+                        <button id="language-btn" class="btn btn-ghost flex items-center">
+                            <span class="language-text">English</span>
+                            <span id="current-lang" class="language-indicator">EN</span>
+                            <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div id="language-dropdown" class="dropdown-content">
+                            <!-- Language options will be dynamically populated by JS -->
+                        </div>
+                    </div>
+
+                    <button id="theme-toggle" class="theme-toggle theme-toggle-btn" aria-label="Toggle theme">
+                        <svg class="w-5 h-5 sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                        <svg class="w-5 h-5 hidden moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="md:hidden theme-toggle" aria-label="Open menu">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden mt-4 bg-[var(--bg-secondary)] border-t border-[var(--border-light)] rounded-lg p-4">
+                <div class="space-y-3">
+                    <a href="about.html" class="block btn btn-ghost text-left w-full">About</a>
+                    <a href="dashboard.html" rel="noopener noreferrer" class="block btn btn-ghost text-left w-full">Dashboard</a>
+                    
+                    <div class="language-dropdown w-full">
+                        <button id="mobile-language-btn" class="btn btn-ghost text-left w-full flex justify-between items-center">
+                            <span class="mobile-language-text">English</span>
+                            <span id="mobile-current-lang" class="language-indicator">EN</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div id="mobile-language-dropdown" class="dropdown-content w-full">
+                             <!-- Language options will be dynamically populated by JS -->
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between items-center pt-3">
+                        <span class="text-sm font-medium text-[var(--text-secondary)]">Switch Theme</span>
+                        <button id="mobile-theme-toggle" class="theme-toggle theme-toggle-btn" aria-label="Toggle theme">
+                            <svg class="w-5 h-5 sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                            <svg class="w-5 h-5 hidden moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Signup Form -->
+    <main class="signup-container flex items-center justify-center px-4 py-8">
+        <div class="signup-card">
+            <div class="text-center mb-8">
+                <h1 class="text-2xl sm:text-3xl font-bold mb-2 text-[var(--text-primary)]">Join Setu</h1>
+                <p class="text-sm sm:text-base text-[var(--text-secondary)]">Create your account to start improving your city</p>
+            </div>
+
+            <form id="signup-form" novalidate>
+                <div class="form-group">
+                    <label for="fullname" class="form-label required">Full Name</label>
+                    <input type="text" id="fullname" name="fullname" class="form-input" placeholder="Enter your full name" required>
+                    <span id="fullname-error" class="error-message"></span>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="id-card" class="form-label required">Aadhaar / ID Card</label>
+                        <input type="text" id="id-card" name="id-card" class="form-input" placeholder="12-digit Aadhaar or ID" required>
+                        <span id="id-error" class="error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="dob" class="form-label required">Date of Birth</label>
+                        <input type="date" id="dob" name="dob" class="form-input" required>
+                        <span id="dob-error" class="error-message"></span>
+                    </div>
+                </div>
+                 <div class="form-row">
+                    <div class="form-group">
+                        <label for="mobile" class="form-label required">Mobile Number</label>
+                        <input type="tel" id="mobile" name="mobile" class="form-input" placeholder="10-digit mobile number" maxlength="10" required>
+                        <span id="mobile-error" class="error-message" ></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="city" class="form-label required">City</label>
+                        <input type="text" id="city" name="city" class="form-input" placeholder="Enter your city" required>
+                        <span id="city-error" class="error-message"></span>
+                    </div>
+                </div>
+
+                <!-- Send OTP Button -->
+                <button type="button" id="send-otp-btn" class="btn btn-secondary w-full mb-4">
+                    Send OTP
+                </button>
+
+                <!-- OTP Section (Hidden Initially) -->
+                <div id="otp-section" class="otp-section">
+                     <p id="otp-message" class="text-sm text-center mb-4 text-[var(--text-muted)]"></p>
+                    <div class="form-group">
+                        <label for="otp" class="form-label">Enter OTP</label>
+                        <input type="text" id="otp" name="otp" class="form-input" placeholder="Enter 6-digit OTP" maxlength="6" pattern="[0-9]{6}">
+                        <span id="otp-error" class="error-message"></span>
+                        <span id="otp-success" class="success-message"></span>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" id="signup-btn" class="btn btn-primary w-full mt-4 flex items-center justify-center" disabled>
+                    <span class="btn-text">Create Account</span>
+                </button>
+            </form>
+
+            <div class="text-center text-sm text-[var(--text-secondary)] mt-6">
+                Already have an account? <a href="login.html" class="font-semibold text-[var(--accent-primary)] hover:text-[var(--accent-primary-hover)] hover:underline">Login</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="section-bg py-8 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto text-center">
+            <div class="text-xl font-bold mb-2 text-[var(--accent-primary)]">Setu</div>
+            <p class="text-sm text-[var(--text-secondary)]">&copy; 2024 Setu. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Google Translate Element (Hidden but functional) -->
+    <div id="google_translate_element"></div>
+
+    <!-- Scripts -->
+    <script>
+        function getCookie(name) {
+            let value = "; " + document.cookie;
+            let parts = value.split("; " + name + "=");
+            if (parts.length === 2) return parts.pop().split(';').shift();
+            return null;
+        }
+
+        function setCookie(name, value, days = 365) {
+            let expires = "";
+            if (days) {
+                const date = new Date();
+                date.setTime(date.getTime() + (days*24*60*60*1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name + "=" + (value || "") + expires + "; path=/; SameSite=Lax";
+        }
+
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,hi,bn,te,mr,ta,ur,gu,kn,ml,pa,or,as,ne',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+
+        window.addEventListener('load', () => {
+            if (localStorage.getItem('isLoggedIn') === 'true') {
+                const userType = localStorage.getItem('userType');
+                const destination = userType === 'authority' ? 'authority-dashboard.html' : 'index.html';
+                window.location.href = destination;
+                return;
+            }
+            
+            const savedLang = localStorage.getItem('selectedLanguage') || 'en';
+            const googCookie = getCookie('googtrans') || '';
+            const expectedCookie = savedLang === 'en' ? '' : '/en/' + savedLang;
+
+            if (googCookie.replace(/"/g, '') !== expectedCookie) {
+                if (savedLang === 'en') {
+                    document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
+                } else {
+                    setCookie('googtrans', expectedCookie);
+                }
+                setTimeout(() => window.location.reload(), 200);
+                return;
+            }
+
+            initializeApp();
+        });
+
+        function initializeApp() {
+            const LANGUAGES = {
+                'en': { name: 'English', short: 'EN' }, 'hi': { name: 'हिन्दी', short: 'HI' },
+                'bn': { name: 'বাংলা', short: 'BN' }, 'te': { name: 'తెలుగు', short: 'TE' },
+                'mr': { name: 'मराठी', short: 'MR' }, 'ta': { name: 'தமிழ்', short: 'TA' },
+                'ur': { name: 'اردو', short: 'UR' }, 'gu': { name: 'ગુજરાતી', short: 'GU' },
+                'kn': { name: 'ಕನ್ನಡ', short: 'KN' }, 'ml': { name: 'മലയാളം', short: 'ML' },
+                'pa': { name: 'ਪੰਜਾਬੀ', short: 'PA' }, 'or': { name: 'ଓଡ଼ିଆ', short: 'OR' },
+                'as': { name: 'অসমীয়া', short: 'AS' }, 'ne': { name: 'नेपाली', short: 'NE' }
+            };
+
+            setupTheme();
+            setupMobileMenu();
+            setupLanguageUI(LANGUAGES);
+            setupLogoAnimation();
+            initSignupProcess();
+        }
+
+        function setupLanguageUI(LANGUAGES) {
+            const savedLang = localStorage.getItem('selectedLanguage') || 'en';
+            const savedName = localStorage.getItem('selectedLanguageName') || 'English';
+            updateLanguageUI(savedName, savedLang, LANGUAGES);
+
+            const dropdownHTML = Object.entries(LANGUAGES)
+                .map(([code, { name }]) => `<a href="#" class="dropdown-item" data-lang="${code}" data-name="${name}">${name}</a>`)
+                .join('');
+            
+            document.getElementById('language-dropdown').innerHTML = dropdownHTML;
+            document.getElementById('mobile-language-dropdown').innerHTML = dropdownHTML;
+
+            setupLanguageSwitcher();
+        }
+
+        function setupLanguageSwitcher() {
+            const desktopBtn = document.getElementById('language-btn');
+            const mobileBtn = document.getElementById('mobile-language-btn');
+            const desktopDropdown = document.getElementById('language-dropdown');
+            const mobileDropdown = document.getElementById('mobile-language-dropdown');
+
+            desktopBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                desktopDropdown.classList.toggle('show');
+                mobileDropdown.classList.remove('show');
+            });
+
+            mobileBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                mobileDropdown.classList.toggle('show');
+                desktopDropdown.classList.remove('show');
+            });
+
+            document.addEventListener('click', () => {
+                desktopDropdown.classList.remove('show');
+                mobileDropdown.classList.remove('show');
+            });
+
+            [desktopDropdown, mobileDropdown].forEach(dropdown => {
+                dropdown.addEventListener('click', (e) => {
+                    if (e.target.matches('.dropdown-item')) {
+                        e.preventDefault();
+                        const lang = e.target.dataset.lang;
+                        const name = e.target.dataset.name;
+                        changeLanguage(lang, name);
+                    }
+                });
+            });
+        }
+
+        function changeLanguage(lang, name) {
+            localStorage.setItem('selectedLanguage', lang);
+            localStorage.setItem('selectedLanguageName', name);
+            
+            if (lang === 'en') {
+                document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
+            } else {
+                setCookie('googtrans', `/en/${lang}`);
+            }
+
+            setTimeout(() => window.location.reload(), 200);
+        }
+
+        function updateLanguageUI(name, lang, LANGUAGES) {
+            const shortCode = LANGUAGES[lang]?.short || lang.toUpperCase();
+            
+            document.querySelector('.language-text').textContent = name;
+            document.getElementById('current-lang').textContent = shortCode;
+            document.querySelector('.mobile-language-text').textContent = name;
+            document.getElementById('mobile-current-lang').textContent = shortCode;
+        }
+
+        function setupTheme() {
+            const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            applyTheme(savedTheme);
+
+            document.querySelectorAll('.theme-toggle-btn').forEach(toggle => {
+                toggle.addEventListener('click', () => {
+                    const currentTheme = document.documentElement.getAttribute('data-theme');
+                    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                    applyTheme(newTheme);
+                });
+            });
+        }
+
+        function applyTheme(theme) {
+            const sunIcons = document.querySelectorAll('.sun-icon');
+            const moonIcons = document.querySelectorAll('.moon-icon');
+            
+            if (theme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                sunIcons.forEach(icon => icon.classList.add('hidden'));
+                moonIcons.forEach(icon => icon.classList.remove('hidden'));
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+                sunIcons.forEach(icon => icon.classList.remove('hidden'));
+                moonIcons.forEach(icon => icon.classList.add('hidden'));
+            }
+            localStorage.setItem('theme', theme);
+        }
+
+        function setupMobileMenu() {
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+
+        function setupLogoAnimation() {
+            const animatedName = document.getElementById('animated-name');
+            if(!animatedName) return;
+            const names = ['Setu', 'सेतु', 'সেতু', 'सेतू', 'સેતુ', 'ಸೇತು'];
+            let nameIndex = 0;
+            
+            setInterval(() => {
+                animatedName.style.opacity = '0';
+                setTimeout(() => {
+                    nameIndex = (nameIndex + 1) % names.length;
+                    animatedName.textContent = names[nameIndex];
+                    animatedName.style.opacity = '1';
+                }, 300);
+            }, 4000);
+        }
+
+        function initSignupProcess() {
+            const form = document.getElementById('signup-form');
+            const signupBtn = document.getElementById('signup-btn');
+            const sendOtpBtn = document.getElementById('send-otp-btn');
+            const otpSection = document.getElementById('otp-section');
+            const otpMessage = document.getElementById('otp-message');
+            
+            const fields = {
+                fullname: { el: document.getElementById('fullname'), errorEl: document.getElementById('fullname-error'), validator: (val) => val.length >= 2 ? null : 'Full name is required.' },
+                idCard: { el: document.getElementById('id-card'), errorEl: document.getElementById('id-error'), validator: (val) => /^([0-9]{12}|ID[0-9]{8})$/i.test(val) ? null : 'Enter a 12-digit Aadhaar or Authority ID (e.g., ID12345678).' },
+                dob: { el: document.getElementById('dob'), errorEl: document.getElementById('dob-error'), validator: (val) => val ? null : 'Date of birth is required.' },
+                mobile: { el: document.getElementById('mobile'), errorEl: document.getElementById('mobile-error'), validator: (val) => /^[6-9][0-9]{9}$/.test(val) ? null : 'Enter a valid 10-digit mobile number.' },
+                city: { el: document.getElementById('city'), errorEl: document.getElementById('city-error'), validator: (val) => val.length > 0 ? null : 'City is required.' },
+                otp: { el: document.getElementById('otp'), errorEl: document.getElementById('otp-error'), successEl: document.getElementById('otp-success') }
+            };
+
+            let generatedOtp = '';
+            
+            function validateAllFields() {
+                let isFormValid = true;
+                Object.keys(fields).forEach(key => {
+                    if(key !== 'otp') { // Don't validate OTP field initially
+                       if (!validateField(fields[key])) {
+                           isFormValid = false;
+                       }
+                    }
+                });
+                return isFormValid;
+            }
+
+            function validateField(field) {
+                if (!field.validator) return true; // Skip fields without validators like OTP
+                const error = field.validator(field.el.value.trim());
+                if (error) {
+                    field.errorEl.textContent = error;
+                    field.errorEl.style.display = 'block';
+                    return false;
+                } else {
+                    field.errorEl.style.display = 'none';
+                    return true;
+                }
+            }
+            
+            // Add input listeners to all fields for real-time validation
+            Object.values(fields).forEach(field => {
+                if(field.el) {
+                    field.el.addEventListener('input', () => {
+                       validateField(field);
+                    });
+                }
+            });
+            
+            // Special handling for ID card length
+            fields.idCard.el.addEventListener('input', function() {
+                let value = this.value;
+                if (value.toLowerCase().startsWith('id')) {
+                    this.maxLength = 10;
+                    if (value.length > 10) this.value = value.substring(0, 10);
+                } else {
+                    this.maxLength = 12;
+                    if (value.length > 12) this.value = value.substring(0, 12);
+                }
+            });
+
+            function downloadOtpImage(otp) {
+                const canvas = document.createElement('canvas');
+                canvas.width = 220;
+                canvas.height = 100;
+                const ctx = canvas.getContext('2d');
+                ctx.fillStyle = '#f8f9fa';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = '#6c757d';
+                ctx.font = '16px Inter, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('Your Setu OTP is:', canvas.width / 2, 30);
+                ctx.fillStyle = '#1D2228';
+                ctx.font = 'bold 36px "Courier New", monospace';
+                ctx.letterSpacing = '4px';
+                ctx.fillText(otp, canvas.width / 2, 65);
+                ctx.fillStyle = 'rgba(29, 34, 40, 0.1)';
+                ctx.font = 'bold 12px Inter, sans-serif';
+                ctx.fillText('setu', canvas.width / 2, 90);
+                const dataURL = canvas.toDataURL('image/png');
+                const link = document.createElement('a');
+                link.href = dataURL;
+                link.download = 'setu-otp.png';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+
+            sendOtpBtn.addEventListener('click', function() {
+                if (!validateAllFields()) return;
+                
+                toggleButtonSpinner(this, true, 'Sending...');
+                setTimeout(() => {
+                    generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
+                    downloadOtpImage(generatedOtp);
+                    otpSection.classList.add('show');
+                    otpMessage.textContent = 'An image with your OTP has been downloaded.';
+                    otpMessage.style.display = 'block';
+                    toggleButtonSpinner(this, false, 'Resend OTP');
+                    fields.otp.el.focus();
+                }, 1500);
+            });
+            
+            fields.otp.el.addEventListener('input', function() {
+                this.value = this.value.replace(/[^0-9]/g, '').substring(0, 6);
+                if (this.value.length === 6) {
+                    if (this.value === generatedOtp) {
+                        fields.otp.errorEl.style.display = 'none';
+                        fields.otp.successEl.textContent = 'OTP verified!';
+                        fields.otp.successEl.style.display = 'block';
+                        signupBtn.disabled = false;
+                    } else {
+                        fields.otp.successEl.style.display = 'none';
+                        fields.otp.errorEl.textContent = 'Incorrect OTP.';
+                        fields.otp.errorEl.style.display = 'block';
+                        signupBtn.disabled = true;
+                    }
+                } else {
+                    signupBtn.disabled = true;
+                }
+            });
+
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                if (signupBtn.disabled) return;
+                
+                toggleButtonSpinner(signupBtn, true, 'Creating Account...');
+                
+                const formData = {};
+                Object.keys(fields).forEach(key => {
+                     if(fields[key].el) formData[key] = fields[key].el.value.trim();
+                });
+                
+                // Save user data for profile page
+                localStorage.setItem('userProfile', JSON.stringify(formData));
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('userID', formData.idCard);
+
+                // Age-based redirect logic
+                setTimeout(() => {
+                    const dob = new Date(formData.dob);
+                    const today = new Date();
+                    let age = today.getFullYear() - dob.getFullYear();
+                    const m = today.getMonth() - dob.getMonth();
+                    if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
+                        age--;
+                    }
+
+                    if (age > 40) {
+                        window.location.href = 'ahome.html';
+                    } else {
+                        window.location.href = 'index.html';
+                    }
+                }, 1500);
+            });
+        }
+        
+        function toggleButtonSpinner(button, show, text) {
+            const buttonText = button.querySelector('.btn-text') || button;
+            button.disabled = show;
+            
+            if (show) {
+                const spinner = document.createElement('span');
+                spinner.className = 'loading-spinner';
+                button.prepend(spinner);
+                if(button.querySelector('.btn-text')) button.querySelector('.btn-text').textContent = text;
+                else button.textContent = text;
+            } else {
+                const spinner = button.querySelector('.loading-spinner');
+                if (spinner) spinner.remove();
+                if(button.querySelector('.btn-text')) button.querySelector('.btn-text').textContent = text;
+                else button.textContent = text;
+            }
+        }
+    </script>
+    
+    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async defer></script>
+</body>
+</html>

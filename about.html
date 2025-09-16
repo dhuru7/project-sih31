@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setu – Connecting Citizens & Authorities</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* New color theme based on your palette */
+            --bg-primary: #f8f9fa; /* A very light grey */
+            --bg-secondary: #FFFFFF;
+            --bg-secondary-translucent: rgba(255, 255, 255, 0.85);
+            --bg-accent: #fff5eb; /* Very light orange */
+            --text-primary: #1D2228; /* Dark */
+            --text-secondary: #343a40; /* Slightly lighter dark */
+            --text-muted: #6c757d; /* Muted gray */
+            --border-light: #E1E2E2; /* Light Gray */
+            --border-medium: #ced4da; /* Medium Gray */
+            --accent-primary: #FB8122; /* Orange */
+            --accent-primary-hover: #e0721d; /* Darker Orange */
+            --accent-secondary: #1D2228; /* Dark color as secondary accent */
+            --accent-secondary-hover: #343a40; /* Lighter dark */
+            --shadow-light: rgba(29, 34, 40, 0.07);
+            --shadow-medium: rgba(29, 34, 40, 0.12);
+        }
+
+        [data-theme="dark"] {
+            /* New dark theme based on your palette */
+            --bg-primary: #1D2228; /* Dark */
+            --bg-secondary: #252b31; /* Slightly lighter dark */
+            --bg-secondary-translucent: rgba(37, 43, 49, 0.85);
+            --bg-accent: #373d42; /* Even lighter dark for accents */
+            --text-primary: #E1E2E2; /* Light Gray */
+            --text-secondary: #adb5bd; /* Lighter, muted gray */
+            --text-muted: #6c757d; /* Muted gray */
+            --border-light: #373d42; /* Corresponds to bg-accent */
+            --border-medium: #495057; /* A step lighter */
+            --accent-primary: #FB8122; /* Orange */
+            --accent-primary-hover: #fc9344; /* Lighter Orange */
+            --accent-secondary: #E1E2E2; /* Light Gray as secondary accent */
+            --accent-secondary-hover: #ffffff; /* White */
+            --shadow-light: rgba(0, 0, 0, 0.2);
+            --shadow-medium: rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Google Translate Widget Hiding */
+        #google_translate_element, .skiptranslate {
+            display: none !important;
+        }
+        body { top: 0 !important; }
+        .goog-te-banner-frame { display: none !important; }
+
+        @keyframes animated-gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        * {
+            transition: background-color 0.2s cubic-bezier(0.4, 0.0, 0.2, 1), 
+                       color 0.2s cubic-bezier(0.4, 0.0, 0.2, 1), 
+                       border-color 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            scroll-behavior: smooth;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        .btn {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            border-radius: 0.5rem;
+            transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            font-size: 0.825rem;
+            padding: 0.6rem 1.3rem;
+            overflow: hidden;
+            will-change: transform, box-shadow, background-color;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            user-select: none;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+            transition: left 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+
+        .btn:active {
+            transform: scale(0.97);
+            transition: transform 0.1s ease-out;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-primary);
+            color: #FFFFFF;
+            font-weight: 700;
+            border: 2px solid transparent;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-primary-hover);
+            transform: scale(1.03);
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+        
+        .btn-cta {
+            background-image: linear-gradient(120deg, var(--accent-primary) 0%, #ff9a4f 100%);
+            background-size: 200% 200%;
+            animation: animated-gradient 3s ease-in-out infinite;
+            color: #FFFFFF;
+            font-weight: 700;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--border-medium);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-secondary:hover {
+            color: var(--accent-secondary);
+            border-color: var(--accent-secondary);
+            transform: scale(1.02);
+        }
+
+        .btn-ghost {
+            background-color: transparent;
+            color: var(--text-secondary);
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-ghost::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background-color: var(--bg-accent);
+            transition: width 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+            z-index: -1;
+        }
+
+        .btn-ghost:hover {
+            color: var(--text-primary);
+            transform: scale(1.02);
+        }
+
+        .btn-ghost:hover::after {
+            width: 100%;
+        }
+
+        .nav-header {
+            background-color: rgba(248, 249, 250, 0.85); /* Matches --bg-primary */
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        [data-theme="dark"] .nav-header {
+            background-color: rgba(29, 34, 40, 0.85); /* Matches dark --bg-primary */
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: transform 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+        
+        .logo:hover {
+            transform: scale(1.08) rotate(2deg);
+        }
+        
+        #animated-name {
+             transition: opacity 0.3s ease-in-out;
+        }
+
+        .language-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            min-width: 12.5rem;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-light);
+            border-radius: 0.75rem;
+            box-shadow: 0 8px 32px var(--shadow-medium);
+            z-index: 1000;
+            padding: 0.5rem 0;
+            margin-top: 0.25rem;
+            max-height: 18.75rem;
+            overflow-y: auto;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.2s cubic-bezier(0.4, 0.0, 0.2, 1), transform 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+
+        .dropdown-content.show {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dropdown-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-accent);
+            transition: left 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+            z-index: -1;
+        }
+
+        .dropdown-item:hover {
+            color: var(--accent-primary);
+            transform: translateX(5px);
+        }
+
+        .dropdown-item:hover::before {
+            left: 0;
+        }
+
+        .language-indicator {
+            font-size: 0.75rem;
+            background-color: var(--accent-primary);
+            color: #FFFFFF;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 0.375rem;
+            margin-left: 0.5rem;
+            transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+
+        .hero-slider {
+            position: relative;
+            width: 100%;
+            height: 65vh; /* Adjusted for better balance */
+            max-height: 550px;
+            border-radius: 1.25rem;
+            overflow: hidden;
+            box-shadow: 0 20px 60px var(--shadow-medium);
+        }
+
+        .slide {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0;
+            transition: opacity 1.2s ease-in-out;
+        }
+
+        .slide.active { opacity: 1; }
+        .slide img { width: 100%; height: 100%; object-fit: cover; }
+
+        .slide-overlay {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            color: white;
+            /* Padding is now handled by Tailwind classes on the element for responsiveness */
+        }
+        
+        .section-bg { background-color: var(--bg-secondary); }
+
+        .feature-card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-light);
+            border-radius: 1rem;
+            padding: 2rem;
+            transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+            box-shadow: 0 4px 16px var(--shadow-light);
+            will-change: transform, box-shadow;
+            overflow: hidden;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent-primary);
+        }
+        
+        .feature-details {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.4, 0.0, 0.2, 1), 
+                        opacity 0.4s cubic-bezier(0.4, 0.0, 0.2, 1),
+                        margin-top 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+            margin-top: 0;
+        }
+
+        .feature-card:hover .feature-details {
+            max-height: 200px;
+            opacity: 1;
+            margin-top: 1rem;
+        }
+        
+        .step-number {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            background: var(--accent-primary);
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.125rem;
+            flex-shrink: 0;
+            transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+
+        .step-number.authority {
+            background: var(--accent-secondary);
+            color: #FFFFFF;
+        }
+        [data-theme="dark"] .step-number.authority {
+             background: var(--accent-secondary);
+             color: var(--bg-primary);
+        }
+
+
+        .step-number:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .mobile-menu {
+            background-color: var(--bg-secondary);
+            border-top: 1px solid var(--border-light);
+            border-radius: 0.75rem;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .theme-toggle {
+            background-color: var(--bg-accent);
+            border-radius: 0.75rem;
+            padding: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+            border: 2px solid transparent;
+            will-change: transform, background-color;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1) rotate(10deg);
+            border-color: var(--accent-primary);
+        }
+
+        .theme-toggle:active {
+            transform: scale(0.95);
+        }
+
+        @media (max-width: 768px) {
+            .btn {
+                padding: 0.7rem 1.4rem;
+                font-size: 0.85rem;
+                min-height: 44px;
+                border-radius: 0.6rem;
+            }
+
+            .btn:hover {
+                transform: none;
+            }
+
+            .btn:active {
+                transform: scale(0.96);
+                transition: transform 0.1s ease-out;
+            }
+            
+            .hero-slider {
+                height: 55vh; /* Adjusted for mobile */
+            }
+
+            .feature-card:hover {
+                transform: translateY(-4px);
+            }
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+    <!-- Navigation Header -->
+    <header class="nav-header sticky top-0 z-50">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <div class="flex items-center justify-between">
+                <a href="about.html" class="logo">
+                    <span id="animated-name">Setu</span>
+                </a>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-2">
+                    <a href="#about" class="btn btn-ghost">About</a>
+                    <a href="authority-dashboard.html" rel="noopener noreferrer" class="btn btn-ghost">Dashboard</a>
+                    
+                    <div class="language-dropdown">
+                        <button id="language-btn" class="btn btn-ghost flex items-center">
+                            <span class="language-text">English</span>
+                            <span id="current-lang" class="language-indicator">EN</span>
+                            <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div id="language-dropdown" class="dropdown-content">
+                            <!-- Language options will be dynamically populated by JS -->
+                        </div>
+                    </div>
+
+                    <button id="theme-toggle" class="theme-toggle theme-toggle-btn" aria-label="Toggle theme">
+                        <svg class="w-5 h-5 sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                        <svg class="w-5 h-5 hidden moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                    </button>
+
+                    <!-- Guest View -->
+                    <div id="guest-view-desktop" class="flex items-center space-x-2">
+                        <a href="login.html" rel="noopener noreferrer" class="btn btn-secondary">Login</a>
+                        <a href="signup.html" rel="noopener noreferrer" class="btn btn-primary">Sign Up</a>
+                    </div>
+                    <!-- User View -->
+                    <div id="user-view-desktop" class="hidden items-center space-x-2">
+                        <button id="logout-btn-desktop" class="btn btn-secondary">Logout</button>
+                    </div>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="md:hidden theme-toggle" aria-label="Open menu">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden mt-4 mobile-menu rounded-lg p-4">
+                <div class="space-y-3">
+                    <a href="#about" class="block btn btn-ghost text-left w-full">About</a>
+                    <a href="dashboard.html" rel="noopener noreferrer" class="block btn btn-ghost text-left w-full">Dashboard</a>
+                    
+                    <div class="language-dropdown w-full">
+                        <button id="mobile-language-btn" class="btn btn-ghost text-left w-full flex justify-between items-center">
+                            <span class="mobile-language-text">English</span>
+                            <span id="mobile-current-lang" class="language-indicator">EN</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div id="mobile-language-dropdown" class="dropdown-content w-full">
+                             <!-- Language options will be dynamically populated by JS -->
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between items-center pt-3">
+                        <span class="text-sm font-medium text-[var(--text-secondary)]">Switch Theme</span>
+                        <button id="mobile-theme-toggle" class="theme-toggle theme-toggle-btn" aria-label="Toggle theme">
+                            <svg class="w-5 h-5 sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                            <svg class="w-5 h-5 hidden moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                        </button>
+                    </div>
+
+                    <!-- Guest View Mobile -->
+                    <div id="guest-view-mobile" class="flex gap-3 pt-4 border-t border-[var(--border-light)]">
+                        <a href="login.html" rel="noopener noreferrer" class="btn btn-secondary flex-1 text-center">Login</a>
+                        <a href="signup.html" rel="noopener noreferrer" class="btn btn-primary flex-1 text-center">Sign Up</a>
+                    </div>
+                    <!-- User View Mobile -->
+                    <div id="user-view-mobile" class="hidden flex gap-3 pt-4 border-t border-[var(--border-light)]">
+                        <button id="logout-btn-mobile" class="btn btn-secondary flex-1 text-center">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="py-12 sm:py-16 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto">
+                <div class="hero-slider" id="hero-slider">
+                    <div class="slide active">
+                        <a href="signup.html" target="_blank" rel="noopener noreferrer">
+                            <img src="images/potholes.png" alt="Pothole on a road" loading="eager">
+                            <div class="slide-overlay p-6 sm:p-8 md:p-10">
+                                <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">See a Pothole? Report It.</h1>
+                                <p class="text-base sm:text-lg md:text-xl opacity-90">Help make our roads safer for everyone. One report at a time.</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="slide">
+                        <a href="signup.html" target="_blank" rel="noopener noreferrer">
+                            <img src="images/nightview.png" alt="Glowing street light at night" loading="lazy">
+                            <div class="slide-overlay p-6 sm:p-8 md:p-10">
+                                <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">Light Up Your Neighborhood.</h1>
+                                <p class="text-base sm:text-lg md:text-xl opacity-90">A well-lit street is a safe street. Report outages in seconds.</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="slide">
+                        <a href="signup.html" target="_blank" rel="noopener noreferrer">
+                            <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=1200&h=700&fit=crop" alt="Person holding a plant in front of a clean city" loading="lazy">
+                            <div class="slide-overlay p-6 sm:p-8 md:p-10">
+                                <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">Keep Our City Clean.</h1>
+                                <p class="text-base sm:text-lg md:text-xl opacity-90">Report overflowing bins or illegal dumping to maintain community hygiene.</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="section-bg py-16 sm:py-20 px-4 sm:px-6 lg:px-8 fade-in">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl sm:text-4xl font-bold mb-6 text-[var(--text-primary)]">Why Setu?</h2>
+                <p class="text-lg sm:text-xl mb-8 font-semibold text-[var(--accent-primary)]">Bridging the Gap Between Citizens and Civic Action</p>
+                <div class="space-y-6 text-base sm:text-lg text-[var(--text-secondary)]">
+                    <p>In every community, small issues can become major frustrations. From damaged roads to faulty public utilities, these problems often persist because the process of reporting them is complicated and lacks transparency.</p>
+                    <p>Setu streamlines this process. We provide a simple, direct line of communication between you and your local authorities, ensuring that your concerns are heard, tracked, and resolved efficiently.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section class="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 fade-in">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-12 sm:mb-16">
+                    <h2 class="text-3xl sm:text-4xl font-bold mb-4 text-[var(--text-primary)]">A Simple Path to Better Cities</h2>
+                    <p class="text-lg sm:text-xl text-[var(--text-secondary)]">Empowering citizens and enabling authorities in three simple steps.</p>
+                </div>
+                
+                <div class="grid lg:grid-cols-2 gap-12 lg:gap-16">
+                    <!-- For Citizens -->
+                    <div class="space-y-8">
+                        <h3 class="text-2xl sm:text-3xl font-bold mb-8 text-center lg:text-left text-[var(--text-primary)]">For Citizens</h3>
+                        <div class="flex items-start gap-4 sm:gap-6">
+                            <div class="step-number">1</div>
+                            <div>
+                                <h4 class="text-lg sm:text-xl font-bold mb-2 text-[var(--text-primary)]">Snap & Send</h4>
+                                <p class="text-sm sm:text-base text-[var(--text-secondary)]">Quickly report an issue with a photo and location. Our app makes it effortless to document and submit problems on the go.</p>
+                            </div>
+                        </div>
+                         <div class="flex items-start gap-4 sm:gap-6">
+                            <div class="step-number">2</div>
+                            <div>
+                                <h4 class="text-lg sm:text-xl font-bold mb-2 text-[var(--text-primary)]">Track Progress</h4>
+                                <p class="text-sm sm:text-base text-[var(--text-secondary)]">No more guessing. Receive real-time status updates on your report from "Submitted" to "Resolved."</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4 sm:gap-6">
+                            <div class="step-number">3</div>
+                            <div>
+                                <h4 class="text-lg sm:text-xl font-bold mb-2 text-[var(--text-primary)]">Stay Informed</h4>
+                                <p class="text-sm sm:text-base text-[var(--text-secondary)]">See other reported issues in your area on a live map. Be an active part of your community's improvement.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- For Authorities -->
+                    <div class="space-y-8">
+                        <h3 class="text-2xl sm:text-3xl font-bold mb-8 text-center lg:text-left text-[var(--text-primary)]">For Municipal Authorities</h3>
+                        <div class="flex items-start gap-4 sm:gap-6">
+                            <div class="step-number authority">1</div>
+                            <div>
+                                <h4 class="text-lg sm:text-xl font-bold mb-2 text-[var(--text-primary)]">Unified Dashboard</h4>
+                                <p class="text-sm sm:text-base text-[var(--text-secondary)]">View, sort, and manage all citizen reports in one intuitive dashboard. Stop juggling emails and phone calls.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4 sm:gap-6">
+                            <div class="step-number authority">2</div>
+                            <div>
+                                <h4 class="text-lg sm:text-xl font-bold mb-2 text-[var(--text-primary)]">Assign & Act</h4>
+                                <p class="text-sm sm:text-base text-[var(--text-secondary)]">Automatically route issues to the correct department. Add internal notes and track resolution times efficiently.</p>
+                            </div>
+                        </div>
+                         <div class="flex items-start gap-4 sm:gap-6">
+                            <div class="step-number authority">3</div>
+                            <div>
+                                <h4 class="text-lg sm:text-xl font-bold mb-2 text-[var(--text-primary)]">Analyze Data</h4>
+                                <p class="text-sm sm:text-base text-[var(--text-secondary)]">Gain powerful insights on issue hotspots, department performance, and recurring problems to improve city services.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="section-bg py-16 sm:py-20 px-4 sm:px-6 lg:px-8 fade-in">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-12 sm:mb-16">
+                    <h2 class="text-3xl sm:text-4xl font-bold mb-4 text-[var(--text-primary)]">Core Pillars of Setu</h2>
+                    <p class="text-lg sm:text-xl text-[var(--text-secondary)]">Designed for reliability, inclusivity, and impact.</p>
+                </div>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Feature Cards -->
+                    <div class="feature-card text-center">
+                        <div class="mb-6 flex justify-center"><svg class="w-12 h-12 sm:w-16 sm:h-16 text-[var(--accent-primary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg></div>
+                        <h4 class="text-lg sm:text-xl font-bold mb-3 text-[var(--text-primary)]">Intuitive Design</h4>
+                        <p class="text-sm sm:text-base text-[var(--text-secondary)]">Easy for all ages and technical abilities to use effectively.</p>
+                        <p class="text-[var(--text-muted)] feature-details">Our platform is crafted for clarity, ensuring that anyone can report an issue in just a few taps, without needing any technical expertise.</p>
+                    </div>
+                    <div class="feature-card text-center">
+                        <div class="mb-6 flex justify-center"><svg class="w-12 h-12 sm:w-16 sm:h-16 text-[var(--accent-primary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path></svg></div>
+                        <h4 class="text-lg sm:text-xl font-bold mb-3 text-[var(--text-primary)]">Multilingual Support</h4>
+                        <p class="text-sm sm:text-base text-[var(--text-secondary)]">Breaking language barriers for wider community reach.</p>
+                        <p class="text-[var(--text-muted)] feature-details">By supporting numerous regional languages, we empower every citizen to voice their concerns in the language they are most comfortable with.</p>
+                    </div>
+                    <div class="feature-card text-center">
+                        <div class="mb-6 flex justify-center"><svg class="w-12 h-12 sm:w-16 sm:h-16 text-[var(--accent-primary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg></div>
+                        <h4 class="text-lg sm:text-xl font-bold mb-3 text-[var(--text-primary)]">Complete Transparency</h4>
+                        <p class="text-sm sm:text-base text-[var(--text-secondary)]">Citizens and authorities share the same view on an issue's status.</p>
+                        <p class="text-[var(--text-muted)] feature-details">This shared perspective builds trust and accountability, as everyone can track the journey of a report from submission to resolution.</p>
+                    </div>
+                    <div class="feature-card text-center">
+                        <div class="mb-6 flex justify-center"><svg class="w-12 h-12 sm:w-16 sm:h-16 text-[var(--accent-primary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg></div>
+                        <h4 class="text-lg sm:text-xl font-bold mb-3 text-[var(--text-primary)]">Data-Driven Insights</h4>
+                        <p class="text-sm sm:text-base text-[var(--text-secondary)]">Helping authorities make smarter decisions for city planning.</p>
+                        <p class="text-[var(--text-muted)] feature-details">Analytics on report types and locations help municipal bodies identify trends, allocate resources efficiently, and proactively address systemic problems.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 fade-in">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl sm:text-4xl font-bold mb-6 text-[var(--text-primary)]">Start Building a Better City Today</h2>
+                <p class="text-lg sm:text-xl mb-10 sm:mb-12 text-[var(--text-secondary)]">Join thousands of citizens and hundreds of officials working together to create positive change.</p>
+                <div class="flex justify-center items-center">
+                    <a href="login.html" target="_blank" rel="noopener noreferrer" class="btn btn-cta text-base w-full sm:w-auto">Report an Issue</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Logout Confirmation Modal -->
+    <div id="logout-confirm-modal" class="fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-50 hidden">
+        <div class="bg-[var(--bg-secondary)] rounded-lg shadow-xl p-6 sm:p-8 max-w-sm w-full mx-4">
+            <h3 class="text-xl font-bold text-[var(--text-primary)] mb-4">Confirm Logout</h3>
+            <p class="text-[var(--text-secondary)] mb-6">Are you sure you want to log out?</p>
+            <div class="flex justify-end gap-4">
+                <button id="cancel-logout-btn" class="btn btn-secondary">Cancel</button>
+                <button id="confirm-logout-btn" class="btn btn-primary">Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="section-bg py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto text-center">
+            <div class="text-2xl font-bold mb-4 text-[var(--accent-primary)]">Setu</div>
+            <p class="text-base text-[var(--text-secondary)]">&copy; 2024 Setu. All Rights Reserved. Building better cities together.</p>
+        </div>
+    </footer>
+
+    <!-- Google Translate Element (Hidden but functional) -->
+    <div id="google_translate_element"></div>
+
+    <!-- Scripts -->
+    <script>
+        // This function MUST be in the global scope for the Google script to find it.
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,hi,bn,te,mr,ta,ur,gu,kn,ml,pa,or,as,ne',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- CONFIGURATION ---
+            const LANGUAGES = {
+                'en': { name: 'English', short: 'EN' }, 'hi': { name: 'हिन्दी', short: 'HI' },
+                'bn': { name: 'বাংলা', short: 'BN' }, 'te': { name: 'తెలుగు', short: 'TE' },
+                'mr': { name: 'मराठी', short: 'MR' }, 'ta': { name: 'தமிழ்', short: 'TA' },
+                'ur': { name: 'اردو', short: 'UR' }, 'gu': { name: 'ગુજરાતી', short: 'GU' },
+                'kn': { name: 'ಕನ್ನಡ', short: 'KN' }, 'ml': { name: 'മലയാളം', short: 'ML' },
+                'pa': { name: 'ਪੰਜਾਬੀ', short: 'PA' }, 'or': { name: 'ଓଡ଼ିଆ', short: 'OR' },
+                'as': { name: 'অসমীয়া', short: 'AS' }, 'ne': { name: 'नेपाली', short: 'NE' }
+            };
+
+            const UI_ELEMENTS = {
+                themeToggles: document.querySelectorAll('.theme-toggle-btn'),
+                sunIcons: document.querySelectorAll('.sun-icon'),
+                moonIcons: document.querySelectorAll('.moon-icon'),
+                mobileMenuBtn: document.getElementById('mobile-menu-btn'),
+                mobileMenu: document.getElementById('mobile-menu'),
+                desktopDropdownBtn: document.getElementById('language-btn'),
+                desktopDropdown: document.getElementById('language-dropdown'),
+                mobileDropdownBtn: document.getElementById('mobile-language-btn'),
+                mobileDropdown: document.getElementById('mobile-language-dropdown'),
+                animatedName: document.getElementById('animated-name'),
+                slides: document.querySelectorAll('.slide'),
+                fadeElements: document.querySelectorAll('.fade-in')
+            };
+
+            // --- INITIALIZATION ---
+            
+            setupTheme();
+            setupMobileMenu();
+            populateLanguageDropdowns();
+            setupLanguageSwitcher();
+            restoreLanguageDisplay();
+            setupHeroSlider();
+            setupScrollAnimations();
+            setupLogoAnimation();
+            setupAuthUI(); // Setup authentication UI
+
+            // --- THEME MANAGEMENT ---
+            
+            /**
+             * Applies a theme (light/dark) to the page by setting the 'data-theme' attribute
+             * and updating the sun/moon icons.
+             * @param {string} theme - The theme to apply ('light' or 'dark').
+             */
+            function applyTheme(theme) {
+                if (theme === 'dark') {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    UI_ELEMENTS.sunIcons.forEach(icon => icon.classList.add('hidden'));
+                    UI_ELEMENTS.moonIcons.forEach(icon => icon.classList.remove('hidden'));
+                } else {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                    UI_ELEMENTS.sunIcons.forEach(icon => icon.classList.remove('hidden'));
+                    UI_ELEMENTS.moonIcons.forEach(icon => icon.classList.add('hidden'));
+                }
+            }
+
+            /**
+             * Sets up the theme functionality:
+             * 1. Determines the initial theme (from localStorage or system preference).
+             * 2. Sets up click handlers for theme toggle buttons.
+             * 3. Listens for changes in the system's theme preference.
+             */
+            function setupTheme() {
+                const initialTheme = (() => {
+                    const savedTheme = localStorage.getItem('theme');
+                    if (savedTheme) return savedTheme;
+                    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                })();
+                applyTheme(initialTheme);
+
+                UI_ELEMENTS.themeToggles.forEach(toggle => {
+                    toggle.addEventListener('click', () => {
+                        const currentTheme = document.documentElement.getAttribute('data-theme');
+                        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                        localStorage.setItem('theme', newTheme);
+                        applyTheme(newTheme);
+                    });
+                });
+                
+                window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+                    if (!localStorage.getItem('theme')) {
+                        applyTheme(e.matches ? 'dark' : 'light');
+                    }
+                });
+            }
+
+            // --- AUTH MANAGEMENT (WITH LOGOUT CONFIRMATION) ---
+            
+            /**
+             * Checks login status and sets up UI and logout functionality with a confirmation modal.
+             */
+            function setupAuthUI() {
+                const guestViewDesktop = document.getElementById('guest-view-desktop');
+                const userViewDesktop = document.getElementById('user-view-desktop');
+                const logoutBtnDesktop = document.getElementById('logout-btn-desktop');
+
+                const guestViewMobile = document.getElementById('guest-view-mobile');
+                const userViewMobile = document.getElementById('user-view-mobile');
+                const logoutBtnMobile = document.getElementById('logout-btn-mobile');
+
+                const logoutConfirmModal = document.getElementById('logout-confirm-modal');
+                const confirmLogoutBtn = document.getElementById('confirm-logout-btn');
+                const cancelLogoutBtn = document.getElementById('cancel-logout-btn');
+                
+                // Check for the same key used on the login page
+                const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+
+                if (isLoggedIn) {
+                    // Show user view, hide guest view
+                    guestViewDesktop.style.display = 'none';
+                    userViewDesktop.style.display = 'flex';
+                    guestViewMobile.style.display = 'none';
+                    userViewMobile.style.display = 'flex';
+                } else {
+                    // Show guest view, hide user view
+                    guestViewDesktop.style.display = 'flex';
+                    userViewDesktop.style.display = 'none';
+                    guestViewMobile.style.display = 'flex';
+                    userViewMobile.style.display = 'none';
+                }
+
+                const showLogoutModal = () => {
+                    logoutConfirmModal.classList.remove('hidden');
+                };
+
+                const hideLogoutModal = () => {
+                    logoutConfirmModal.classList.add('hidden');
+                };
+
+                // Event Handler for actual logout action
+                const handleLogout = () => {
+                    // Clear all session-related data to ensure a clean logout
+                    localStorage.removeItem('isLoggedIn');
+                    localStorage.removeItem('userAadhaar');
+                    localStorage.removeItem('userType');
+                    // Reload the page to reflect the logged-out state
+                    window.location.reload();
+                };
+
+                // Add listeners to logout buttons to show the modal
+                logoutBtnDesktop.addEventListener('click', showLogoutModal);
+                logoutBtnMobile.addEventListener('click', showLogoutModal);
+
+                // Add listener to the 'Confirm' button in the modal
+                confirmLogoutBtn.addEventListener('click', () => {
+                    hideLogoutModal();
+                    handleLogout();
+                });
+
+                // Add listener to the 'Cancel' button in the modal
+                cancelLogoutBtn.addEventListener('click', hideLogoutModal);
+
+                // Also hide modal if clicking on the background overlay
+                logoutConfirmModal.addEventListener('click', (e) => {
+                    if (e.target === logoutConfirmModal) {
+                        hideLogoutModal();
+                    }
+                });
+            }
+            
+
+            // --- UI & ANIMATIONS ---
+
+            function setupMobileMenu() {
+                UI_ELEMENTS.mobileMenuBtn.addEventListener('click', () => {
+                    UI_ELEMENTS.mobileMenu.classList.toggle('hidden');
+                });
+            }
+            
+            function populateLanguageDropdowns() {
+                const dropdownHTML = Object.entries(LANGUAGES)
+                    .map(([code, { name }]) => `<a href="#" class="dropdown-item" data-lang="${code}" data-name="${name}">${name}</a>`)
+                    .join('');
+                UI_ELEMENTS.desktopDropdown.innerHTML = dropdownHTML;
+                UI_ELEMENTS.mobileDropdown.innerHTML = dropdownHTML;
+            }
+
+            function setupLanguageSwitcher() {
+                const closeDropdowns = () => {
+                    UI_ELEMENTS.desktopDropdown.classList.remove('show');
+                    UI_ELEMENTS.mobileDropdown.classList.remove('show');
+                };
+
+                UI_ELEMENTS.desktopDropdownBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    UI_ELEMENTS.desktopDropdown.classList.toggle('show');
+                    UI_ELEMENTS.mobileDropdown.classList.remove('show');
+                });
+                
+                UI_ELEMENTS.mobileDropdownBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    UI_ELEMENTS.mobileDropdown.classList.toggle('show');
+                    UI_ELEMENTS.desktopDropdown.classList.remove('show');
+                });
+
+                document.addEventListener('click', closeDropdowns);
+
+                document.querySelectorAll('.dropdown-content').forEach(dropdown => {
+                    dropdown.addEventListener('click', (e) => {
+                        if (e.target.matches('.dropdown-item')) {
+                            e.preventDefault();
+                            const lang = e.target.dataset.lang;
+                            const name = e.target.dataset.name;
+                            changeLanguage(lang, name);
+                            closeDropdowns();
+                        }
+                    });
+                });
+            }
+
+            function changeLanguage(lang, name) {
+                localStorage.setItem('selectedLanguage', lang);
+                localStorage.setItem('selectedLanguageName', name);
+                
+                if (lang === 'en') {
+                    document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+                } else {
+                    document.cookie = `googtrans=/en/${lang}; path=/`;
+                }
+                location.reload();
+            }
+            
+            function restoreLanguageDisplay() {
+                const savedLang = localStorage.getItem('selectedLanguage') || 'en';
+                const savedName = localStorage.getItem('selectedLanguageName') || 'English';
+                const shortCode = LANGUAGES[savedLang]?.short || savedLang.toUpperCase();
+                
+                document.querySelector('.language-text').textContent = savedName;
+                document.getElementById('current-lang').textContent = shortCode;
+                document.querySelector('.mobile-language-text').textContent = savedName;
+                document.getElementById('mobile-current-lang').textContent = shortCode;
+            }
+
+            function setupHeroSlider() {
+                if(UI_ELEMENTS.slides.length === 0) return;
+                let currentSlide = 0;
+                setInterval(() => {
+                    UI_ELEMENTS.slides[currentSlide].classList.remove('active');
+                    currentSlide = (currentSlide + 1) % UI_ELEMENTS.slides.length;
+                    UI_ELEMENTS.slides[currentSlide].classList.add('active');
+                }, 6000);
+            }
+
+            function setupScrollAnimations() {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.1 });
+
+                UI_ELEMENTS.fadeElements.forEach(el => observer.observe(el));
+            }
+
+            function setupLogoAnimation() {
+                if(!UI_ELEMENTS.animatedName) return;
+                const names = ['Setu', 'सेतु', 'সেতু', 'सेतू', 'સેતુ', 'ಸೇತು'];
+                let nameIndex = 0;
+                setInterval(() => {
+                    UI_ELEMENTS.animatedName.style.opacity = '0';
+                    setTimeout(() => {
+                        nameIndex = (nameIndex + 1) % names.length;
+                        UI_ELEMENTS.animatedName.textContent = names[nameIndex];
+                        UI_ELEMENTS.animatedName.style.opacity = '1';
+                    }, 300);
+                }, 4000);
+            }
+        });
+    </script>
+    
+    <!-- This script is necessary for the translation to work -->
+    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async defer></script>
+</body>
+</html>
