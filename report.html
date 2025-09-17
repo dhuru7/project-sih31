@@ -374,7 +374,7 @@
                            </div>
                            <div id="authority-info-section" class="opacity-0 transition-opacity duration-500">
                                 <div id="authority-details" class="hidden"><label class="block text-md font-semibold text-[var(--text-secondary)] mb-2">Assigned Authority</label><div class="bg-[var(--bg-primary)] border border-[var(--border-light)] p-4 rounded-lg space-y-1"><p class="text-sm font-semibold text-[var(--text-muted)]">Name: <span id="authority-name" class="font-bold text-[var(--text-secondary)]"></span></p><p class="text-sm font-semibold text-[var(--text-muted)] mt-2">Department: <span id="authority-department" class="font-bold text-[var(--text-secondary)]"></span></p></div></div>
-                                <div id="village-not-found-notice" class="hidden bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r-lg"><p class="text-sm text-yellow-700">Data for this village is not yet available. Your report will be sent to the district-level office.</p></div>
+                                <div id="village-not-found-notice" class="hidden bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r-lg"><p class="text-sm text-yellow-700">Data for this village is not yet available. We'll add it soon!</p></div>
                             </div>
                         </div>
                     </section>
@@ -691,11 +691,10 @@
                     autoplay: false,
                     complete: () => {
                         try {
-                            // Haptic feedback on success
+                             // Haptic feedback on success
                             if (navigator.vibrate) {
                                 navigator.vibrate(200); // Vibrate for 200ms
                             }
-
                             const villageName = (reportData.location.village || '').trim().toLowerCase();
                             const authority = villageDatabase[villageName] || { name: "District Nodal Officer", department: "District Administration Office" };
                             const maxId = complaints.length > 0 ? Math.max(...complaints.map(c => c.id || 0)) : 0;
