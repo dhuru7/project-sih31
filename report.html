@@ -413,7 +413,7 @@
                     <div id="step-indicator-1" class="progress-step active"><div class="step-circle">1</div><div class="step-name hidden sm:block">Upload</div></div>
                     <div id="step-indicator-2" class="progress-step"><div class="step-circle">2</div><div class="step-name hidden sm:block">Details</div></div>
                     <div id="step-indicator-3" class="progress-step"><div class="step-circle">3</div><div class="step-name hidden sm:block">Location</div></div>
-                    <div id="step-indicator-4" class="progress-step"><div class="step-circle">✓</div><div class="step-name hidden sm:block">Confirm</div></div>
+                    <div id="step-indicator-4" class="progress-step"><div class="step-circle">4</div><div class="step-name hidden sm:block">Confirm</div></div>
                 </div>
 
                 <div>
@@ -531,6 +531,7 @@
                     <div id="submit-report-btn" class="submit-button w-full sm:w-auto hidden">
                        <span class="submit-text">Submit Report</span>
                        <div class="progress-bar-animated"></div>
+                       <svg class="check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
                     </div>
                 </div>
             </div>
@@ -908,6 +909,12 @@
                         duration: 600,
                         easing: 'easeOutExpo',
                         backgroundColor: 'var(--accent-success)'
+                    })
+                    .add({
+                        targets: '.submit-button .check',
+                        opacity: 1,
+                        duration: 300,
+                        easing: 'easeOutExpo'
                     });
 
                 UI.submitReportBtn.addEventListener('click', () => {
