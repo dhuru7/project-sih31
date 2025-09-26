@@ -66,36 +66,12 @@
             color: var(--text-secondary);
         }
 
-        /* MODIFIED Heading Style */
+        /* NEW Heading Style */
         .wizard-heading {
             font-family: 'Poppins', sans-serif;
             font-weight: 700;
             letter-spacing: -0.02em;
             color: var(--text-primary);
-            position: relative;
-            padding-bottom: 0.75rem;
-            margin-bottom: 0.25rem;
-        }
-
-        .wizard-heading::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 50px;
-            height: 4px;
-            background-color: var(--accent-primary);
-            border-radius: 2px;
-        }
-
-        /* NEW Subtitle Style */
-        .wizard-subtitle {
-            font-size: 1.125rem;
-            color: var(--text-muted);
-            max-width: 45ch;
-            margin-left: auto;
-            margin-right: auto;
         }
         
         .btn { position: relative; display: inline-flex; align-items: center; justify-content: center; font-weight: 600; border-radius: 0.5rem; transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1); cursor: pointer; border: none; padding: 0.75rem 1.5rem; overflow: hidden; -webkit-tap-highlight-color: transparent; touch-action: manipulation; user-select: none; }
@@ -354,7 +330,10 @@
         }
         @media (min-width: 640px) {
             .submit-button {
-                width: 150px;
+                width: auto;
+                min-width: 150px;
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
             }
         }
         .submit-text {
@@ -442,7 +421,7 @@
                     <section id="step-1" class="wizard-step active p-6 sm:p-8">
                         <div class="text-center mb-8">
                             <h2 class="wizard-heading text-2xl sm:text-3xl">Add a Photo or Video</h2>
-                            <p class="wizard-subtitle mt-2">A visual helps the authorities understand the issue much faster.</p>
+                            <p class="text-[var(--text-muted)] mt-2">A visual helps the authorities understand the issue much faster.</p>
                         </div>
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                             <label for="camera-input" class="upload-option p-6 rounded-xl flex items-center justify-center sm:flex-col cursor-pointer">
@@ -468,7 +447,7 @@
                     <section id="step-2" class="wizard-step p-6 sm:p-8">
                         <div class="text-center mb-8">
                             <h2 class="wizard-heading text-2xl sm:text-3xl">Describe the Issue</h2>
-                            <p class="wizard-subtitle mt-2">Select the category that best fits the problem.</p>
+                            <p class="text-[var(--text-muted)] mt-2">Select the category that best fits the problem.</p>
                         </div>
                         <div id="issue-types-container" class="grid grid-cols-2 md:grid-cols-3 gap-4"></div>
                         <div class="mt-6">
@@ -481,7 +460,7 @@
                     <section id="step-3" class="wizard-step p-6 sm:p-8">
                          <div class="text-center mb-8">
                             <h2 class="wizard-heading text-2xl sm:text-3xl">Where is the Issue?</h2>
-                            <p class="wizard-subtitle mt-2">Provide the location for a faster response.</p>
+                            <p class="text-[var(--text-muted)] mt-2">Provide the location for a faster response.</p>
                         </div>
                         <div id="location-btn-container" class="mb-2">
                             <button id="get-location-btn">
@@ -530,7 +509,7 @@
                     <section id="step-4" class="wizard-step p-6 sm:p-8">
                         <div class="text-center mb-8">
                             <h2 class="wizard-heading text-2xl sm:text-3xl">Review & Submit</h2>
-                            <p class="wizard-subtitle mt-2">Please confirm the details of your report below.</p>
+                            <p class="text-[var(--text-muted)] mt-2">Please confirm the details of your report below.</p>
                         </div>
                         <div class="space-y-6">
                            <div class="rounded-lg overflow-hidden border border-[var(--border-light)]"><img id="summary-image" src="" alt="Report summary image" class="w-full h-48 object-cover"></div>
