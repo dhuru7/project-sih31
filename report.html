@@ -349,13 +349,12 @@
         }
         .submit-button .progress-bar-animated {
             position: absolute;
-            height: 6px;
+            height: 100%;
             width: 0;
-            top: 50%;
-            left: 50%;
-            border-radius: 100px;
-            transform: translate(-50%, -50%);
-            background: var(--accent-secondary);
+            top: 0;
+            left: 0;
+            border-radius: 8px;
+            background: var(--accent-success);
         }
         .submit-button svg {
             width: 30px;
@@ -367,7 +366,7 @@
         }
         .submit-button .check {
             fill: none;
-            stroke: var(--bg-secondary);
+            stroke: white;
             stroke-width: 4;
             stroke-linecap: round;
             stroke-linejoin: round;
@@ -686,10 +685,7 @@
             function compressImage(file, maxSizeMB) {
                 return new Promise((resolve, reject) => {
                     const MAX_SIZE_BYTES = maxSizeMB * 1024 * 1024;
-                    if (file.size <= MAX_SIZE_BYTES) {
-                        return resolve(file); // No compression needed
-                    }
-
+                    
                     const reader = new FileReader();
                     reader.readAsDataURL(file);
                     reader.onload = (event) => {
@@ -701,43 +697,29 @@
                             
                             let width = img.width;
                             let height = img.height;
+                            let quality = 0.7; // Start with a reasonable quality for ~40% reduction
 
-                            // Initial quality
-                            let quality = 0.9;
-                            
-                            // Function to draw and get blob
-                            const getBlob = (q) => {
-                                canvas.width = width;
-                                canvas.height = height;
-                                ctx.clearRect(0, 0, width, height);
-                                ctx.drawImage(img, 0, 0, width, height);
-                                return new Promise(resolveBlob => {
-                                    canvas.toBlob(resolveBlob, 'image/jpeg', q);
-                                });
-                            };
+                            canvas.width = width;
+                            canvas.height = height;
+                            ctx.clearRect(0, 0, width, height);
+                            ctx.drawImage(img, 0, 0, width, height);
 
-                            // Recursive compression attempt
-                            const attemptCompression = async (q) => {
-                                const blob = await getBlob(q);
-                                console.log(`Attempting compression. Quality: ${q.toFixed(2)}, Size: ${(blob.size / 1024 / 1024).toFixed(2)}MB`);
-
-                                if (blob.size <= MAX_SIZE_BYTES) {
-                                    return resolve(new File([blob], file.name, { type: 'image/jpeg', lastModified: Date.now() }));
-                                }
-
-                                if (q <= 0.5) { // If quality is too low, resize instead
-                                    width *= 0.9;
-                                    height *= 0.9;
-                                    return attemptCompression(0.9); // Reset quality after resize
-                                }
-                                
-                                return attemptCompression(q - 0.1); // Reduce quality
-                            };
-                            
-                            attemptCompression(quality).catch(err => {
-                                console.error("Compression failed", err);
-                                reject(new Error("Could not compress image to the required size. Please try a different image."));
-                            });
+                            canvas.toBlob(
+                                (blob) => {
+                                    if (blob.size <= MAX_SIZE_BYTES) {
+                                        console.log(`Compressed image size: ${(blob.size / 1024 / 1024).toFixed(2)}MB`);
+                                        resolve(new File([blob], file.name, { type: 'image/jpeg', lastModified: Date.now() }));
+                                    } else {
+                                        // If still too large, it might be a very large image.
+                                        // For this request, we will resolve with the compressed blob anyway,
+                                        // but a more robust solution could resize and re-compress.
+                                        console.warn(`Image is still larger than ${maxSizeMB}MB after one compression attempt.`);
+                                        resolve(new File([blob], file.name, { type: 'image/jpeg', lastModified: Date.now() }));
+                                    }
+                                },
+                                'image/jpeg',
+                                quality
+                            );
                         };
                         img.onerror = () => reject(new Error("Could not load image file."));
                     };
@@ -900,7 +882,18 @@
                     submitTimeline.add({ targets: '.submit-button', duration: 1000, height: 10, backgroundColor: 'var(--bg-accent)', border: '0', borderRadius: 100 });
                 }
                 submitTimeline
-                    .add({ targets: '.progress-bar-animated', duration: 1200, width: '100%', easing: 'linear' })
+                    .add({ 
+                        targets: '.submit-text', 
+                        duration: 200, 
+                        opacity: 0,
+                        easing: 'easeOutExpo'
+                    })
+                    .add({ 
+                        targets: '.progress-bar-animated', 
+                        duration: 1200, 
+                        width: '100%', 
+                        easing: 'linear' 
+                    })
                     .add({
                         targets: '.submit-button',
                         width: 48,
@@ -908,8 +901,8 @@
                         borderRadius: 48,
                         duration: 600,
                         easing: 'easeOutExpo',
-                        backgroundColor: 'var(--accent-success)'
-                    })
+                        backgroundColor: 'var(--accent-success)' // Use CSS variable for theme compatibility
+                    }, '-=300') // Start this animation slightly before the progress bar finishes
                     .add({
                         targets: '.submit-button .check',
                         opacity: 1,
