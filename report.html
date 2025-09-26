@@ -66,12 +66,36 @@
             color: var(--text-secondary);
         }
 
-        /* NEW Heading Style */
+        /* MODIFIED Heading Style */
         .wizard-heading {
             font-family: 'Poppins', sans-serif;
             font-weight: 700;
             letter-spacing: -0.02em;
             color: var(--text-primary);
+            position: relative;
+            padding-bottom: 0.75rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .wizard-heading::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 4px;
+            background-color: var(--accent-primary);
+            border-radius: 2px;
+        }
+
+        /* NEW Subtitle Style */
+        .wizard-subtitle {
+            font-size: 1.125rem;
+            color: var(--text-muted);
+            max-width: 45ch;
+            margin-left: auto;
+            margin-right: auto;
         }
         
         .btn { position: relative; display: inline-flex; align-items: center; justify-content: center; font-weight: 600; border-radius: 0.5rem; transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1); cursor: pointer; border: none; padding: 0.75rem 1.5rem; overflow: hidden; -webkit-tap-highlight-color: transparent; touch-action: manipulation; user-select: none; }
@@ -165,22 +189,24 @@
             box-shadow: 0 4px 10px var(--shadow-light);
         }
 
-        /* Redesigned Issue Types */
+        /* Redesigned Issue Types - Caption Style */
         .issue-type-option {
-            background-color: var(--bg-primary);
             border: 2px solid var(--border-light);
             transition: all 0.2s ease-in-out;
             position: relative;
+            border-radius: 0.75rem;
+            aspect-ratio: 1 / 1;
+            overflow: hidden; /* Important for containing the image */
         }
         .issue-type-option:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent-secondary);
-            box-shadow: 0 4px 10px var(--shadow-light);
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 8px 20px var(--shadow-medium);
+            border-color: var(--accent-primary);
         }
         .issue-type-option.selected {
+            transform: translateY(0);
             border-color: var(--accent-primary);
-            background-color: var(--bg-accent);
-            box-shadow: 0 0 0 3px var(--accent-primary);
+            box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent-primary) 25%, transparent);
         }
         .issue-type-option.selected .check-icon {
             opacity: 1;
@@ -188,15 +214,57 @@
         }
         .check-icon {
             position: absolute;
-            top: 0.5rem;
-            right: 0.5rem;
+            top: 0.75rem;
+            right: 0.75rem;
             background-color: var(--accent-primary);
             color: white;
             border-radius: 50%;
-            padding: 0.125rem; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
             opacity: 0;
             transform: scale(0.5);
             transition: all 0.2s ease-in-out;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            z-index: 3;
+        }
+        .check-icon svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* MODIFIED: Styles for issue type icons */
+        .issue-icon {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* This makes the image fill the container */
+            pointer-events: none;
+            z-index: 1;
+            transition: transform 0.3s ease-in-out;
+        }
+        .issue-type-option:hover .issue-icon {
+            transform: scale(1.1);
+        }
+        
+        /* MODIFIED: Style for the text - Caption Box */
+        .issue-type-option .issue-text {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 1.5rem 0.75rem 0.75rem;
+            text-align: center;
+            z-index: 2;
+            pointer-events: none;
         }
 
         /* NEW: Styles for the location button */
@@ -374,7 +442,7 @@
                     <section id="step-1" class="wizard-step active p-6 sm:p-8">
                         <div class="text-center mb-8">
                             <h2 class="wizard-heading text-2xl sm:text-3xl">Add a Photo or Video</h2>
-                            <p class="text-[var(--text-muted)] mt-2">A visual helps the authorities understand the issue much faster.</p>
+                            <p class="wizard-subtitle mt-2">A visual helps the authorities understand the issue much faster.</p>
                         </div>
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                             <label for="camera-input" class="upload-option p-6 rounded-xl flex items-center justify-center sm:flex-col cursor-pointer">
@@ -400,9 +468,9 @@
                     <section id="step-2" class="wizard-step p-6 sm:p-8">
                         <div class="text-center mb-8">
                             <h2 class="wizard-heading text-2xl sm:text-3xl">Describe the Issue</h2>
-                            <p class="text-[var(--text-muted)] mt-2">Select the category that best fits the problem.</p>
+                            <p class="wizard-subtitle mt-2">Select the category that best fits the problem.</p>
                         </div>
-                        <div id="issue-types-container" class="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4"></div>
+                        <div id="issue-types-container" class="grid grid-cols-2 md:grid-cols-3 gap-4"></div>
                         <div class="mt-6">
                             <label for="description-input" class="form-label">Any other details? <span class="text-sm font-normal text-[var(--text-muted)]">(Optional)</span></label>
                             <textarea id="description-input" rows="4" placeholder="Provide extra information..." class="form-input"></textarea>
@@ -413,7 +481,7 @@
                     <section id="step-3" class="wizard-step p-6 sm:p-8">
                          <div class="text-center mb-8">
                             <h2 class="wizard-heading text-2xl sm:text-3xl">Where is the Issue?</h2>
-                            <p class="text-[var(--text-muted)] mt-2">Provide the location for a faster response.</p>
+                            <p class="wizard-subtitle mt-2">Provide the location for a faster response.</p>
                         </div>
                         <div id="location-btn-container" class="mb-2">
                             <button id="get-location-btn">
@@ -430,30 +498,30 @@
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <label for="location-village" class="form-label">Village / Gram Panchayat<span class="required-marker">*</span></label>
-                                    <input type="text" id="location-village" placeholder="e.g., Indri" class="form-input">
+                                    <input type="text" id="location-village" placeholder="Indri" class="form-input">
                                 </div>
                                 <div>
                                     <label for="location-postoffice" class="form-label">Post Office</label>
-                                    <input type="text" id="location-postoffice" placeholder="e.g., Indri" class="form-input">
+                                    <input type="text" id="location-postoffice" placeholder="Indri" class="form-input">
                                 </div>
                             </div>
                             <div>
                                 <label for="location-subdistrict" class="form-label">Subdistrict / Tehsil / Taluka</label>
-                                <input type="text" id="location-subdistrict" placeholder="e.g., Indri" class="form-input">
+                                <input type="text" id="location-subdistrict" placeholder="Indri" class="form-input">
                             </div>
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <label for="location-district" class="form-label">District<span class="required-marker">*</span></label>
-                                    <input type="text" id="location-district" placeholder="e.g., Karnal" class="form-input">
+                                    <input type="text" id="location-district" placeholder="Karnal" class="form-input">
                                 </div>
                                 <div>
                                     <label for="location-state" class="form-label">State<span class="required-marker">*</span></label>
-                                    <input type="text" id="location-state" placeholder="e.g., Haryana" class="form-input">
+                                    <input type="text" id="location-state" placeholder="Haryana" class="form-input">
                                 </div>
                             </div>
                             <div>
                                 <label for="location-pincode" class="form-label">PIN Code<span class="required-marker">*</span></label>
-                                <input type="text" id="location-pincode" placeholder="e.g., 132041" class="form-input">
+                                <input type="text" id="location-pincode" placeholder="132041" class="form-input">
                             </div>
                         </div>
                     </section>
@@ -462,7 +530,7 @@
                     <section id="step-4" class="wizard-step p-6 sm:p-8">
                         <div class="text-center mb-8">
                             <h2 class="wizard-heading text-2xl sm:text-3xl">Review & Submit</h2>
-                            <p class="text-[var(--text-muted)] mt-2">Please confirm the details of your report below.</p>
+                            <p class="wizard-subtitle mt-2">Please confirm the details of your report below.</p>
                         </div>
                         <div class="space-y-6">
                            <div class="rounded-lg overflow-hidden border border-[var(--border-light)]"><img id="summary-image" src="" alt="Report summary image" class="w-full h-48 object-cover"></div>
@@ -481,15 +549,13 @@
                 <div id="wizard-navigation" class="flex flex-col-reverse sm:flex-row sm:justify-between items-center gap-3 p-4 bg-gray-50 dark:bg-slate-800 border-t border-[var(--border-light)]">
                     <button id="prev-btn" class="btn btn-secondary w-full sm:w-auto">Previous</button>
                     <button id="next-btn" class="btn btn-primary w-full sm:w-auto">Next</button>
-                    <div id="submit-btn-container" class="w-full sm:w-auto hidden">
-                        <div id="submit-report-btn" class="submit-button">
-                           <span class="submit-text">Submit Report</span>
-                           <div class="progress-bar-animated"></div>
-                           <svg x="0px" y="0px" viewBox="0 0 25 30">
-                              <path class="check" d="M2,19.2C5.9,23.6,9.4,28,9.4,28L23,2" />
-                           </svg>
-                        </div>
-                     </div>
+                    <div id="submit-report-btn" class="submit-button w-full sm:w-auto hidden">
+                       <span class="submit-text">Submit Report</span>
+                       <div class="progress-bar-animated"></div>
+                       <svg x="0px" y="0px" viewBox="0 0 25 30">
+                          <path class="check" d="M2,19.2C5.9,23.6,9.4,28,9.4,28L23,2" />
+                       </svg>
+                    </div>
                 </div>
             </div>
         </main>
@@ -513,7 +579,6 @@
                 progressSteps: document.querySelectorAll('.progress-step'),
                 prevBtn: document.getElementById('prev-btn'),
                 nextBtn: document.getElementById('next-btn'),
-                submitBtnContainer: document.getElementById('submit-btn-container'),
                 submitReportBtn: document.getElementById('submit-report-btn'),
                 cameraInput: document.getElementById('camera-input'),
                 galleryInput: document.getElementById('gallery-input'),
@@ -547,7 +612,14 @@
                 comingSoonModal: { overlay: document.getElementById('coming-soon-modal'), closeBtn: document.getElementById('close-coming-soon-modal-btn') }
             };
             
-            const issueTypes = { "Garbage Dump": {}, "No Dustbins": {}, "Open Sewage": {}, "Bad Roads": {}, "Streetlight": {}, "Other": {} };
+            const issueTypes = { 
+                "Garbage Dump": { icon: "images/icongarbagedump.png" }, 
+                "No Dustbins": { icon: "images/iconnobin.png" }, 
+                "Open Sewage": { icon: "images/iconopensewage.png" }, 
+                "Bad Roads": { icon: "images/iconbadroads.png" }, 
+                "Streetlight": { icon: "images/iconstreetlights.png" }, 
+                "Other": { icon: "images/iconother.png" } 
+            };
             const villageDatabase = { 
                 "jurasi saraf khas": { name: "Mr. Ramesh Kumar", department: "Block Development Office, Indri" }, 
                 "indri": { name: "Mr. Ramesh Kumar", department: "Block Development Office, Indri" }, 
@@ -578,7 +650,7 @@
             const updateNavButtons = () => {
                 UI.prevBtn.classList.toggle('hidden', currentStep === 1);
                 UI.nextBtn.classList.toggle('hidden', currentStep === totalSteps);
-                UI.submitBtnContainer.classList.toggle('hidden', currentStep !== totalSteps);
+                UI.submitReportBtn.classList.toggle('hidden', currentStep !== totalSteps);
                 UI.nextBtn.disabled = !validateStep(currentStep);
             };
 
@@ -874,7 +946,17 @@
                 const lang = localStorage.getItem('selectedLanguage') || 'en';
                 if (lang !== 'en') document.cookie=`googtrans=/en/${lang}; path=/`;
                 
-                UI.issueTypesContainer.innerHTML = Object.keys(issueTypes).map(name => `<button class="issue-type-option p-3 sm:p-4 rounded-lg flex flex-col items-center justify-center text-center text-sm sm:text-base text-[var(--text-muted)] font-semibold" data-issue="${name}"><div class="check-icon"><svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg></div><span>${name}</span></button>`).join('');
+                UI.issueTypesContainer.innerHTML = Object.entries(issueTypes).map(([name, data]) => `
+                    <button class="issue-type-option" data-issue="${name}">
+                        <img src="${data.icon}" alt="${name}" class="issue-icon">
+                        <span class="issue-text">${name}</span>
+                        <div class="check-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                    </button>
+                `).join('');
 
                 showStep(currentStep);
 
