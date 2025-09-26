@@ -531,9 +531,6 @@
                     <div id="submit-report-btn" class="submit-button w-full sm:w-auto hidden">
                        <span class="submit-text">Submit Report</span>
                        <div class="progress-bar-animated"></div>
-                       <svg x="0px" y="0px" viewBox="0 0 25 30">
-                          <path class="check" d="M2,19.2C5.9,23.6,9.4,28,9.4,28L23,2" />
-                       </svg>
                     </div>
                 </div>
             </div>
@@ -858,10 +855,6 @@
             const hideModal = (modal) => { modal.classList.add('opacity-0'); modal.querySelector('.modal-box').classList.add('scale-95'); setTimeout(() => modal.classList.add('hidden'), 300); };
             
             const setupAnimatedSubmit = () => {
-                const pathEl = document.querySelector('.submit-button .check');
-                const offset = anime.setDashoffset(pathEl);
-                pathEl.setAttribute("stroke-dashoffset", offset);
-
                 const submitTimeline = anime.timeline({
                     autoplay: false,
                     complete: () => {
@@ -907,10 +900,15 @@
                 }
                 submitTimeline
                     .add({ targets: '.progress-bar-animated', duration: 1200, width: '100%', easing: 'linear' })
-                    .add({ targets: '.submit-button', width: 0, duration: 1 })
-                    .add({ targets: '.progress-bar-animated', width: 48, height: 48, delay: 400, duration: 600, borderRadius: 48, backgroundColor: 'var(--accent-secondary)'})
-                    .add({ targets: '.submit-button svg', opacity: 1, duration: 1, delay: -600 })
-                    .add({ targets: pathEl, strokeDashoffset: [offset, 0], duration: 250, easing: 'easeInOutSine' });
+                    .add({
+                        targets: '.submit-button',
+                        width: 48,
+                        height: 48,
+                        borderRadius: 48,
+                        duration: 600,
+                        easing: 'easeOutExpo',
+                        backgroundColor: 'var(--accent-success)'
+                    });
 
                 UI.submitReportBtn.addEventListener('click', () => {
                     UI.submitReportBtn.style.pointerEvents = 'none';
