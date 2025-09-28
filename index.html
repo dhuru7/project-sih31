@@ -18,8 +18,8 @@
             --text-muted: #6b7280;
             --border-light: #e5e7eb;
             --border-medium: #d1d5db;
-            --accent-primary: #ff0000; /* New Red */
-            --accent-primary-hover: #e60000; /* Darker Red */
+            --accent-primary: #f41f4e; /* UPDATED: New Red */
+            --accent-primary-hover: #d81b45; /* UPDATED: Darker Red */
             --accent-secondary: #1f2937; /* Dark Slate Gray */
             --accent-secondary-hover: #000000;
             --shadow-light: rgba(0, 0, 0, 0.07);
@@ -37,8 +37,8 @@
             --text-muted: #9ca3af;
             --border-light: #374151;
             --border-medium: #4b5563;
-            --accent-primary: #ff0000; /* New Red */
-            --accent-primary-hover: #ff3333; /* Lighter Red */
+            --accent-primary: #f41f4e; /* UPDATED: New Red */
+            --accent-primary-hover: #f64c71; /* UPDATED: Lighter Red */
             --accent-secondary: #f9fafb;
             --accent-secondary-hover: #FFFFFF;
             /* UPDATED: Neutral shadows for dark mode */
@@ -280,7 +280,7 @@
         .btn-secondary:hover { border-color: var(--accent-secondary); color: var(--accent-secondary); }
         
         @keyframes animated-gradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-        .btn-cta { background-image: linear-gradient(120deg, #ff0000 0%, #cc0000 100%); background-size: 200% 200%; animation: animated-gradient 3s ease-in-out infinite; }
+        .btn-cta { background-image: linear-gradient(120deg, #f41f4e 0%, #c3193f 100%); background-size: 200% 200%; animation: animated-gradient 3s ease-in-out infinite; }
         .bottom-nav-content { background-color: var(--bg-secondary-translucent); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid var(--border-light); border-radius: 1.5rem; box-shadow: 0 4px 16px var(--shadow-light); }
         .dropdown-content { display: none; position: absolute; right: 0; top: 100%; min-width: 12.5rem; background-color: var(--bg-secondary); border: 1px solid var(--border-light); border-radius: 0.75rem; box-shadow: 0 8px 32px var(--shadow-medium); z-index: 1000; padding: 0.5rem 0; margin-top: 0.25rem; max-height: 18.75rem; overflow-y: auto; opacity: 0; transform: translateY(-10px); transition: opacity 0.2s cubic-bezier(0.4, 0.0, 0.2, 1), transform 0.2s cubic-bezier(0.4, 0.0, 0.2, 1); }
         .dropdown-content.show { display: block; opacity: 1; transform: translateY(0); }
@@ -337,18 +337,18 @@
                 box-shadow: 0 0 0 0 var(--accent-primary);
             }
             70% {
-                box-shadow: 0 0 0 12px rgba(255, 0, 0, 0);
+                box-shadow: 0 0 0 12px rgba(244, 31, 78, 0);
             }
             100% {
-                box-shadow: 0 0 0 0 rgba(255, 0, 0, 0);
+                box-shadow: 0 0 0 0 rgba(244, 31, 78, 0);
             }
         }
-        button.sarthi-btn-animated {
+        button.setu-btn-animated {
             animation: pulse-glow 2.5s infinite;
         }
 
         /* Sarthi AI Intro Animation Styles */
-        #sarthi-intro-animation {
+        #setu-intro-animation {
             opacity: 1;
             transition: opacity 0.5s ease-in-out, transform 0.7s cubic-bezier(0.68, -0.55, 0.27, 1.55);
         }
@@ -358,27 +358,27 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        #sarthi-intro-logo {
+        #setu-intro-logo {
             /* No animation */
         }
 
-        #sarthi-intro-text {
+        #setu-intro-text {
             opacity: 0;
             animation: text-fade-in-up 0.8s ease-out 0.5s forwards;
         }
 
-        #sarthi-intro-subtext {
+        #setu-intro-subtext {
             opacity: 0;
             animation: text-fade-in-up 0.8s ease-out 0.8s forwards;
         }
         
         /* NEW: Sarthi AI Spin Animation */
-        @keyframes sarthi-spin {
+        @keyframes setu-spin {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
-        .sarthi-spin {
-            animation: sarthi-spin 0.7s ease-in-out;
+        .setu-spin {
+            animation: setu-spin 0.7s ease-in-out;
         }
         
         /* NEW: Notification Panel Styles */
@@ -398,15 +398,15 @@
 <body class="antialiased pb-28 sm:pb-0">
 
     <!-- Sarthi AI Intro Animation -->
-    <div id="sarthi-intro-animation" class="fixed inset-0 bg-[var(--bg-primary)] z-[200] flex items-center justify-center">
+    <div id="setu-intro-animation" class="fixed inset-0 bg-[var(--bg-primary)] z-[200] flex items-center justify-center">
         <div class="text-center">
-            <div id="sarthi-intro-logo" class="inline-block">
+            <div id="setu-intro-logo" class="inline-block">
                  <svg class="w-24 h-24 text-[var(--accent-primary)]" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12.0001 1.99219L3.45911 12.0002L12.0001 22.0082L20.5411 12.0002L12.0001 1.99219Z"/>
                 </svg>
             </div>
-            <h1 id="sarthi-intro-text" class="text-3xl font-bold text-[var(--text-primary)] mt-4">Sarthi AI</h1>
-            <p id="sarthi-intro-subtext" class="text-lg text-[var(--text-muted)]">Coming Soon...</p>
+            <h1 id="setu-intro-text" class="text-3xl font-bold text-[var(--text-primary)] mt-4">Setu AI</h1>
+            <p id="setu-intro-subtext" class="text-lg text-[var(--text-muted)]">Coming Soon...</p>
         </div>
     </div>
 
@@ -464,7 +464,7 @@
                 <div class="flex justify-between items-center py-2 px-4">
                     <a href="index.html" class="logo w-24"><span id="animated-name-mobile">Setu</span></a>
                     <div class="flex items-center space-x-1">
-                        <button id="sarthi-ai-btn-mobile" class="btn btn-cta !p-2 !rounded-full" title="Sarthi AI Assistant">
+                        <button id="setu-ai-btn-mobile" class="btn btn-cta !p-2 !rounded-full" title="Setu AI Assistant">
                             <svg class="w-5 h-5 flex-shrink-0 text-white" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M12.0001 1.99219L3.45911 12.0002L12.0001 22.0082L20.5411 12.0002L12.0001 1.99219Z"/>
                             </svg>
@@ -528,23 +528,22 @@
     </div>
 
     <!-- Sarthi AI Button -->
-    <button id="sarthi-ai-btn" title="Sarthi AI Assistant" class="hidden sm:flex fixed bottom-6 right-6 z-50 btn btn-cta !p-4 !rounded-full shadow-lg transform hover:scale-110 transition-transform duration-200">
+    <button id="setu-ai-btn" title="Setu AI Assistant" class="hidden sm:flex fixed bottom-6 right-6 z-50 btn btn-cta !p-4 !rounded-full shadow-lg transform hover:scale-110 transition-transform duration-200">
         <svg class="w-8 h-8 flex-shrink-0 text-white" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
           <path d="M12.0001 1.99219L3.45911 12.0002L12.0001 22.0082L20.5411 12.0002L12.0001 1.99219Z"/>
         </svg>
     </button>
 
     <!-- Sarthi AI Modal -->
-    <div id="sarthi-ai-modal" class="fixed inset-0 bg-black bg-opacity-60 z-[110] hidden items-center justify-center p-4">
+    <div id="setu-ai-modal" class="fixed inset-0 bg-black bg-opacity-60 z-[110] hidden items-center justify-center p-4">
         <div class="bg-[var(--bg-secondary)] rounded-2xl shadow-xl w-full max-w-md transform transition-all duration-300 ease-out opacity-0 -translate-y-4 overflow-hidden">
             <div class="text-center p-6 bg-[var(--bg-accent)]">
-                <div class="bg-gradient-to-br from-red-500 to-red-400 p-3 rounded-full inline-block shadow-lg">
+                <div class="bg-gradient-to-br from-[#f41f4e] to-[#d81b45] p-3 rounded-full inline-block shadow-lg">
                     <svg class="w-8 h-8 text-white" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                       <path d="M12.0001 1.99219L3.45911 12.0002L12.0001 22.0082L20.5411 12.0002L12.0001 1.99219Z"/>
-                    </svg>
                 </div>
-                <h2 class="text-2xl font-bold text-[var(--text-primary)] mt-3">Sarthi AI</h2>
-                <p class="text-sm font-semibold uppercase tracking-wider text-red-600 dark:text-red-400 mt-1">Coming Soon</p>
+                <h2 class="text-2xl font-bold text-[var(--text-primary)] mt-3">Setu AI</h2>
+                <p class="text-sm font-semibold uppercase tracking-wider text-[#f41f4e] dark:text-[#f64c71] mt-1">Coming Soon</p>
             </div>
             <div class="p-6">
                 <p class="text-center text-[var(--text-secondary)] mb-6">
@@ -552,7 +551,7 @@
                 </p>
                 <ul class="space-y-4 text-left">
                     <li class="flex items-start space-x-4">
-                        <div class="flex-shrink-0 bg-red-100 dark:bg-red-500/20 text-red-600 dark:text-red-300 rounded-full p-2">
+                        <div class="flex-shrink-0 bg-red-100 dark:bg-[#4f1824] text-[#f41f4e] dark:text-[#f64c71] rounded-full p-2">
                             <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
                         </div>
                         <div>
@@ -561,7 +560,7 @@
                         </div>
                     </li>
                     <li class="flex items-start space-x-4">
-                        <div class="flex-shrink-0 bg-red-100 dark:bg-red-500/20 text-red-600 dark:text-red-300 rounded-full p-2">
+                        <div class="flex-shrink-0 bg-red-100 dark:bg-[#4f1824] text-[#f41f4e] dark:text-[#f64c71] rounded-full p-2">
                              <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
                         </div>
                         <div>
@@ -570,7 +569,7 @@
                         </div>
                     </li>
                     <li class="flex items-start space-x-4">
-                        <div class="flex-shrink-0 bg-red-100 dark:bg-red-500/20 text-red-600 dark:text-red-300 rounded-full p-2">
+                        <div class="flex-shrink-0 bg-red-100 dark:bg-[#4f1824] text-[#f41f4e] dark:text-[#f64c71] rounded-full p-2">
                             <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                         </div>
                         <div>
@@ -581,7 +580,7 @@
                 </ul>
             </div>
              <div class="p-6 pt-0 text-center">
-                <button id="sarthi-ai-modal-ok" class="btn btn-primary w-full sm:w-auto">Got it!</button>
+                <button id="setu-ai-modal-ok" class="btn btn-primary w-full sm:w-auto">Got it!</button>
             </div>
         </div>
     </div>
@@ -616,7 +615,7 @@
                 "Bad Roads": { bg: "bg-slate-200", text: "text-slate-800", darkBg: "dark:bg-slate-700/80", darkText: "dark:text-slate-200" }
             };
             const ratingFeedbacks = ["", "Terrible resolution", "Not satisfied", "It's okay", "Good resolution", "Excellent!"];
-            const ratingStarColors = ['', 'text-red-500', 'text-orange-400', 'text-yellow-400', 'text-lime-500', 'text-green-500'];
+            const ratingStarColors = ['', 'text-[#f41f4e]', 'text-orange-400', 'text-yellow-400', 'text-lime-500', 'text-green-500'];
 
             const UI = {
                 feedContainer: document.getElementById('feed-container'),
@@ -632,11 +631,11 @@
                 imageViewerOverlay: document.getElementById('image-viewer-overlay'),
                 imageViewerClose: document.getElementById('image-viewer-close'),
                 fullscreenImage: document.getElementById('fullscreen-image'),
-                sarthiAiBtn: document.getElementById('sarthi-ai-btn'),
-                sarthiAiBtnMobile: document.getElementById('sarthi-ai-btn-mobile'),
-                sarthiAiModal: document.getElementById('sarthi-ai-modal'),
-                sarthiAiModalOk: document.getElementById('sarthi-ai-modal-ok'),
-                sarthiIntroAnimation: document.getElementById('sarthi-intro-animation'),
+                setuAiBtn: document.getElementById('setu-ai-btn'),
+                setuAiBtnMobile: document.getElementById('setu-ai-btn-mobile'),
+                setuAiModal: document.getElementById('setu-ai-modal'),
+                setuAiModalOk: document.getElementById('setu-ai-modal-ok'),
+                setuIntroAnimation: document.getElementById('setu-intro-animation'),
                 notificationBtnMobile: document.getElementById('notification-btn-mobile'),
                 notificationBtnDesktop: document.getElementById('notification-btn-desktop'),
                 notificationPanel: document.getElementById('notification-panel'),
@@ -659,7 +658,7 @@
             const welcomeNotification = {
                 id: 1,
                 title: 'Welcome to Setu!',
-                message: 'We\'re glad you\'re here to help make our cities better. <a href="about.html" class="text-[var(--accent-primary)] font-semibold hover:underline">Learn more about us</a>.',
+                message: 'We\'re glad you\'re here to help make our cities better. <a href="about.html" class="text-[var(--accent-primary)] font-semibold hover:underline">Learn more about Setu</a>.',
                 timestamp: firstVisitTimestamp,
                 read: welcomeNotificationRead
             };
@@ -826,7 +825,7 @@
                 if (!cList || cList.length === 0) {
                     UI.feedContainer.innerHTML = `
                         <div class="text-center py-16 px-6 bg-[var(--bg-secondary)] rounded-2xl shadow-sm fade-in visible col-span-1 md:col-span-2 lg:col-span-3">
-                            <svg class="mx-auto h-12 w-12 text-[var(--text-muted)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                            <svg class="mx-auto h-12 w-12 text-[var(--text-muted)]" fill="none" viewBox="0 0 24 24" stroke-width="1.5">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
                             </svg>
                             <h3 class="mt-4 text-lg font-semibold text-[var(--text-primary)]">No Reports Found</h3>
@@ -1014,39 +1013,39 @@
             };
             
             // --- Sarthi AI Modal Logic ---
-            const openSarthiModal = () => {
-                const modalContent = UI.sarthiAiModal.querySelector('div');
-                UI.sarthiAiModal.classList.remove('hidden');
-                UI.sarthiAiModal.classList.add('flex');
+            const openSetuModal = () => {
+                const modalContent = UI.setuAiModal.querySelector('div');
+                UI.setuAiModal.classList.remove('hidden');
+                UI.setuAiModal.classList.add('flex');
                 setTimeout(() => {
                     modalContent.classList.remove('opacity-0', '-translate-y-4');
                 }, 10);
 
                 // Stop animation and save state
-                if (!sessionStorage.getItem('sarthiAiButtonClicked')) {
-                    UI.sarthiAiBtn.classList.remove('sarthi-btn-animated');
-                    UI.sarthiAiBtnMobile.classList.remove('sarthi-btn-animated');
-                    sessionStorage.setItem('sarthiAiButtonClicked', 'true');
+                if (!sessionStorage.getItem('setuAiButtonClicked')) {
+                    UI.setuAiBtn.classList.remove('setu-btn-animated');
+                    UI.setuAiBtnMobile.classList.remove('setu-btn-animated');
+                    sessionStorage.setItem('setuAiButtonClicked', 'true');
                 }
             };
 
-            const closeSarthiModal = () => {
-                const modalContent = UI.sarthiAiModal.querySelector('div');
+            const closeSetuModal = () => {
+                const modalContent = UI.setuAiModal.querySelector('div');
                 modalContent.classList.add('opacity-0', '-translate-y-4');
                 setTimeout(() => {
-                    UI.sarthiAiModal.classList.add('hidden');
-                    UI.sarthiAiModal.classList.remove('flex');
+                    UI.setuAiModal.classList.add('hidden');
+                    UI.setuAiModal.classList.remove('flex');
                 }, 300); // Wait for transition to finish
             };
 
             // --- Sarthi AI Intro Animation ---
-            const runSarthiIntro = () => {
-                if (sessionStorage.getItem('sarthiIntroShown')) {
-                    UI.sarthiIntroAnimation.style.display = 'none';
+            const runSetuIntro = () => {
+                if (sessionStorage.getItem('setuIntroShown')) {
+                    UI.setuIntroAnimation.style.display = 'none';
                     // Check if button should be animated
-                    if (!sessionStorage.getItem('sarthiAiButtonClicked')) {
-                        UI.sarthiAiBtn.classList.add('sarthi-btn-animated');
-                        UI.sarthiAiBtnMobile.classList.add('sarthi-btn-animated');
+                    if (!sessionStorage.getItem('setuAiButtonClicked')) {
+                        UI.setuAiBtn.classList.add('setu-btn-animated');
+                        UI.setuAiBtnMobile.classList.add('setu-btn-animated');
                     }
                     return;
                 }
@@ -1054,43 +1053,43 @@
                 document.body.classList.add('no-scroll');
 
                 setTimeout(() => {
-                    const targetBtn = isDesktop() ? UI.sarthiAiBtn : UI.sarthiAiBtnMobile;
-                    const sarthiBtnRect = targetBtn.getBoundingClientRect();
-                    const introRect = UI.sarthiIntroAnimation.getBoundingClientRect();
+                    const targetBtn = isDesktop() ? UI.setuAiBtn : UI.setuAiBtnMobile;
+                    const setuBtnRect = targetBtn.getBoundingClientRect();
+                    const introRect = UI.setuIntroAnimation.getBoundingClientRect();
 
-                    if(sarthiBtnRect.width === 0) { // If button is hidden, just fade out
-                         UI.sarthiIntroAnimation.style.opacity = '0';
+                    if(setuBtnRect.width === 0) { // If button is hidden, just fade out
+                         UI.setuIntroAnimation.style.opacity = '0';
                     } else {
-                        const scale = (sarthiBtnRect.width / introRect.width) * 1.5;
-                        const translateX = (sarthiBtnRect.left + sarthiBtnRect.width / 2) - (introRect.left + introRect.width / 2);
-                        const translateY = (sarthiBtnRect.top + sarthiBtnRect.height / 2) - (introRect.top + introRect.height / 2);
+                        const scale = (setuBtnRect.width / introRect.width) * 1.5;
+                        const translateX = (setuBtnRect.left + setuBtnRect.width / 2) - (introRect.left + introRect.width / 2);
+                        const translateY = (setuBtnRect.top + setuBtnRect.height / 2) - (introRect.top + introRect.height / 2);
 
-                        UI.sarthiIntroAnimation.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
-                        UI.sarthiIntroAnimation.style.opacity = '0';
+                        UI.setuIntroAnimation.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+                        UI.setuIntroAnimation.style.opacity = '0';
                     }
                 }, 2500); // Start shrinking after 2.5 seconds
 
                 setTimeout(() => {
-                    UI.sarthiIntroAnimation.style.display = 'none';
+                    UI.setuIntroAnimation.style.display = 'none';
                     document.body.classList.remove('no-scroll');
-                    sessionStorage.setItem('sarthiIntroShown', 'true');
+                    sessionStorage.setItem('setuIntroShown', 'true');
                     // Start pulsing the actual button after the intro
-                    if (!sessionStorage.getItem('sarthiAiButtonClicked')) {
-                        UI.sarthiAiBtn.classList.add('sarthi-btn-animated');
-                        UI.sarthiAiBtnMobile.classList.add('sarthi-btn-animated');
+                    if (!sessionStorage.getItem('setuAiButtonClicked')) {
+                        UI.setuAiBtn.classList.add('setu-btn-animated');
+                        UI.setuAiBtnMobile.classList.add('setu-btn-animated');
                     }
                 }, 3200); // Hide after transition (0.7s)
             };
             
             // UPDATED: Sarthi AI Button Spin
-            const setupSarthiSpin = () => {
-                const sarthiSvgs = document.querySelectorAll('#sarthi-ai-btn-mobile svg, #sarthi-ai-btn svg');
-                if (sarthiSvgs.length === 0) return;
+            const setupSetuSpin = () => {
+                const setuSvgs = document.querySelectorAll('#setu-ai-btn-mobile svg, #setu-ai-btn svg');
+                if (setuSvgs.length === 0) return;
                 setInterval(() => {
-                    sarthiSvgs.forEach(svg => {
-                        svg.classList.add('sarthi-spin');
+                    setuSvgs.forEach(svg => {
+                        svg.classList.add('setu-spin');
                         svg.addEventListener('animationend', () => {
-                            svg.classList.remove('sarthi-spin');
+                            svg.classList.remove('setu-spin');
                         }, { once: true });
                     });
                 }, 7000); // UPDATED to 7 seconds
@@ -1125,7 +1124,7 @@
                 // UPDATED: Use formatTimeAgo for timestamps
                 UI.notificationContent.innerHTML = notifications.map(n => `
                     <div class="p-4 border-b border-[var(--border-light)] flex items-start space-x-3 ${!n.read ? '' : 'opacity-70'}">
-                        ${!n.read ? '<div class="w-2 h-2 rounded-full bg-red-500 mt-2 flex-shrink-0"></div>' : '<div class="w-2 h-2 flex-shrink-0"></div>'}
+                        ${!n.read ? '<div class="w-2 h-2 rounded-full bg-[#f41f4e] mt-2 flex-shrink-0"></div>' : '<div class="w-2 h-2 flex-shrink-0"></div>'}
                         <div class="flex-grow">
                             <p class="font-semibold text-[var(--text-primary)]">${n.title}</p>
                             <p class="text-sm text-[var(--text-secondary)]">${n.message}</p>
@@ -1136,14 +1135,14 @@
             };
 
             // Initial setup
-            runSarthiIntro();
+            runSetuIntro();
             loadComplaints();
             setupTheme(); 
             setupLogoAnimation(); 
             restoreLanguageDisplay(); 
             setupScrollAnimations(); 
             renderFeed(complaints);
-            setupSarthiSpin();
+            setupSetuSpin();
             renderNotifications();
 
             // Event Listeners
@@ -1177,12 +1176,12 @@
             window.addEventListener('pointerup', handlePointerUp);
 
             // Sarthi AI Listeners
-            UI.sarthiAiBtn.addEventListener('click', openSarthiModal);
-            UI.sarthiAiBtnMobile.addEventListener('click', openSarthiModal);
-            UI.sarthiAiModalOk.addEventListener('click', closeSarthiModal);
-            UI.sarthiAiModal.addEventListener('click', (e) => {
-                if (e.target === UI.sarthiAiModal) {
-                    closeSarthiModal();
+            UI.setuAiBtn.addEventListener('click', openSetuModal);
+            UI.setuAiBtnMobile.addEventListener('click', openSetuModal);
+            UI.setuAiModalOk.addEventListener('click', closeSetuModal);
+            UI.setuAiModal.addEventListener('click', (e) => {
+                if (e.target === UI.setuAiModal) {
+                    closeSetuModal();
                 }
             });
             
