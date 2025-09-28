@@ -41,8 +41,9 @@
             --accent-primary-hover: #ff3333; /* Lighter Red */
             --accent-secondary: #f9fafb;
             --accent-secondary-hover: #FFFFFF;
-            --shadow-light: rgba(255, 0, 0, 0.1);
-            --shadow-medium: rgba(255, 0, 0, 0.15);
+            /* UPDATED: Neutral shadows for dark mode */
+            --shadow-light: rgba(0, 0, 0, 0.2);
+            --shadow-medium: rgba(0, 0, 0, 0.3);
         }
         
         #google_translate_element, .skiptranslate { display: none !important; }
@@ -281,8 +282,6 @@
         @keyframes animated-gradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         .btn-cta { background-image: linear-gradient(120deg, #ff0000 0%, #cc0000 100%); background-size: 200% 200%; animation: animated-gradient 3s ease-in-out infinite; }
         .bottom-nav-content { background-color: var(--bg-secondary-translucent); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid var(--border-light); border-radius: 1.5rem; box-shadow: 0 4px 16px var(--shadow-light); }
-        .theme-toggle { background-color: var(--bg-accent); border-radius: 0.75rem; padding: 0.5rem; cursor: pointer; transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1); border: 2px solid transparent; }
-        .theme-toggle:hover { transform: scale(1.1) rotate(10deg); border-color: var(--accent-primary); }
         .dropdown-content { display: none; position: absolute; right: 0; top: 100%; min-width: 12.5rem; background-color: var(--bg-secondary); border: 1px solid var(--border-light); border-radius: 0.75rem; box-shadow: 0 8px 32px var(--shadow-medium); z-index: 1000; padding: 0.5rem 0; margin-top: 0.25rem; max-height: 18.75rem; overflow-y: auto; opacity: 0; transform: translateY(-10px); transition: opacity 0.2s cubic-bezier(0.4, 0.0, 0.2, 1), transform 0.2s cubic-bezier(0.4, 0.0, 0.2, 1); }
         .dropdown-content.show { display: block; opacity: 1; transform: translateY(0); }
         .dropdown-item { display: block; padding: 0.75rem 1rem; color: var(--text-primary); text-decoration: none; cursor: pointer; transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1); }
@@ -354,18 +353,13 @@
             transition: opacity 0.5s ease-in-out, transform 0.7s cubic-bezier(0.68, -0.55, 0.27, 1.55);
         }
 
-        @keyframes logo-pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.15); }
-        }
-
         @keyframes text-fade-in-up {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         #sarthi-intro-logo {
-            animation: logo-pulse 2s ease-in-out infinite;
+            /* No animation */
         }
 
         #sarthi-intro-text {
@@ -376,6 +370,27 @@
         #sarthi-intro-subtext {
             opacity: 0;
             animation: text-fade-in-up 0.8s ease-out 0.8s forwards;
+        }
+        
+        /* NEW: Sarthi AI Spin Animation */
+        @keyframes sarthi-spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .sarthi-spin {
+            animation: sarthi-spin 0.7s ease-in-out;
+        }
+        
+        /* NEW: Notification Panel Styles */
+        .notification-unread-dot {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            width: 8px;
+            height: 8px;
+            border-radius: 9999px;
+            background-color: var(--accent-primary);
+            border: 1px solid var(--bg-secondary);
         }
 
     </style>
@@ -430,17 +445,13 @@
 
         <!-- Bottom Controls -->
         <div class="flex-shrink-0 w-full flex flex-col items-center space-y-2 pb-2">
-            <div class="relative w-full">
-                <button id="language-btn-desktop" class="desktop-nav-link w-full" title="Change Language">
-                    <svg class="w-7 h-7 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 21l5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 016-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502" /></svg>
-                    <span class="desktop-nav-text">Language</span>
-                </button>
-                <div id="language-dropdown-desktop" class="dropdown-content !bottom-0 !top-auto !left-full !ml-2"></div>
-            </div>
-            <button id="theme-toggle-desktop" class="desktop-nav-link w-full" title="Toggle Theme">
-                 <svg class="w-7 h-7 sun-icon flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                 <svg class="w-7 h-7 hidden moon-icon flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
-                 <span class="desktop-nav-text">Theme</span>
+            <!-- NEW: Desktop Notification Button -->
+            <button id="notification-btn-desktop" title="Notifications" class="desktop-nav-link w-full relative">
+                <svg class="w-7 h-7 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+                </svg>
+                <span class="desktop-nav-text">Notifications</span>
+                <span id="notification-unread-dot-desktop" class="notification-unread-dot !top-2 !right-auto left-8 hidden"></span>
             </button>
         </div>
     </nav>
@@ -458,17 +469,14 @@
                                 <path d="M12.0001 1.99219L3.45911 12.0002L12.0001 22.0082L20.5411 12.0002L12.0001 1.99219Z"/>
                             </svg>
                         </button>
-                        <div class="relative">
-                             <button id="language-btn-mobile" class="btn btn-secondary flex items-center !p-2">
-                                <span class="language-text-mobile text-sm hidden"></span>
-                                <span id="current-lang-mobile" class="language-indicator"></span>
-                            </button>
-                            <div id="language-dropdown-mobile" class="dropdown-content"></div>
-                        </div>
-                        <button id="theme-toggle-mobile" class="theme-toggle" aria-label="Toggle theme">
-                            <svg class="w-5 h-5 sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                            <svg class="w-5 h-5 hidden moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                        <!-- NEW: Notification Button -->
+                        <button id="notification-btn-mobile" class="btn btn-secondary !p-2 relative" title="Notifications">
+                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+                            </svg>
+                            <span id="notification-unread-dot" class="notification-unread-dot hidden"></span>
                         </button>
+                        <!-- Language and Theme buttons removed -->
                     </div>
                 </div>
             </div>
@@ -492,6 +500,18 @@
              <div class="p-4 border-t border-[var(--border-light)] flex-shrink-0 flex gap-4 hidden">
                  <button id="reset-filter-btn" class="btn btn-secondary w-full">Reset</button>
                  <button id="apply-filter-btn" class="btn btn-primary w-full">Apply</button>
+             </div>
+        </div>
+
+        <!-- NEW: Notification Panel -->
+        <div id="notification-backdrop" class="fixed inset-0 bg-black bg-opacity-60 z-40 hidden"></div>
+        <div id="notification-panel" class="fixed top-0 right-0 h-full w-80 max-w-full bg-[var(--bg-secondary)] shadow-xl z-50 transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
+             <div class="p-4 border-b border-[var(--border-light)] flex justify-between items-center flex-shrink-0">
+                 <h3 class="text-lg font-semibold flex items-center text-[var(--text-primary)]">Notifications</h3>
+                <button id="close-notification-btn" class="text-[var(--text-muted)] hover:text-[var(--text-primary)]"><svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg></button>
+             </div>
+             <div id="notification-content" class="flex-grow overflow-y-auto">
+                <!-- Notifications will be rendered here -->
              </div>
         </div>
 
@@ -581,15 +601,14 @@
 
     <script>
         let complaints = [];
+        let notifications = [];
 
         function googleTranslateElementInit() { new google.translate.TranslateElement({ pageLanguage: 'en', includedLanguages: 'en,hi,bn,te,mr,ta,ur,gu,kn,ml,pa,or,as,ne', layout: google.translate.TranslateElement.InlineLayout.SIMPLE, autoDisplay: false }, 'google_translate_element'); }
         
         document.addEventListener('DOMContentLoaded', () => {
-            const LANGUAGES = {'en':{name:'English',short:'EN'},'hi':{name:'हिन्दी',short:'HI'},'bn':{name:'বাংলা',short:'BN'},'te':{name:'తెలుగు',short:'TE'},'mr':{name:'मराठी',short:'MR'},'ta':{name:'தமிழ்',short:'TA'},'ur':{name:'اردو',short:'UR'},'gu':{name:'ગુજરાતી',short:'GU'},'kn':{name:'ಕನ್ನಡ',short:'KN'},'ml':{name:'മലയാളം',short:'ML'},'pa':{name:'ਪੰਜਾਬੀ',short:'PA'},'or':{name:'ଓଡ଼ିଆ',short:'OR'},'as':{name:'অসমীয়া',short:'AS'},'ne':{name:'नेपाली',short:'NE'}};
             const issueTypes = { "Garbage Dump":{}, "No Dustbins":{}, "Open Sewage":{}, "Bad Roads":{} };
             const statusStyles = { "Submitted": { bg: "bg-yellow-100", text: "text-yellow-800" }, "In Progress": { bg: "bg-blue-100", text: "text-blue-800" }, "Resolved": { bg: "bg-green-100", text: "text-green-800" } };
             const authorities = [ { name: "Mr. Alok Verma", designation: "Sanitation Officer, Circle 1", department: "Municipal Corporation" }, { name: "Ms. Priya Singh", designation: "Executive Engineer", department: "Public Works Dept." } ];
-            // UPDATED: New colors for issue labels for better visibility in light and dark themes.
             const issueStyles = {
                 "Garbage Dump": { bg: "bg-red-100", text: "text-red-800", darkBg: "dark:bg-red-900/80", darkText: "dark:text-red-200" },
                 "No Dustbins": { bg: "bg-amber-100", text: "text-amber-800", darkBg: "dark:bg-amber-900/80", darkText: "dark:text-amber-200" },
@@ -608,11 +627,6 @@
                 closeFilterBtn: document.getElementById('close-filter-btn'), 
                 animatedNameMobile: document.getElementById('animated-name-mobile'),
                 animatedNameDesktopSidebar: document.getElementById('animated-name-desktop-sidebar'),
-                themeToggles: [document.getElementById('theme-toggle-mobile'), document.getElementById('theme-toggle-desktop')],
-                sunIcons: document.querySelectorAll('.sun-icon'),
-                moonIcons: document.querySelectorAll('.moon-icon'),
-                languageBtnMobile: document.getElementById('language-btn-mobile'), languageDropdownMobile: document.getElementById('language-dropdown-mobile'), languageTextMobile: document.querySelector('.language-text-mobile'), currentLangMobile: document.getElementById('current-lang-mobile'),
-                languageBtnDesktop: document.getElementById('language-btn-desktop'), languageDropdownDesktop: document.getElementById('language-dropdown-desktop'),
                 modalOverlay: document.getElementById('modal-overlay'), modalContentWrapper: document.getElementById('modal-content-wrapper'),
                 homeNavLink: document.getElementById('home-nav-link'),
                 imageViewerOverlay: document.getElementById('image-viewer-overlay'),
@@ -623,8 +637,34 @@
                 sarthiAiModal: document.getElementById('sarthi-ai-modal'),
                 sarthiAiModalOk: document.getElementById('sarthi-ai-modal-ok'),
                 sarthiIntroAnimation: document.getElementById('sarthi-intro-animation'),
+                notificationBtnMobile: document.getElementById('notification-btn-mobile'),
+                notificationBtnDesktop: document.getElementById('notification-btn-desktop'),
+                notificationPanel: document.getElementById('notification-panel'),
+                notificationBackdrop: document.getElementById('notification-backdrop'),
+                closeNotificationBtn: document.getElementById('close-notification-btn'),
+                notificationContent: document.getElementById('notification-content'),
+                notificationUnreadDot: document.getElementById('notification-unread-dot'),
+                notificationUnreadDotDesktop: document.getElementById('notification-unread-dot-desktop'),
             };
             let scrollObserver;
+            
+            // UPDATED: Welcome Notification Logic with live timestamp
+            let firstVisitTimestamp = localStorage.getItem('firstVisitTimestamp');
+            if (!firstVisitTimestamp) {
+                firstVisitTimestamp = new Date().toISOString();
+                localStorage.setItem('firstVisitTimestamp', firstVisitTimestamp);
+            }
+
+            const welcomeNotificationRead = localStorage.getItem('welcomeNotificationRead') === 'true';
+            const welcomeNotification = {
+                id: 1,
+                title: 'Welcome to Setu!',
+                message: 'We\'re glad you\'re here to help make our cities better. <a href="about.html" class="text-[var(--accent-primary)] font-semibold hover:underline">Learn more about us</a>.',
+                timestamp: firstVisitTimestamp,
+                read: welcomeNotificationRead
+            };
+            notifications.push(welcomeNotification);
+
 
             function saveComplaints() { localStorage.setItem('complaintsData', JSON.stringify(complaints)); }
             
@@ -633,8 +673,8 @@
                 complaints = JSON.parse(stored || '[]');
             }
 
-            const applyTheme = t => { const isDark=t==='dark';document.documentElement.setAttribute('data-theme',isDark?'dark':'light');UI.sunIcons.forEach(i=>i.classList.toggle('hidden',isDark));UI.moonIcons.forEach(i=>i.classList.toggle('hidden',!isDark));};
-            const setupTheme = () => { const i=localStorage.getItem('theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');applyTheme(i);UI.themeToggles.forEach(btn=>btn.addEventListener('click',()=>{const n=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';localStorage.setItem('theme',n);applyTheme(n);}));};
+            const applyTheme = t => { const isDark=t==='dark';document.documentElement.setAttribute('data-theme',isDark?'dark':'light'); };
+            const setupTheme = () => { const i=localStorage.getItem('theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');applyTheme(i);};
             
             const setupLogoAnimation = () => {
                 const names = ['Setu', 'सेतु', 'সেতু', 'सेतू', 'સેતુ', 'ಸೇತು'];
@@ -653,9 +693,7 @@
                 }, 4000);
             };
 
-            const populateLanguageDropdowns = () => { const html=Object.entries(LANGUAGES).map(([c,{name,short}])=>`<a href="#" class="dropdown-item flex justify-between items-center" data-lang="${c}" data-name="${name}"><span>${name}</span><span class="language-indicator !bg-[var(--bg-accent)] !text-[var(--text-primary)]">${short}</span></a>`).join('');UI.languageDropdownMobile.innerHTML=html; UI.languageDropdownDesktop.innerHTML = html;};
-            const restoreLanguageDisplay = () => { const l=localStorage.getItem('selectedLanguage')||'en'; const n=localStorage.getItem('selectedLanguageName')||'English'; const s=LANGUAGES[l]?.short||l.toUpperCase(); UI.languageTextMobile.textContent=n;UI.currentLangMobile.textContent=s;};
-            const setupLanguageSwitcher = () => {const close=()=>[UI.languageDropdownMobile, UI.languageDropdownDesktop].forEach(d=>d.classList.remove('show'));const handler=e=>{const item=e.target.closest('.dropdown-item');if(item){e.preventDefault();const l=item.dataset.lang,n=item.dataset.name;localStorage.setItem('selectedLanguage',l);localStorage.setItem('selectedLanguageName',n);if(l==='en'){document.cookie='googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';}else{document.cookie=`googtrans=/en/${l}; path=/`;}location.reload();}};UI.languageBtnMobile.addEventListener('click',e=>{e.stopPropagation();UI.languageDropdownMobile.classList.toggle('show');});UI.languageBtnDesktop.addEventListener('click', e => { e.stopPropagation(); UI.languageDropdownDesktop.classList.toggle('show'); });document.addEventListener('click',close);UI.languageDropdownMobile.addEventListener('click',handler); UI.languageDropdownDesktop.addEventListener('click', handler);};
+            const restoreLanguageDisplay = () => { const l=localStorage.getItem('selectedLanguage')||'en'; if(l!=='en'){document.cookie=`googtrans=/en/${l}; path=/`;} };
             const setupScrollAnimations = () => { scrollObserver = new IntersectionObserver((e)=>{e.forEach(i=>{if(i.isIntersecting){i.target.classList.add('visible');scrollObserver.unobserve(i.target);}});},{threshold:0.1}); };
             const formatTimeAgo = t => {
                 const seconds = Math.floor((new Date() - new Date(t)) / 1000);
@@ -1044,16 +1082,69 @@
                 }, 3200); // Hide after transition (0.7s)
             };
             
+            // UPDATED: Sarthi AI Button Spin
+            const setupSarthiSpin = () => {
+                const sarthiSvgs = document.querySelectorAll('#sarthi-ai-btn-mobile svg, #sarthi-ai-btn svg');
+                if (sarthiSvgs.length === 0) return;
+                setInterval(() => {
+                    sarthiSvgs.forEach(svg => {
+                        svg.classList.add('sarthi-spin');
+                        svg.addEventListener('animationend', () => {
+                            svg.classList.remove('sarthi-spin');
+                        }, { once: true });
+                    });
+                }, 7000); // UPDATED to 7 seconds
+            };
+
+            // --- Notification Panel Logic ---
+            const openNotificationPanel = () => { 
+                UI.notificationBackdrop.classList.remove('hidden'); 
+                UI.notificationPanel.classList.remove('translate-x-full'); 
+                
+                // Mark welcome notification as read
+                if (!welcomeNotification.read) {
+                    welcomeNotification.read = true;
+                    localStorage.setItem('welcomeNotificationRead', 'true');
+                    renderNotifications(); // Re-render to update the UI
+                }
+            };
+            const closeNotificationPanel = () => { UI.notificationBackdrop.classList.add('hidden'); UI.notificationPanel.classList.add('translate-x-full'); };
+            
+            const renderNotifications = () => {
+                const hasUnread = notifications.some(n => !n.read);
+                UI.notificationUnreadDot.classList.toggle('hidden', !hasUnread);
+                if (UI.notificationUnreadDotDesktop) {
+                    UI.notificationUnreadDotDesktop.classList.toggle('hidden', !hasUnread);
+                }
+
+                if (notifications.length === 0) {
+                    UI.notificationContent.innerHTML = `<p class="text-center text-[var(--text-muted)] p-8">You have no new notifications.</p>`;
+                    return;
+                }
+                
+                // UPDATED: Use formatTimeAgo for timestamps
+                UI.notificationContent.innerHTML = notifications.map(n => `
+                    <div class="p-4 border-b border-[var(--border-light)] flex items-start space-x-3 ${!n.read ? '' : 'opacity-70'}">
+                        ${!n.read ? '<div class="w-2 h-2 rounded-full bg-red-500 mt-2 flex-shrink-0"></div>' : '<div class="w-2 h-2 flex-shrink-0"></div>'}
+                        <div class="flex-grow">
+                            <p class="font-semibold text-[var(--text-primary)]">${n.title}</p>
+                            <p class="text-sm text-[var(--text-secondary)]">${n.message}</p>
+                            <p class="text-xs text-[var(--text-muted)] mt-1">${formatTimeAgo(n.timestamp)}</p>
+                        </div>
+                    </div>
+                `).join('');
+            };
+
             // Initial setup
             runSarthiIntro();
             loadComplaints();
             setupTheme(); 
             setupLogoAnimation(); 
-            populateLanguageDropdowns(); 
-            setupLanguageSwitcher(); 
             restoreLanguageDisplay(); 
             setupScrollAnimations(); 
             renderFeed(complaints);
+            setupSarthiSpin();
+            renderNotifications();
 
             // Event Listeners
             let lastHomeClick = 0;
@@ -1094,6 +1185,14 @@
                     closeSarthiModal();
                 }
             });
+            
+            // Notification Listeners
+            UI.notificationBtnMobile.addEventListener('click', openNotificationPanel);
+            if (UI.notificationBtnDesktop) {
+                UI.notificationBtnDesktop.addEventListener('click', openNotificationPanel);
+            }
+            UI.closeNotificationBtn.addEventListener('click', closeNotificationPanel);
+            UI.notificationBackdrop.addEventListener('click', closeNotificationPanel);
         });
     </script>
     <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async defer></script>
