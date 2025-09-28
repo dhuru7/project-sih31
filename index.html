@@ -8,58 +8,41 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
     <style>
         :root {
-            /* Color Palette Based on User Image:
-            Orange: #FD7F20 
-            Red Orange: #FC2E20 
-            Amber: #FDB750
-            Black: #010100
-            
-            Theme: Monochromatic Warmth (Light Theme)
-            */
-            --bg-primary: #fefcf9; /* Off-White/Very Light Amber for main page background */
-            --bg-secondary: #FFFFFF; /* Pure White for card/container background */
-            --bg-secondary-translucent: rgba(255, 255, 255, 0.9);
-            --bg-accent: #fff5eb; /* Very light orange/cream for subtle highlights */
-            
-            --text-primary: #010100; /* User's Black for main headings and strong text */
-            --text-secondary: #333333; /* Darker grey for body text */
-            --text-muted: #6b6b6b; /* Muted grey for supporting text */
-            
-            --border-light: #F0F0F0; /* Extremely light border */
-            --border-medium: #e0e0e0; /* Medium light border */
-            
-            --accent-primary: #FD7F20; /* User's Orange for CTA and main interactive elements */
-            --accent-primary-hover: #e0701c; /* Darker Orange for hover */
-            --accent-secondary: #FC2E20; /* User's Red Orange for secondary action/important status */
-            --accent-secondary-hover: #d8281d; /* Darker Red Orange */
-            
-            --shadow-light: rgba(1, 1, 1, 0.05);
-            --shadow-medium: rgba(1, 1, 1, 0.1);
+            /* New color theme based on your palette */
+            --bg-primary: #f3f4f6; /* Softer Gray Background */
+            --bg-secondary: #FFFFFF;
+            --bg-secondary-translucent: rgba(255, 255, 255, 0.85);
+            --bg-accent: #fee2e2; /* Light Red Accent */
+            --text-primary: #1f2937; /* Dark Slate Gray */
+            --text-secondary: #374151;
+            --text-muted: #6b7280;
+            --border-light: #e5e7eb;
+            --border-medium: #d1d5db;
+            --accent-primary: #ff0000; /* New Red */
+            --accent-primary-hover: #e60000; /* Darker Red */
+            --accent-secondary: #1f2937; /* Dark Slate Gray */
+            --accent-secondary-hover: #000000;
+            --shadow-light: rgba(0, 0, 0, 0.07);
+            --shadow-medium: rgba(0, 0, 0, 0.12);
         }
 
         [data-theme="dark"] {
-            /* Theme: High-Contrast Dark 
-            Uses the user's Black as background and Orange/Amber for accents.
-            */
-            --bg-primary: #010100; /* User's Black for page background */
-            --bg-secondary: #121212; /* Slightly lighter black for cards/containers */
-            --bg-secondary-translucent: rgba(18, 18, 18, 0.9);
-            --bg-accent: #252525; /* Dark grey for subtle accents */
-            
-            --text-primary: #FDB750; /* User's Amber for main headings and strong text */
-            --text-secondary: #e0e0e0; /* Light grey for body text */
-            --text-muted: #999999; /* Muted grey for supporting text */
-            
-            --border-light: #252525;
-            --border-medium: #3a3a3a;
-            
-            --accent-primary: #FD7F20; /* User's Orange for CTA and main interactive elements */
-            --accent-primary-hover: #ff9a4f; /* Lighter Orange for hover */
-            --accent-secondary: #FDB750; /* User's Amber for secondary accents */
-            --accent-secondary-hover: #ffe4c3; /* Very light Amber */
-            
-            --shadow-light: rgba(255, 255, 255, 0.05);
-            --shadow-medium: rgba(255, 255, 255, 0.1);
+            /* New dark theme based on your palette */
+            --bg-primary: #111827; /* Dark Slate 900 */
+            --bg-secondary: #1f2937; /* Dark Slate 800 */
+            --bg-secondary-translucent: rgba(31, 41, 55, 0.85);
+            --bg-accent: #374151; /* Dark Slate 700 */
+            --text-primary: #f9fafb; /* Off-white */
+            --text-secondary: #d1d5db;
+            --text-muted: #9ca3af;
+            --border-light: #374151;
+            --border-medium: #4b5563;
+            --accent-primary: #ff0000; /* New Red */
+            --accent-primary-hover: #ff3333; /* Lighter Red */
+            --accent-secondary: #f9fafb;
+            --accent-secondary-hover: #FFFFFF;
+            --shadow-light: rgba(255, 0, 0, 0.1);
+            --shadow-medium: rgba(255, 0, 0, 0.15);
         }
         
         #google_translate_element, .skiptranslate { display: none !important; }
@@ -76,6 +59,9 @@
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-primary);
             color: var(--text-secondary);
+        }
+        body.no-scroll {
+            overflow: hidden;
         }
         
         .page { animation: fadeInPage 0.5s ease-in-out; }
@@ -293,8 +279,7 @@
         .btn-secondary:hover { border-color: var(--accent-secondary); color: var(--accent-secondary); }
         
         @keyframes animated-gradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-        /* Using Orange and Amber for the gradient */
-        .btn-cta { background-image: linear-gradient(120deg, var(--accent-primary) 0%, #FDB750 100%); background-size: 200% 200%; animation: animated-gradient 3s ease-in-out infinite; }
+        .btn-cta { background-image: linear-gradient(120deg, #ff0000 0%, #cc0000 100%); background-size: 200% 200%; animation: animated-gradient 3s ease-in-out infinite; }
         .bottom-nav-content { background-color: var(--bg-secondary-translucent); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid var(--border-light); border-radius: 1.5rem; box-shadow: 0 4px 16px var(--shadow-light); }
         .theme-toggle { background-color: var(--bg-accent); border-radius: 0.75rem; padding: 0.5rem; cursor: pointer; transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1); border: 2px solid transparent; }
         .theme-toggle:hover { transform: scale(1.1) rotate(10deg); border-color: var(--accent-primary); }
@@ -353,19 +338,62 @@
                 box-shadow: 0 0 0 0 var(--accent-primary);
             }
             70% {
-                box-shadow: 0 0 0 12px rgba(253, 127, 32, 0); /* Used FD7F20 */
+                box-shadow: 0 0 0 12px rgba(255, 0, 0, 0);
             }
             100% {
-                box-shadow: 0 0 0 0 rgba(253, 127, 32, 0);
+                box-shadow: 0 0 0 0 rgba(255, 0, 0, 0);
             }
         }
         button.sarthi-btn-animated {
             animation: pulse-glow 2.5s infinite;
         }
 
+        /* Sarthi AI Intro Animation Styles */
+        #sarthi-intro-animation {
+            opacity: 1;
+            transition: opacity 0.5s ease-in-out, transform 0.7s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        @keyframes logo-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        @keyframes text-fade-in-up {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        #sarthi-intro-logo {
+            animation: logo-pulse 2s ease-in-out infinite;
+        }
+
+        #sarthi-intro-text {
+            opacity: 0;
+            animation: text-fade-in-up 0.8s ease-out 0.5s forwards;
+        }
+
+        #sarthi-intro-subtext {
+            opacity: 0;
+            animation: text-fade-in-up 0.8s ease-out 0.8s forwards;
+        }
+
     </style>
 </head>
 <body class="antialiased pb-28 sm:pb-0">
+
+    <!-- Sarthi AI Intro Animation -->
+    <div id="sarthi-intro-animation" class="fixed inset-0 bg-[var(--bg-primary)] z-[200] flex items-center justify-center">
+        <div class="text-center">
+            <div id="sarthi-intro-logo" class="inline-block">
+                 <svg class="w-24 h-24 text-[var(--accent-primary)]" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12.0001 1.99219L3.45911 12.0002L12.0001 22.0082L20.5411 12.0002L12.0001 1.99219Z"/>
+                </svg>
+            </div>
+            <h1 id="sarthi-intro-text" class="text-3xl font-bold text-[var(--text-primary)] mt-4">Sarthi AI</h1>
+            <p id="sarthi-intro-subtext" class="text-lg text-[var(--text-muted)]">Coming Soon...</p>
+        </div>
+    </div>
 
     <!-- Desktop Vertical Navbar -->
     <nav class="hidden sm:flex flex-col fixed top-0 left-0 h-full bg-[var(--bg-secondary)] border-r border-[var(--border-light)] w-56 shadow-lg z-50 p-2 desktop-sidebar">
@@ -410,7 +438,7 @@
                 <div id="language-dropdown-desktop" class="dropdown-content !bottom-0 !top-auto !left-full !ml-2"></div>
             </div>
             <button id="theme-toggle-desktop" class="desktop-nav-link w-full" title="Toggle Theme">
-                 <svg class="w-7 h-7 sun-icon flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                 <svg class="w-7 h-7 sun-icon flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                  <svg class="w-7 h-7 hidden moon-icon flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
                  <span class="desktop-nav-text">Theme</span>
             </button>
@@ -490,13 +518,13 @@
     <div id="sarthi-ai-modal" class="fixed inset-0 bg-black bg-opacity-60 z-[110] hidden items-center justify-center p-4">
         <div class="bg-[var(--bg-secondary)] rounded-2xl shadow-xl w-full max-w-md transform transition-all duration-300 ease-out opacity-0 -translate-y-4 overflow-hidden">
             <div class="text-center p-6 bg-[var(--bg-accent)]">
-                <div class="bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] p-3 rounded-full inline-block shadow-lg">
+                <div class="bg-gradient-to-br from-red-500 to-red-400 p-3 rounded-full inline-block shadow-lg">
                     <svg class="w-8 h-8 text-white" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                       <path d="M12.0001 1.99219L3.45911 12.0002L12.0001 22.0082L20.5411 12.0002L12.0001 1.99219Z"/>
                     </svg>
                 </div>
                 <h2 class="text-2xl font-bold text-[var(--text-primary)] mt-3">Sarthi AI</h2>
-                <p class="text-sm font-semibold uppercase tracking-wider text-[var(--accent-primary)] dark:text-[var(--accent-secondary)] mt-1">Coming Soon</p>
+                <p class="text-sm font-semibold uppercase tracking-wider text-red-600 dark:text-red-400 mt-1">Coming Soon</p>
             </div>
             <div class="p-6">
                 <p class="text-center text-[var(--text-secondary)] mb-6">
@@ -504,7 +532,7 @@
                 </p>
                 <ul class="space-y-4 text-left">
                     <li class="flex items-start space-x-4">
-                        <div class="flex-shrink-0 bg-orange-100 dark:bg-orange-500/20 text-orange-600 dark:text-orange-300 rounded-full p-2">
+                        <div class="flex-shrink-0 bg-red-100 dark:bg-red-500/20 text-red-600 dark:text-red-300 rounded-full p-2">
                             <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
                         </div>
                         <div>
@@ -513,7 +541,7 @@
                         </div>
                     </li>
                     <li class="flex items-start space-x-4">
-                        <div class="flex-shrink-0 bg-orange-100 dark:bg-orange-500/20 text-orange-600 dark:text-orange-300 rounded-full p-2">
+                        <div class="flex-shrink-0 bg-red-100 dark:bg-red-500/20 text-red-600 dark:text-red-300 rounded-full p-2">
                              <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
                         </div>
                         <div>
@@ -522,7 +550,7 @@
                         </div>
                     </li>
                     <li class="flex items-start space-x-4">
-                        <div class="flex-shrink-0 bg-orange-100 dark:bg-orange-500/20 text-orange-600 dark:text-orange-300 rounded-full p-2">
+                        <div class="flex-shrink-0 bg-red-100 dark:bg-red-500/20 text-red-600 dark:text-red-300 rounded-full p-2">
                             <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                         </div>
                         <div>
@@ -557,16 +585,16 @@
         function googleTranslateElementInit() { new google.translate.TranslateElement({ pageLanguage: 'en', includedLanguages: 'en,hi,bn,te,mr,ta,ur,gu,kn,ml,pa,or,as,ne', layout: google.translate.TranslateElement.InlineLayout.SIMPLE, autoDisplay: false }, 'google_translate_element'); }
         
         document.addEventListener('DOMContentLoaded', () => {
-            const LANGUAGES = {'en':{name:'English',short:'EN'},'hi':{name:'हिन्दी',short:'HI'},'bn':{name:'বাংলা',short:'BN'},'te':{name:'తెలుగు',short:'TE'},'mr':{name:'मराठी',short:'MR'},'ta':{name:'தமிழ்',short:'TA'},'ur':{name:'اردو',short:'UR'},'gu':{name:'ગુજરાતી',short:'GU'},'kn':{name:'ಕನ್ನಡ',short:'KA'},'ml':{name:'മലയാളം',short:'ML'},'pa':{name:'ਪੰਜਾਬੀ',short:'PA'},'or':{name:'ଓଡ଼ିଆ',short:'OR'},'as':{name:'অসমীয়া',short:'AS'},'ne':{name:'नेपाली',short:'NE'}};
+            const LANGUAGES = {'en':{name:'English',short:'EN'},'hi':{name:'हिन्दी',short:'HI'},'bn':{name:'বাংলা',short:'BN'},'te':{name:'తెలుగు',short:'TE'},'mr':{name:'मराठी',short:'MR'},'ta':{name:'தமிழ்',short:'TA'},'ur':{name:'اردو',short:'UR'},'gu':{name:'ગુજરાતી',short:'GU'},'kn':{name:'ಕನ್ನಡ',short:'KN'},'ml':{name:'മലയാളം',short:'ML'},'pa':{name:'ਪੰਜਾਬੀ',short:'PA'},'or':{name:'ଓଡ଼ିଆ',short:'OR'},'as':{name:'অসমীয়া',short:'AS'},'ne':{name:'नेपाली',short:'NE'}};
             const issueTypes = { "Garbage Dump":{}, "No Dustbins":{}, "Open Sewage":{}, "Bad Roads":{} };
             const statusStyles = { "Submitted": { bg: "bg-yellow-100", text: "text-yellow-800" }, "In Progress": { bg: "bg-blue-100", text: "text-blue-800" }, "Resolved": { bg: "bg-green-100", text: "text-green-800" } };
             const authorities = [ { name: "Mr. Alok Verma", designation: "Sanitation Officer, Circle 1", department: "Municipal Corporation" }, { name: "Ms. Priya Singh", designation: "Executive Engineer", department: "Public Works Dept." } ];
+            // UPDATED: New colors for issue labels for better visibility in light and dark themes.
             const issueStyles = {
-                // Using Red Orange (FC2E20) for issues
-                "Garbage Dump": { bg: "bg-red-100", text: "text-red-700", darkBg: "dark:bg-red-900/40", darkText: "dark:text-red-300" },
-                "No Dustbins": { bg: "bg-amber-100", text: "text-amber-700", darkBg: "dark:bg-amber-500/20", darkText: "dark:text-amber-300" },
-                "Open Sewage": { bg: "bg-sky-100", text: "text-sky-700", darkBg: "dark:bg-sky-500/20", darkText: "dark:text-sky-300" },
-                "Bad Roads": { bg: "bg-slate-200", text: "text-slate-700", darkBg: "dark:bg-slate-700/40", darkText: "dark:text-slate-300" }
+                "Garbage Dump": { bg: "bg-red-100", text: "text-red-800", darkBg: "dark:bg-red-900/80", darkText: "dark:text-red-200" },
+                "No Dustbins": { bg: "bg-amber-100", text: "text-amber-800", darkBg: "dark:bg-amber-900/80", darkText: "dark:text-amber-200" },
+                "Open Sewage": { bg: "bg-sky-100", text: "text-sky-800", darkBg: "dark:bg-sky-900/80", darkText: "dark:text-sky-200" },
+                "Bad Roads": { bg: "bg-slate-200", text: "text-slate-800", darkBg: "dark:bg-slate-700/80", darkText: "dark:text-slate-200" }
             };
             const ratingFeedbacks = ["", "Terrible resolution", "Not satisfied", "It's okay", "Good resolution", "Excellent!"];
             const ratingStarColors = ['', 'text-red-500', 'text-orange-400', 'text-yellow-400', 'text-lime-500', 'text-green-500'];
@@ -594,6 +622,7 @@
                 sarthiAiBtnMobile: document.getElementById('sarthi-ai-btn-mobile'),
                 sarthiAiModal: document.getElementById('sarthi-ai-modal'),
                 sarthiAiModalOk: document.getElementById('sarthi-ai-modal-ok'),
+                sarthiIntroAnimation: document.getElementById('sarthi-intro-animation'),
             };
             let scrollObserver;
 
@@ -669,8 +698,7 @@
                                   <span class="px-3 py-1 text-xs font-bold rounded-full ${s.bg} ${s.text}">${c.status}</span>
                               </div>
                               <div class="mb-2">
-                                  <p class="text-[var(--text-primary)] text-2xl font-bold flex items-center gap-2">
-                                      <svg class="w-6 h-6 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9.69 18.933l.003.001C9.89 19.02 10 19 10 19s.11.02.308-.066l.002-.001.006-.003.018-.008a5.741 5.741 0 00.281-.14c.186-.1.4-.27.61-.473A10.935 10.935 0 0014 15.25a10.934 10.934 0 00-4-10.75 10.934 10.934 0 00-4 10.75 10.935 10.935 0 003.11 3.213c.21.203.424.373.61.473a5.741 5.741 0 00.28.14l.018.008.006.003zM10 11.25a2.25 2.25 0 100-4.5 2.25 2.25 0 000 4.5z" clip-rule="evenodd" /></svg>
+                                  <p class="text-[var(--text-primary)] text-2xl font-bold">
                                       <span>${c.location}</span>
                                   </p>
                                   <p class="text-sm text-[var(--text-muted)] mt-1">Submitted ${formatTimeAgo(c.timestamp)}</p>
@@ -713,8 +741,7 @@
                              <span class="px-3 py-1 text-xs font-bold rounded-full ${s.bg} ${s.text}">${c.status}</span>
                          </div>
                          <div class="mb-2">
-                             <p class="text-[var(--text-primary)] text-2xl font-bold flex items-center gap-2">
-                                 <svg class="w-6 h-6 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9.69 18.933l.003.001C9.89 19.02 10 19 10 19s.11.02.308-.066l.002-.001.006-.003.018-.008a5.741 5.741 0 00.281-.14c.186-.1.4-.27.61-.473A10.935 10.935 0 0014 15.25a10.934 10.934 0 00-4-10.75 10.934 10.934 0 00-4 10.75 10.935 10.935 0 003.11 3.213c.21.203.424.373.61.473a5.741 5.741 0 00.28.14l.018.008.006.003zM10 11.25a2.25 2.25 0 100-4.5 2.25 2.25 0 000 4.5z" clip-rule="evenodd" /></svg>
+                             <p class="text-[var(--text-primary)] text-2xl font-bold">
                                  <span>${c.location}</span>
                              </p>
                              <p class="text-sm text-[var(--text-muted)] mt-1">Submitted ${formatTimeAgo(c.timestamp)}</p>
@@ -973,8 +1000,52 @@
                     UI.sarthiAiModal.classList.remove('flex');
                 }, 300); // Wait for transition to finish
             };
+
+            // --- Sarthi AI Intro Animation ---
+            const runSarthiIntro = () => {
+                if (sessionStorage.getItem('sarthiIntroShown')) {
+                    UI.sarthiIntroAnimation.style.display = 'none';
+                    // Check if button should be animated
+                    if (!sessionStorage.getItem('sarthiAiButtonClicked')) {
+                        UI.sarthiAiBtn.classList.add('sarthi-btn-animated');
+                        UI.sarthiAiBtnMobile.classList.add('sarthi-btn-animated');
+                    }
+                    return;
+                }
+
+                document.body.classList.add('no-scroll');
+
+                setTimeout(() => {
+                    const targetBtn = isDesktop() ? UI.sarthiAiBtn : UI.sarthiAiBtnMobile;
+                    const sarthiBtnRect = targetBtn.getBoundingClientRect();
+                    const introRect = UI.sarthiIntroAnimation.getBoundingClientRect();
+
+                    if(sarthiBtnRect.width === 0) { // If button is hidden, just fade out
+                         UI.sarthiIntroAnimation.style.opacity = '0';
+                    } else {
+                        const scale = (sarthiBtnRect.width / introRect.width) * 1.5;
+                        const translateX = (sarthiBtnRect.left + sarthiBtnRect.width / 2) - (introRect.left + introRect.width / 2);
+                        const translateY = (sarthiBtnRect.top + sarthiBtnRect.height / 2) - (introRect.top + introRect.height / 2);
+
+                        UI.sarthiIntroAnimation.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+                        UI.sarthiIntroAnimation.style.opacity = '0';
+                    }
+                }, 2500); // Start shrinking after 2.5 seconds
+
+                setTimeout(() => {
+                    UI.sarthiIntroAnimation.style.display = 'none';
+                    document.body.classList.remove('no-scroll');
+                    sessionStorage.setItem('sarthiIntroShown', 'true');
+                    // Start pulsing the actual button after the intro
+                    if (!sessionStorage.getItem('sarthiAiButtonClicked')) {
+                        UI.sarthiAiBtn.classList.add('sarthi-btn-animated');
+                        UI.sarthiAiBtnMobile.classList.add('sarthi-btn-animated');
+                    }
+                }, 3200); // Hide after transition (0.7s)
+            };
             
             // Initial setup
+            runSarthiIntro();
             loadComplaints();
             setupTheme(); 
             setupLogoAnimation(); 
@@ -983,12 +1054,6 @@
             restoreLanguageDisplay(); 
             setupScrollAnimations(); 
             renderFeed(complaints);
-
-            // Check if animation should run
-            if (!sessionStorage.getItem('sarthiAiButtonClicked')) {
-                UI.sarthiAiBtn.classList.add('sarthi-btn-animated');
-                UI.sarthiAiBtnMobile.classList.add('sarthi-btn-animated');
-            }
 
             // Event Listeners
             let lastHomeClick = 0;
