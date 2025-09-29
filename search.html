@@ -244,7 +244,7 @@
             <div id="search-page" class="page active">
                 <!-- Search Input -->
                 <div class="relative mb-6 mt-4 sm:mt-0">
-                    <input type="text" id="search-input" placeholder="Search with Setu AI" class="w-full pl-12 pr-4 py-4 text-lg bg-[var(--bg-secondary)] border-2 border-[var(--border-medium)] rounded-xl focus:ring-2 focus:ring-[var(--accent-primary)] focus:border-[var(--accent-primary)] transition duration-200 shadow-sm text-[var(--text-secondary)] placeholder-[var(--text-muted)]">
+                    <input type="text" id="search-input" placeholder="Search with Setu AI" class="w-full pl-12 pr-4 py-4 text-base sm:text-lg bg-[var(--bg-secondary)] border-2 border-[var(--border-medium)] rounded-xl focus:ring-2 focus:ring-[var(--accent-primary)] focus:border-[var(--accent-primary)] transition duration-200 shadow-sm text-[var(--text-secondary)] placeholder-[var(--text-muted)]">
                     <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                          <svg class="w-6 h-6 text-[var(--text-muted)]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" /></svg>
                     </div>
@@ -355,7 +355,7 @@
                 const words = ['reports', 'officers', 'departments'];
                 let wordIndex = 0;
                 let charIndex = 0;
-                const baseText = "Search with Setu AI for ";
+                const baseText = "Search for ";
 
                 const type = () => {
                     if (charIndex < words[wordIndex].length) {
