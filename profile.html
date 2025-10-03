@@ -8,19 +8,18 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
     <style>
         :root {
-            /* New color theme based on homepage */
-            --bg-primary: #f3f4f6; /* Softer Gray Background */
+            --bg-primary: #f3f4f6;
             --bg-secondary: #FFFFFF;
             --bg-secondary-translucent: rgba(255, 255, 255, 0.85);
-            --bg-accent: #fee2e2; /* Light Red Accent */
-            --text-primary: #1f2937; /* Dark Slate Gray */
+            --bg-accent: #fee2e2;
+            --text-primary: #1f2937;
             --text-secondary: #374151;
             --text-muted: #6b7280;
             --border-light: #e5e7eb;
             --border-medium: #d1d5db;
-            --accent-primary: #f41f4e; /* UPDATED: New Red */
-            --accent-primary-hover: #d81b45; /* UPDATED: Darker Red */
-            --accent-secondary: #1f2937; /* Dark Slate Gray */
+            --accent-primary: #f41f4e;
+            --accent-primary-hover: #d81b45;
+            --accent-secondary: #1f2937;
             --accent-secondary-hover: #000000;
             --shadow-light: rgba(0, 0, 0, 0.07);
             --shadow-medium: rgba(0, 0, 0, 0.12);
@@ -28,22 +27,21 @@
         }
 
         [data-theme="dark"] {
-            /* New dark theme based on homepage */
-            --bg-primary: #111827; /* Dark Slate 900 */
-            --bg-secondary: #1f2937; /* Dark Slate 800 */
+            --bg-primary: #111827;
+            --bg-secondary: #1f2937;
             --bg-secondary-translucent: rgba(31, 41, 55, 0.85);
-            --bg-accent: #374151; /* Dark Slate 700 */
-            --text-primary: #f9fafb; /* Off-white */
+            --bg-accent: #374151;
+            --text-primary: #f9fafb;
             --text-secondary: #d1d5db;
             --text-muted: #9ca3af;
             --border-light: #374151;
             --border-medium: #4b5563;
-            --accent-primary: #f41f4e; /* UPDATED: New Red */
-            --accent-primary-hover: #f64c71; /* UPDATED: Lighter Red */
+            --accent-primary: #f41f4e;
+            --accent-primary-hover: #f64c71;
             --accent-secondary: #f9fafb;
             --accent-secondary-hover: #FFFFFF;
-            --shadow-light: rgba(0, 0, 0, 0.1); /* Changed from red */
-            --shadow-medium: rgba(0, 0, 0, 0.2); /* Changed from red */
+            --shadow-light: rgba(0, 0, 0, 0.1);
+            --shadow-medium: rgba(0, 0, 0, 0.2);
             --success-color: #22c55e;
         }
         
@@ -51,9 +49,7 @@
         body { top: 0 !important; }
         .goog-te-banner-frame { display: none !important; }
 
-        html {
-            -webkit-tap-highlight-color: transparent;
-        }
+        html { -webkit-tap-highlight-color: transparent; }
         
         * {
             transition: background-color 0.2s cubic-bezier(0.4, 0.0, 0.2, 1), 
@@ -99,196 +95,123 @@
         @keyframes animated-gradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         .btn-cta { background-image: linear-gradient(120deg, #f41f4e 0%, #c3193f 100%); background-size: 200% 200%; animation: animated-gradient 3s ease-in-out infinite; }
         
-        .theme-toggle { background-color: var(--bg-accent); border-radius: 0.75rem; padding: 0.5rem; cursor: pointer; transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1); border: 2px solid transparent; }
-        .theme-toggle:hover { transform: scale(1.1) rotate(10deg); border-color: var(--accent-primary); }
-        
-        /* Language Dropdown Styles */
-        .dropdown-content { display: none; position: absolute; right: 0; top: 100%; min-width: 12.5rem; background-color: var(--bg-secondary); border: 1px solid var(--border-light); border-radius: 0.75rem; box-shadow: 0 8px 32px var(--shadow-medium); z-index: 1000; padding: 0.5rem 0; margin-top: 0.25rem; max-height: 18.75rem; overflow-y: auto; opacity: 0; transform: translateY(-10px); transition: opacity 0.2s cubic-bezier(0.4, 0.0, 0.2, 1), transform 0.2s cubic-bezier(0.4, 0.0, 0.2, 1); }
-        .dropdown-content.show { display: block; opacity: 1; transform: translateY(0); }
+        /* Language Dropdown & Settings Panel Styles */
         .dropdown-item { display: block; padding: 0.75rem 1rem; color: var(--text-primary); text-decoration: none; cursor: pointer; transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1); }
         .dropdown-item:hover { color: var(--accent-primary); transform: translateX(5px); background-color: var(--bg-accent); }
         .language-indicator { font-size: 0.7rem; background-color: var(--accent-primary); color: #FFFFFF; font-weight: 600; padding: 2px 6px; border-radius: 0.375rem; margin-left: 0.5rem; transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1); }
+        
+        #theme-toggle-settings {
+            transition: transform 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+        #theme-toggle-settings:hover {
+            transform: scale(1.15) rotate(12deg);
+        }
+        #language-list-settings {
+            max-height: 0;
+            overflow-y: auto;
+            transition: max-height 0.35s ease-in-out;
+        }
 
         /* Profile Card Styles */
-        .profile-card {
-            background-color: var(--bg-secondary);
-            border: 1px solid var(--border-light);
-            box-shadow: 0 4px 16px var(--shadow-light);
-            transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
-        }
-        @media (min-width: 640px) {
-            .profile-card:hover {
-                transform: translateY(-6px);
-                box-shadow: 0 10px 25px var(--shadow-medium);
-            }
-        }
-        .profile-avatar {
-            border: 4px solid var(--bg-primary);
-            box-shadow: 0 0 15px var(--shadow-medium);
-        }
-        .profile-field {
-            border-bottom: 1px solid var(--border-light);
-        }
-        .profile-field:last-child {
-            border-bottom: none;
-        }
-
+        .profile-card { background-color: var(--bg-secondary); border: 1px solid var(--border-light); box-shadow: 0 4px 16px var(--shadow-light); transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1); }
+        @media (min-width: 640px) { .profile-card:hover { transform: translateY(-6px); box-shadow: 0 10px 25px var(--shadow-medium); } }
+        .profile-avatar { border: 4px solid var(--bg-primary); box-shadow: 0 0 15px var(--shadow-medium); }
+        .profile-field { border-bottom: 1px solid var(--border-light); }
+        .profile-field:last-child { border-bottom: none; }
         .profile-label { color: var(--text-muted); }
         .profile-value { color: var(--text-primary); font-weight: 500;}
         
-        /* Form input styles for edit mode */
-        .form-input {
-            width: 100%;
-            padding: 0.5rem 0.75rem;
-            border: 1px solid var(--border-medium);
-            border-radius: 0.375rem;
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
-            transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
-            outline: none;
-            -webkit-appearance: none;
-        }
-        .form-input:focus {
-            border-color: var(--accent-primary);
-            box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent-primary) 15%, transparent);
-        }
+        .form-input { width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--border-medium); border-radius: 0.375rem; background-color: var(--bg-primary); color: var(--text-primary); transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1); outline: none; -webkit-appearance: none; }
+        .form-input:focus { border-color: var(--accent-primary); box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent-primary) 15%, transparent); }
 
-        .toast {
-            position: fixed;
-            bottom: 80px; /* Adjusted for bottom nav */
-            left: 50%;
-            transform: translate(-50%, 150%);
-            background-color: var(--success-color);
-            color: white;
-            padding: 1rem 1.5rem;
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            z-index: 1000;
-            opacity: 0;
-            transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
-            will-change: transform, opacity;
-        }
-
-        .toast.show {
-            transform: translate(-50%, 0);
-            opacity: 1;
-        }
+        .toast { position: fixed; bottom: 80px; left: 50%; transform: translate(-50%, 150%); background-color: var(--success-color); color: white; padding: 1rem 1.5rem; border-radius: 0.5rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 1000; opacity: 0; transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out; will-change: transform, opacity; }
+        .toast.show { transform: translate(-50%, 0); opacity: 1; }
         
-        /* Styles for new Desktop Vertical Navbar */
-        .desktop-sidebar {
-            /* Sidebar is now permanently expanded */
-        }
+        /* Desktop Vertical Navbar */
+        .desktop-nav-link { display: flex; align-items: center; justify-content: flex-start; padding: 0.75rem; width: 100%; border-radius: 0.75rem; color: var(--text-muted); transition: all 0.2s ease-in-out; }
+        .desktop-nav-text { margin-left: 1rem; font-size: 0.875rem; font-weight: 600; opacity: 1; white-space: nowrap; width: auto; overflow: visible; }
+        .desktop-nav-link:hover { background-color: var(--bg-accent); color: var(--text-primary); transform: scale(1.05); }
+        .desktop-nav-link.active { background-color: var(--bg-accent); color: var(--text-primary); }
+        .desktop-nav-link.active svg { color: var(--accent-primary) !important; }
+        .desktop-nav-link.active:hover svg { color: var(--accent-primary) !important; }
+        
+        /* --- SETU AI INTERFACE STYLES (Copied from index.html) --- */
+        #setu-ai-container-desktop { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 50; }
+        .ai-widget-container { transition: all 0.35s cubic-bezier(0.34, 1.3, 0.64, 1); position: relative; }
+        .ai-widget-container:not(.active) { width: 64px; height: 64px; }
+        #setu-ai-btn-mobile:not(.active) { width: 36px; height: 36px; }
+        .ai-widget-container:not(.active):hover { transform: scale(1.1); }
+        .ai-widget-container.active { width: 380px; max-width: calc(100vw - 2rem); height: 80px; background-color: rgba(244, 31, 78, 0.75); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 9999px; box-shadow: var(--shadow-medium); }
+        .ai-widget-inner { display: flex; align-items: center; justify-content: flex-start; width: 100%; height: 100%; cursor: default; }
+        .ai-icon-container { display: grid; place-items: center; flex-shrink: 0; width: 80px; height: 100%; cursor: pointer; }
+        #setu-ai-btn-mobile .ai-icon-container { width: 48px; }
+        .ai-icon-container svg { grid-area: 1 / 1; transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; }
+        .ai-content { width: 100%; height: 100%; display: flex; align-items: center; padding: 0 1rem 0 0; opacity: 0; transform: translateX(-10px); transition: opacity 0.3s ease-in-out 0.2s, transform 0.3s ease-in-out 0.2s; pointer-events: none; }
+        .ai-widget-container.active .ai-content { opacity: 1; transform: translateX(0); pointer-events: auto; }
+        .ai-status { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .ai-widget-container:not(.active) .ai-widget-inner { display: none; }
+        #setu-ai-btn-mobile:not(.active) { display: flex; align-items: center; justify-content: center; }
+        .ai-widget-container.active .original-icon { transform: scale(0); opacity: 0; }
+        .ai-widget-container.active:not(.listening):not(.speaking) .ai-logo-icon { transform: scale(0); opacity: 0; }
+        .ai-widget-container.listening .ai-mic-icon { transform: scale(0); opacity: 0; }
+        .ai-widget-container.listening .ai-logo-icon { transform: scale(1); opacity: 1; }
+        .ai-widget-container.speaking .ai-logo-icon { transform: scale(0); opacity: 0; }
+        .ai-widget-container.speaking .ai-mic-icon { transform: scale(1); opacity: 1; }
+        .ai-highlight { position: relative; z-index: 10; box-shadow: 0 0 0 4px var(--accent-primary), 0 0 20px 10px rgba(244, 31, 78, 0.7); border-radius: 0.75rem; transition: box-shadow 0.3s ease-in-out; }
+        #mobile-header.ai-active .nav-content-wrapper { background-color: transparent; border-color: transparent; box-shadow: none; }
+        #mobile-header.ai-active #setu-ai-btn-mobile { width: calc(100% - 1rem); height: 100%; top: 0; left: 0.5rem; right: 0.5rem; position: absolute; margin: 0; max-width: none; }
+        #mobile-header.ai-active .logo { opacity: 0; transform: scale(0.8); pointer-events: none; }
+        @keyframes pulse-glow { 0% { box-shadow: 0 0 0 0 var(--accent-primary); } 70% { box-shadow: 0 0 0 12px rgba(244, 31, 78, 0); } 100% { box-shadow: 0 0 0 0 rgba(244, 31, 78, 0); } }
+        .setu-btn-animated:not(.active) { animation: pulse-glow 2.5s infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .spin { animation: spin 0.7s ease-in-out; }
 
-        .desktop-nav-link {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start; /* Changed from center to left-align content */
-            padding: 0.75rem;
-            width: 100%;
-            border-radius: 0.75rem;
-            color: var(--text-muted);
-            transition: all 0.2s ease-in-out;
-        }
-
-        .desktop-nav-text {
-            margin-left: 1rem;
-            font-size: 0.875rem;
-            font-weight: 600;
-            opacity: 1; /* Always visible */
-            white-space: nowrap;
-            width: auto;
-            overflow: visible;
-        }
-
-        .desktop-nav-link:hover {
-            background-color: var(--bg-accent);
-            color: var(--text-primary);
-            transform: scale(1.05);
-        }
-        .desktop-nav-link.active {
-            background-color: var(--bg-accent);
-            color: var(--text-primary);
-        }
-        .desktop-nav-link.active svg {
-            color: var(--accent-primary) !important;
-        }
-        .desktop-nav-link.active:hover svg {
-            color: var(--accent-primary) !important;
-        }
     </style>
 </head>
 <body class="antialiased pb-28 sm:pb-0">
 
     <!-- Desktop Vertical Navbar -->
     <nav class="hidden sm:flex flex-col fixed top-0 left-0 h-full bg-[var(--bg-secondary)] border-r border-[var(--border-light)] w-56 shadow-lg z-50 p-2 desktop-sidebar">
-        <!-- Logo -->
         <div class="flex-shrink-0 flex justify-center pt-2 pb-8">
-            <a href="index.html" class="logo !text-2xl">
-                <span id="animated-name-desktop-sidebar">Setu</span>
-            </a>
+            <a href="index.html" class="logo !text-2xl"><span id="animated-name-desktop-sidebar">Setu</span></a>
         </div>
-
-        <!-- Main Navigation Links -->
         <div class="flex-grow flex flex-col items-center justify-start space-y-2">
-            <a href="index.html" title="Home" class="desktop-nav-link">
+            <a href="index.html" title="Home" class="desktop-nav-link" id="desktop-home-link">
                 <svg class="w-7 h-7 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h7.5" /></svg>
                 <span class="desktop-nav-text">Home</span>
             </a>
-            <a href="search.html" title="Search" class="desktop-nav-link">
+            <a href="search.html" title="Search" class="desktop-nav-link" id="desktop-search-link">
                  <svg class="w-7 h-7 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" /></svg>
                  <span class="desktop-nav-text">Search</span>
             </a>
-            <a href="report.html" title="Report Issue" class="desktop-nav-link btn-cta !text-white transform hover:!scale-105 my-2 !py-4">
+            <a href="report.html" title="Report Issue" class="desktop-nav-link btn-cta !text-white transform hover:!scale-105 my-2 !py-4" id="desktop-report-link">
                 <svg class="w-8 h-8 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
                 <span class="desktop-nav-text">Report</span>
             </a>
-            <a href="profile.html" title="Profile" class="desktop-nav-link active">
+            <a href="profile.html" title="Profile" class="desktop-nav-link active" id="desktop-profile-link">
                  <svg class="w-7 h-7 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                  <span class="desktop-nav-text">Profile</span>
             </a>
         </div>
-
-        <!-- Bottom Controls -->
-        <div class="flex-shrink-0 w-full flex flex-col items-center space-y-2 pb-2">
+        <div class="flex-shrink-0 w-full flex flex-col items-center space-y-2 pb-2 mt-auto">
             <button id="settings-btn-desktop" class="desktop-nav-link w-full" title="Settings">
-                <!-- IMPROVEMENT: Redesigned Settings Icon -->
                 <svg class="w-7 h-7 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
                 </svg>
                 <span class="desktop-nav-text">Settings</span>
-            </button>
-            <div class="relative w-full">
-                <button id="language-btn-desktop" class="desktop-nav-link w-full" title="Change Language">
-                    <svg class="w-7 h-7 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 21l5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 016-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502" /></svg>
-                    <span class="desktop-nav-text">Language</span>
-                </button>
-                <div id="language-dropdown-desktop" class="dropdown-content !bottom-0 !top-auto !left-full !ml-2"></div>
-            </div>
-            <button id="theme-toggle-desktop" class="desktop-nav-link w-full" title="Toggle Theme">
-                 <svg class="w-7 h-7 sun-icon flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                 <svg class="w-7 h-7 hidden moon-icon flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
-                 <span class="desktop-nav-text">Theme</span>
             </button>
         </div>
     </nav>
     
     <div id="app" class="min-h-screen sm:pl-56">
         <!-- Mobile Header -->
-        <header class="sm:hidden sticky top-0 z-40 py-2 px-2">
-             <div class="nav-content-wrapper rounded-xl max-w-7xl mx-auto">
+        <header id="mobile-header" class="sm:hidden sticky top-0 z-40 py-2 px-2">
+             <div class="nav-content-wrapper rounded-xl max-w-7xl mx-auto relative">
                 <div class="flex justify-between items-center py-2 px-4">
-                    <a href="index.html" class="logo w-24"><span id="animated-name-mobile">Setu</span></a>
-                    <div class="flex items-center space-x-1">
-                         <div class="relative">
-                             <button id="language-btn-mobile" class="btn btn-secondary flex items-center !p-2">
-                                <span class="language-text-mobile text-sm hidden"></span>
-                                <span id="current-lang-mobile" class="language-indicator">EN</span>
-                            </button>
-                            <div id="language-dropdown-mobile" class="dropdown-content"></div>
-                        </div>
-                        <button id="theme-toggle-mobile" class="theme-toggle" aria-label="Toggle theme">
-                            <svg class="w-5 h-5 sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                            <svg class="w-5 h-5 hidden moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                    <a href="index.html" class="logo w-24 transition-all duration-300"><span id="animated-name-mobile">Setu</span></a>
+                    <div id="mobile-header-buttons" class="flex items-center space-x-1 transition-all duration-300">
+                        <button id="setu-ai-btn-mobile" title="Setu AI Assistant" class="btn btn-cta !p-2 !rounded-full ai-widget-container">
+                             <svg class="w-5 h-5 flex-shrink-0 text-white original-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12.0001 1.99219L3.45911 12.0002L12.0001 22.0082L20.5411 12.0002L12.0001 1.99219Z"/></svg>
                         </button>
                     </div>
                 </div>
@@ -296,10 +219,7 @@
         </header>
 
         <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-            
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
-                
-                <!-- Left Column: Main Profile Card -->
                 <div class="lg:col-span-1">
                     <div class="profile-card rounded-2xl p-6 text-center flex flex-col items-center h-full">
                         <div id="avatar-container" class="relative group cursor-pointer mb-4">
@@ -312,7 +232,6 @@
                             </div>
                         </div>
                         <input type="file" id="avatar-input" class="hidden" accept="image/*">
-
                         <div id="profile-fullname" class="text-xl sm:text-2xl font-bold text-[var(--text-primary)] w-full"></div>
                         <div id="profile-city" class="text-base sm:text-lg text-[var(--text-muted)] mb-6 w-full"></div>
                         <div class="mt-auto w-full">
@@ -324,13 +243,9 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Right Column: Details Card -->
                 <div class="lg:col-span-2">
                     <div class="profile-card rounded-2xl p-6 md:p-8 h-full">
-                        <h2 class="text-lg sm:text-xl font-bold text-[var(--text-primary)] mb-4 border-b border-[var(--border-light)] pb-4">
-                            Profile Details
-                        </h2>
+                        <h2 class="text-lg sm:text-xl font-bold text-[var(--text-primary)] mb-4 border-b border-[var(--border-light)] pb-4">Profile Details</h2>
                         <div id="profile-details" class="space-y-2">
                             <div class="profile-field py-3 sm:py-4 flex items-center">
                                 <svg class="w-5 h-5 sm:w-6 sm:h-6 mr-4 text-[var(--text-muted)]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm-2.25-2.25v-1.125c0-.621.504-1.125 1.125-1.125H3.375v-1.5H2.25a1.125 1.125 0 00-1.125 1.125v1.125c0 .621.504 1.125 1.125 1.125h1.125v-1.5h-1.125a.375.375 0 01-.375-.375z" /></svg>
@@ -363,16 +278,13 @@
                     </div>
                 </div>
             </div>
-
             <div id="departments-section" class="mt-10 sm:mt-12">
                  <div class="rounded-2xl p-6 sm:p-8 text-center" style="background-color: var(--bg-accent);">
                     <svg class="w-12 h-12 sm:w-16 sm:h-16 mx-auto text-[var(--accent-primary)] mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
                     </svg>
                     <h2 class="text-xl sm:text-2xl font-bold mb-2 text-[var(--text-primary)]">Our Database is Expanding</h2>
-                    <p class="text-sm sm:text-base text-[var(--text-secondary)] max-w-2xl mx-auto">
-                        We'll add information about the respective departments of your locality soon. Stay tuned!
-                    </p>
+                    <p class="text-sm sm:text-base text-[var(--text-secondary)] max-w-2xl mx-auto">We'll add information about the respective departments of your locality soon. Stay tuned!</p>
                 </div>
             </div>
         </main>
@@ -380,81 +292,94 @@
         <!-- Bottom Navigation -->
         <div class="fixed bottom-0 left-0 right-0 z-30 p-2 sm:hidden">
             <nav class="bottom-nav-content max-w-md mx-auto flex justify-around py-2">
-                 <a href="index.html" class="nav-link flex flex-col items-center text-[var(--text-muted)] p-2 w-1/5"><svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h7.5" /></svg><span class="text-xs font-semibold">Home</span></a>
-                 <a href="search.html" class="nav-link flex flex-col items-center text-[var(--text-muted)] hover:text-[var(--text-primary)] transition p-2 w-1/5"><svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" /></svg><span class="text-xs">Search</span></a>
-                 <a href="report.html" class="flex flex-col items-center justify-center p-2 w-1/5"><div class="btn-cta text-white p-3.5 rounded-full transition duration-300 ease-in-out transform hover:scale-110 flex items-center justify-center shadow-lg -mt-6 border-4 border-[var(--bg-primary)]"><svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg></div></a>
+                 <a href="index.html" id="bottom-nav-home" class="nav-link flex flex-col items-center text-[var(--text-muted)] p-2 w-1/5"><svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h7.5" /></svg><span class="text-xs font-semibold">Home</span></a>
+                 <a href="search.html" id="bottom-nav-search" class="nav-link flex flex-col items-center text-[var(--text-muted)] hover:text-[var(--text-primary)] transition p-2 w-1/5"><svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" /></svg><span class="text-xs">Search</span></a>
+                 <a href="report.html" id="bottom-nav-report" class="flex flex-col items-center justify-center p-2 w-1/5"><div class="btn-cta text-white p-3.5 rounded-full transition duration-300 ease-in-out transform hover:scale-110 flex items-center justify-center shadow-lg -mt-6 border-4 border-[var(--bg-primary)]"><svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg></div></a>
                  <button id="settings-btn-mobile" class="nav-link flex flex-col items-center text-[var(--text-muted)] hover:text-[var(--text-primary)] transition p-2 w-1/5">
-                    <!-- IMPROVEMENT: Redesigned Settings Icon -->
                     <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
                     </svg>
                     <span class="text-xs">Settings</span>
                  </button>
-                 <a href="profile.html" class="nav-link active flex flex-col items-center text-[var(--text-muted)] hover:text-[var(--text-primary)] transition p-2 w-1/5"><svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" /></svg><span class="text-xs">Profile</span></a>
+                 <a href="profile.html" id="bottom-nav-profile" class="nav-link active flex flex-col items-center text-[var(--text-muted)] hover:text-[var(--text-primary)] transition p-2 w-1/5"><svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" /></svg><span class="text-xs">Profile</span></a>
             </nav>
         </div>
     </div>
     
     <!-- Settings Side Panel -->
-    <div id="settings-panel" class="fixed top-0 right-0 h-full bg-[var(--bg-secondary)] border-l border-[var(--border-light)] w-80 shadow-lg z-[120] p-6 transform translate-x-full transition-transform duration-300 ease-in-out">
-        <div class="flex justify-between items-center mb-6">
-            <h2 class="text-xl font-bold text-[var(--text-primary)]">Settings</h2>
-            <button id="close-settings-btn" class="p-1 rounded-full hover:bg-[var(--bg-accent)]">
-                <svg class="w-6 h-6 text-[var(--text-muted)]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-            </button>
-        </div>
-        <div class="text-center mt-20">
-            <p class="text-[var(--text-muted)]">Settings are not available yet.</p>
+    <div id="settings-panel" class="fixed top-0 right-0 h-full bg-[var(--bg-secondary)] border-l border-[var(--border-light)] w-80 max-w-full shadow-lg z-[120] transform translate-x-full transition-transform duration-300 ease-in-out">
+        <div class="flex flex-col h-full">
+            <div class="p-4 border-b border-[var(--border-light)] flex-shrink-0">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-xl font-bold text-[var(--text-primary)]">Settings</h2>
+                    <button id="close-settings-btn" class="p-1 rounded-full hover:bg-[var(--bg-accent)]">
+                        <svg class="w-6 h-6 text-[var(--text-muted)]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                    </button>
+                </div>
+            </div>
+            <div class="p-4 flex-grow overflow-y-auto">
+                <div class="space-y-6">
+                    <div>
+                        <label class="text-sm font-semibold text-[var(--text-muted)] px-1">Appearance</label>
+                        <div class="mt-2 flex items-center justify-between p-3 bg-[var(--bg-primary)] rounded-lg">
+                            <span class="font-medium text-[var(--text-primary)]">Theme</span>
+                            <button id="theme-toggle-settings" class="p-2 rounded-md bg-[var(--bg-secondary)] border border-[var(--border-light)]" aria-label="Toggle theme">
+                                <svg class="w-5 h-5 sun-icon text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                                <svg class="w-5 h-5 hidden moon-icon text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="text-sm font-semibold text-[var(--text-muted)] px-1">Content</label>
+                        <div class="mt-2">
+                            <button id="language-btn-settings" class="w-full flex items-center justify-between text-left p-3 bg-[var(--bg-primary)] rounded-lg">
+                                <span id="current-lang-text-settings" class="font-medium text-[var(--text-primary)]">English</span>
+                                <svg id="language-arrow" class="w-5 h-5 text-[var(--text-muted)] transition-transform duration-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                            </button>
+                            <div id="language-list-settings" class="mt-2 space-y-1">
+                                <!-- Language items will be populated by JS here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div id="settings-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-[115] hidden"></div>
     
-    <!-- Toast Notification -->
-    <div id="toast-notification" class="toast">Profile updated successfully!</div>
+    <div id="setu-ai-container-desktop" class="hidden sm:block">
+        <button id="setu-ai-btn" title="Setu AI Assistant" class="btn btn-cta !p-4 !rounded-full shadow-lg transform hover:scale-110 transition-transform duration-200 ai-widget-container">
+             <svg class="w-8 h-8 flex-shrink-0 text-white original-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12.0001 1.99219L3.45911 12.0002L12.0001 22.0082L20.5411 12.0002L12.0001 1.99219Z"/></svg>
+        </button>
+    </div>
+    
+    <div id="ai-info-modal-overlay" class="fixed inset-0 bg-black bg-opacity-60 backdrop-filter backdrop-blur-sm z-[130] hidden items-center justify-center p-4">
+        <div id="ai-info-modal" class="bg-[var(--bg-secondary)] rounded-2xl shadow-xl max-w-sm w-full p-6 text-center transform scale-95 opacity-0 transition-all duration-300 ease-out">
+            <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-[var(--bg-accent)] mb-4">
+                 <svg class="w-8 h-8 text-[var(--accent-primary)]" viewBox="0 0 24 24" fill="currentColor"><path d="M12.0001 1.99219L3.45911 12.0002L12.0001 22.0082L20.5411 12.0002L12.0001 1.99219Z"/></svg>
+            </div>
+            <h3 class="text-xl font-bold text-[var(--text-primary)] mb-2">Setu AI is Evolving!</h3>
+            <p class="text-sm text-[var(--text-muted)] mb-6">
+                Thank you for trying our new AI assistant! This feature is currently under active development. While it can perform some basic tasks, we're working hard to unlock its full potential. Stay tuned for exciting updates!
+            </p>
+            <button id="ai-info-got-it-btn" class="btn btn-primary w-full">Got it</button>
+        </div>
+    </div>
+
+    <div id="toast-notification" class="toast"></div>
 
     <div id="google_translate_element"></div>
 
     <script>
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({
-                pageLanguage: 'en',
-                includedLanguages: 'en,hi,bn,te,mr,ta,ur,gu,kn,ml,pa,or,as,ne',
-                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-                autoDisplay: false
-            }, 'google_translate_element');
-        }
-
-        function getCookie(name) {
-            let value = "; " + document.cookie;
-            let parts = value.split("; " + name + "=");
-            if (parts.length === 2) return parts.pop().split(';').shift();
-            return null;
-        }
-
-        function setCookie(name, value, days = 365) {
-            let expires = "";
-            if (days) {
-                const date = new Date();
-                date.setTime(date.getTime() + (days*24*60*60*1000));
-                expires = "; expires=" + date.toUTCString();
-            }
-            document.cookie = name + "=" + (value || "") + expires + "; path=/; SameSite=Lax";
-        }
+        function googleTranslateElementInit() { new google.translate.TranslateElement({ pageLanguage: 'en', includedLanguages: 'en,hi,bn,te,mr,ta,ur,gu,kn,ml,pa,or,as,ne', layout: google.translate.TranslateElement.InlineLayout.SIMPLE, autoDisplay: false }, 'google_translate_element'); }
+        function getCookie(name) { let value = "; " + document.cookie; let parts = value.split("; " + name + "="); if (parts.length === 2) return parts.pop().split(';').shift(); return null; }
+        function setCookie(name, value, days = 365) { let expires = ""; if (days) { const date = new Date(); date.setTime(date.getTime() + (days*24*60*60*1000)); expires = "; expires=" + date.toUTCString(); } document.cookie = name + "=" + (value || "") + expires + "; path=/; SameSite=Lax"; }
 
         window.addEventListener('load', () => {
             const savedLang = localStorage.getItem('selectedLanguage') || 'en';
             const googCookie = getCookie('googtrans') || '';
             const expectedCookie = savedLang === 'en' ? '' : '/en/' + savedLang;
-
-            if (googCookie.replace(/"/g, '') !== expectedCookie) {
-                if (savedLang === 'en') {
-                    document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
-                } else {
-                    setCookie('googtrans', expectedCookie);
-                }
-                setTimeout(() => window.location.reload(), 200);
-                return;
-            }
+            if (googCookie.replace(/"/g, '') !== expectedCookie) { if (savedLang === 'en') { document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/'; } else { setCookie('googtrans', expectedCookie); } setTimeout(() => window.location.reload(), 200); return; }
         });
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -462,205 +387,185 @@
             const UI = {
                 animatedNameDesktopSidebar: document.getElementById('animated-name-desktop-sidebar'),
                 animatedNameMobile: document.getElementById('animated-name-mobile'),
-                themeToggles: [document.getElementById('theme-toggle-desktop'), document.getElementById('theme-toggle-mobile')],
+                themeToggle: document.getElementById('theme-toggle-settings'),
                 sunIcons: document.querySelectorAll('.sun-icon'),
                 moonIcons: document.querySelectorAll('.moon-icon'),
-                languageBtnDesktop: document.getElementById('language-btn-desktop'),
-                languageDropdownDesktop: document.getElementById('language-dropdown-desktop'),
-                languageBtnMobile: document.getElementById('language-btn-mobile'),
-                languageDropdownMobile: document.getElementById('language-dropdown-mobile'),
-                languageTextMobile: document.querySelector('.language-text-mobile'),
-                currentLangMobile: document.getElementById('current-lang-mobile'),
+                languageBtn: document.getElementById('language-btn-settings'),
+                languageList: document.getElementById('language-list-settings'),
+                languageArrow: document.getElementById('language-arrow'),
+                currentLangText: document.getElementById('current-lang-text-settings'),
                 settingsBtnDesktop: document.getElementById('settings-btn-desktop'),
                 settingsBtnMobile: document.getElementById('settings-btn-mobile'),
                 settingsPanel: document.getElementById('settings-panel'),
                 settingsOverlay: document.getElementById('settings-overlay'),
                 closeSettingsBtn: document.getElementById('close-settings-btn'),
-                profile: {
-                    avatar: document.getElementById('profile-avatar'),
-                    fullName: document.getElementById('profile-fullname'),
-                    city: document.getElementById('profile-city'),
-                    aadhaar: document.getElementById('aadhaar-value'),
-                    dob: document.getElementById('dob-value'),
-                    mobile: document.getElementById('mobile-value'),
-                    email: document.getElementById('email-value'),
-                    address: document.getElementById('address-value')
-                },
+                mobileHeader: document.getElementById('mobile-header'),
+                profile: { avatar: document.getElementById('profile-avatar'), fullName: document.getElementById('profile-fullname'), city: document.getElementById('profile-city'), aadhaar: document.getElementById('aadhaar-value'), dob: document.getElementById('dob-value'), mobile: document.getElementById('mobile-value'), email: document.getElementById('email-value'), address: document.getElementById('address-value') },
                 avatarContainer: document.getElementById('avatar-container'),
                 avatarInput: document.getElementById('avatar-input'),
-                buttons: {
-                    container: document.getElementById('button-container'),
-                    edit: document.getElementById('edit-btn'),
-                    save: document.getElementById('save-btn'),
-                    cancel: document.getElementById('cancel-btn')
-                },
+                buttons: { container: document.getElementById('button-container'), edit: document.getElementById('edit-btn'), save: document.getElementById('save-btn'), cancel: document.getElementById('cancel-btn') },
                 toast: document.getElementById('toast-notification'),
+                aiInfoModalOverlay: document.getElementById('ai-info-modal-overlay'),
+                aiInfoModal: document.getElementById('ai-info-modal'),
+                aiInfoGotItBtn: document.getElementById('ai-info-got-it-btn'),
             };
             
-            let currentUserData = {};
-            let isEditMode = false;
+            let currentUserData = {}; let isEditMode = false;
             const LANGUAGES = {'en':{name:'English',short:'EN'},'hi':{name:'हिन्दी',short:'HI'},'bn':{name:'বাংলা',short:'BN'},'te':{name:'తెలుగు',short:'TE'},'mr':{name:'मराठी',short:'MR'},'ta':{name:'தமிழ்',short:'TA'},'ur':{name:'اردو',short:'UR'},'gu':{name:'ગુજરાતી',short:'GU'},'kn':{name:'ಕನ್ನಡ',short:'KN'},'ml':{name:'മലയാളം',short:'ML'},'pa':{name:'ਪੰਜਾਬੀ',short:'PA'},'or':{name:'ଓଡ଼ିଆ',short:'OR'},'as':{name:'অসমীয়া',short:'AS'},'ne':{name:'नेपाली',short:'NE'}};
             
-            // --- Theme, Animation, Language Setup ---
             const applyTheme = t => { const isDark=t==='dark';document.documentElement.setAttribute('data-theme',isDark?'dark':'light');UI.sunIcons.forEach(i=>i.classList.toggle('hidden',isDark));UI.moonIcons.forEach(i=>i.classList.toggle('hidden',!isDark));};
-            const setupTheme = () => { const i=localStorage.getItem('theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');applyTheme(i);UI.themeToggles.forEach(btn=>btn.addEventListener('click',()=>{const n=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';localStorage.setItem('theme',n);applyTheme(n);}));};
+            const setupTheme = () => { const i=localStorage.getItem('theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');applyTheme(i);UI.themeToggle.addEventListener('click',()=>{const n=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';localStorage.setItem('theme',n);applyTheme(n);});};
             
-            const setupLogoAnimation = () => {
-                const names = ['Setu', 'सेतु', 'সেতু', 'सेतू', 'સેતુ', 'ಸೇತು'];
-                let currentIndex = 0;
-                const logoElements = [UI.animatedNameDesktopSidebar, UI.animatedNameMobile].filter(el => el);
-                if(logoElements.length === 0) return;
-                setInterval(() => {
-                    logoElements.forEach(el => el.classList.add('fade-out'));
-                    setTimeout(() => {
-                        currentIndex = (currentIndex + 1) % names.length;
-                        logoElements.forEach(el => {
-                            el.textContent = names[currentIndex];
-                            el.classList.remove('fade-out');
-                        });
-                    }, 400);
-                }, 4000);
-            };
+            const setupLogoAnimation = () => { const names = ['Setu', 'सेतु', 'সেতু', 'सेतू', 'સેતુ', 'ಸೇತು']; let currentIndex = 0; const logoElements = [UI.animatedNameDesktopSidebar, UI.animatedNameMobile].filter(el => el); if(logoElements.length === 0) return; setInterval(() => { logoElements.forEach(el => el.classList.add('fade-out')); setTimeout(() => { currentIndex = (currentIndex + 1) % names.length; logoElements.forEach(el => { el.textContent = names[currentIndex]; el.classList.remove('fade-out'); }); }, 400); }, 4000); };
 
-            const populateLanguageDropdowns = () => { const html=Object.entries(LANGUAGES).map(([c,{name,short}])=>`<a href="#" class="dropdown-item flex justify-between items-center" data-lang="${c}" data-name="${name}"><span>${name}</span><span class="language-indicator !bg-[var(--bg-accent)] !text-[var(--text-primary)]">${short}</span></a>`).join('');UI.languageDropdownDesktop.innerHTML=html;UI.languageDropdownMobile.innerHTML=html;};
-            const restoreLanguageDisplay = () => { const l=localStorage.getItem('selectedLanguage')||'en'; const n=localStorage.getItem('selectedLanguageName')||'English'; const s=LANGUAGES[l]?.short||l.toUpperCase();UI.currentLangMobile.textContent=s;};
-            const setupLanguageSwitcher = () => {const close=()=>[UI.languageDropdownDesktop,UI.languageDropdownMobile].forEach(d=>d.classList.remove('show'));const handler=e=>{const item=e.target.closest('.dropdown-item');if(item){e.preventDefault();const l=item.dataset.lang,n=item.dataset.name;localStorage.setItem('selectedLanguage',l);localStorage.setItem('selectedLanguageName',n);if(l==='en'){document.cookie='googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';}else{document.cookie=`googtrans=/en/${l}; path=/`;}location.reload();}};UI.languageBtnDesktop.addEventListener('click',e=>{e.stopPropagation();UI.languageDropdownDesktop.classList.toggle('show');});UI.languageBtnMobile.addEventListener('click',e=>{e.stopPropagation();UI.languageDropdownMobile.classList.toggle('show');});document.addEventListener('click',close);UI.languageDropdownDesktop.addEventListener('click',handler);UI.languageDropdownMobile.addEventListener('click',handler);};
+            const populateLanguageList = () => { const html=Object.entries(LANGUAGES).map(([c,{name,short}])=>`<a href="#" class="dropdown-item flex justify-between items-center !p-2 !rounded-md" data-lang="${c}" data-name="${name}"><span>${name}</span><span class="language-indicator !bg-[var(--bg-accent)] !text-[var(--text-primary)]">${short}</span></a>`).join('');UI.languageList.innerHTML=html;};
+            const restoreLanguageDisplay = () => { const l=localStorage.getItem('selectedLanguage')||'en'; const n=localStorage.getItem('selectedLanguageName')||'English'; UI.currentLangText.textContent=n;};
             
-            // --- Settings Panel Logic ---
-            const openSettingsPanel = () => {
-                UI.settingsPanel.classList.remove('translate-x-full');
-                UI.settingsOverlay.classList.remove('hidden');
-            };
+            const setupLanguageSwitcher = () => {
+                const langBtn = UI.languageBtn;
+                const langList = UI.languageList;
+                const langArrow = UI.languageArrow;
 
-            const closeSettingsPanel = () => {
-                UI.settingsPanel.classList.add('translate-x-full');
-                UI.settingsOverlay.classList.add('hidden');
-            };
-            
-            // --- Profile Data Handling ---
-            
-            function loadUserProfile() {
-                const storedData = localStorage.getItem('userProfile');
-                const parsedData = storedData ? JSON.parse(storedData) : {};
+                langBtn.addEventListener('click', e => {
+                    e.stopPropagation();
+                    const isExpanded = langList.style.maxHeight && langList.style.maxHeight !== '0px';
+                    if (isExpanded) {
+                        langList.style.maxHeight = '0px';
+                        langArrow.classList.remove('rotate-180');
+                    } else {
+                        langList.style.maxHeight = langList.scrollHeight + 'px';
+                        langArrow.classList.add('rotate-180');
+                    }
+                });
 
-                currentUserData = {
-                    fullname: parsedData.fullname || 'Guest User', 
-                    city: parsedData.city || 'Your City', 
-                    aadhaar: parsedData.idCard || '000000000000', // Use idCard from signup
-                    dob: parsedData.dob || '1990-01-01', 
-                    mobile: parsedData.mobile || '9876543210', 
-                    email: parsedData.email || 'guest@example.com',
-                    address: parsedData.address || "Please add your address.",
-                    avatar: parsedData.avatar || 'https://placehold.co/128x128/E1E2E2/1D2228?text=User'
+                const handler = e => {
+                    const item = e.target.closest('.dropdown-item');
+                    if (item) {
+                        e.preventDefault();
+                        const l = item.dataset.lang, n = item.dataset.name;
+                        localStorage.setItem('selectedLanguage', l);
+                        localStorage.setItem('selectedLanguageName', n);
+                        if (l === 'en') {
+                            document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+                        } else {
+                            document.cookie = `googtrans=/en/${l}; path=/;`;
+                        }
+                        location.reload();
+                    }
                 };
-                
-                UI.profile.avatar.src = currentUserData.avatar;
-                displayProfileData();
-            }
+                langList.addEventListener('click', handler);
+            };
+
+            const openSettingsPanel = () => { UI.settingsPanel.classList.remove('translate-x-full'); UI.settingsOverlay.classList.remove('hidden'); };
+            const closeSettingsPanel = () => { UI.settingsPanel.classList.add('translate-x-full'); UI.settingsOverlay.classList.add('hidden'); };
             
-            function displayProfileData() {
-                UI.profile.fullName.textContent = currentUserData.fullname || 'N/A';
-                UI.profile.city.textContent = currentUserData.city || 'Your City';
-                const aadhaar = currentUserData.aadhaar || '';
+            function loadUserProfile() { const storedData = localStorage.getItem('userProfile'); const parsedData = storedData ? JSON.parse(storedData) : {}; currentUserData = { fullname: parsedData.fullname || 'Guest User', city: parsedData.city || 'Your City', aadhaar: parsedData.idCard || '000000000000', dob: parsedData.dob || '1990-01-01', mobile: parsedData.mobile || '9876543210', email: parsedData.email || 'guest@example.com', address: parsedData.address || "Please add your address.", avatar: parsedData.avatar || 'https://placehold.co/128x128/E1E2E2/1D2228?text=User' }; UI.profile.avatar.src = currentUserData.avatar; displayProfileData(); }
+            function displayProfileData() { UI.profile.fullName.textContent = currentUserData.fullname || 'N/A'; UI.profile.city.textContent = currentUserData.city || 'Your City'; const aadhaar = currentUserData.aadhaar || ''; if (aadhaar.toUpperCase().startsWith('ID')) { UI.profile.aadhaar.textContent = `********${aadhaar.slice(-4)}`; } else { UI.profile.aadhaar.textContent = aadhaar ? `•••• •••• ${aadhaar.slice(-4)}` : 'N/A'; } const dob = currentUserData.dob; if(dob) { const birthDate = new Date(dob); const age = new Date().getFullYear() - birthDate.getFullYear(); UI.profile.dob.textContent = `${dob} (${age} years old)`; } else { UI.profile.dob.textContent = 'N/A'; } UI.profile.mobile.textContent = currentUserData.mobile || 'N/A'; UI.profile.email.textContent = currentUserData.email || 'N/A'; UI.profile.address.textContent = currentUserData.address || "Click 'Edit Profile' to add your address."; }
+            function toggleEditMode(enable) { isEditMode = enable; UI.buttons.edit.classList.toggle('hidden', enable); UI.buttons.save.classList.toggle('hidden', !enable); UI.buttons.cancel.classList.toggle('hidden', !enable); if(enable) { UI.profile.fullName.innerHTML = `<input type="text" id="fullname-input" class="form-input text-center" value="${currentUserData.fullname}">`; UI.profile.city.innerHTML = `<input type="text" id="city-input" class="form-input text-center" value="${currentUserData.city}">`; UI.profile.dob.innerHTML = `<input type="date" id="dob-input" class="form-input" value="${currentUserData.dob}">`; UI.profile.mobile.innerHTML = `<input type="tel" id="mobile-input" class="form-input" value="${currentUserData.mobile}">`; UI.profile.email.innerHTML = `<input type="email" id="email-input" class="form-input" value="${currentUserData.email}">`; UI.profile.address.innerHTML = `<textarea id="address-input" class="form-input" rows="2">${currentUserData.address || ''}</textarea>`; } else { displayProfileData(); } }
+            function saveProfileChanges() { currentUserData = { ...currentUserData, fullname: document.getElementById('fullname-input').value, city: document.getElementById('city-input').value, dob: document.getElementById('dob-input').value, mobile: document.getElementById('mobile-input').value, email: document.getElementById('email-input').value, address: document.getElementById('address-input').value }; localStorage.setItem('userProfile', JSON.stringify(currentUserData)); toggleEditMode(false); showToast('Profile updated successfully!'); }
+            function showToast(message) { UI.toast.textContent = message; UI.toast.classList.add('show'); setTimeout(() => UI.toast.classList.remove('show'), 3000); }
 
-                if (aadhaar.toUpperCase().startsWith('ID')) {
-                     UI.profile.aadhaar.textContent = `********${aadhaar.slice(-4)}`;
-                } else {
-                     UI.profile.aadhaar.textContent = aadhaar ? `•••• •••• ${aadhaar.slice(-4)}` : 'N/A';
-                }
+            // --- Setu AI Logic ---
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            let recognition; let currentHighlight = null; let isAiActive = false; let aiTimeout; let aiWidgetDesktop, aiWidgetMobile;
+            const isDesktop = () => window.innerWidth >= 640;
 
-                const dob = currentUserData.dob;
-                if(dob) {
-                    const birthDate = new Date(dob);
-                    const age = new Date().getFullYear() - birthDate.getFullYear();
-                    UI.profile.dob.textContent = `${dob} (${age} years old)`;
-                } else {
-                    UI.profile.dob.textContent = 'N/A';
-                }
-                UI.profile.mobile.textContent = currentUserData.mobile || 'N/A';
-                UI.profile.email.textContent = currentUserData.email || 'N/A';
-                UI.profile.address.textContent = currentUserData.address || "Click 'Edit Profile' to add your address.";
-            }
+            function setupAiWidgets() { aiWidgetDesktop = new AiWidget(document.querySelector('#setu-ai-btn')); aiWidgetMobile = new AiWidget(document.querySelector('#setu-ai-btn-mobile'), true); if (!sessionStorage.getItem('setuAiButtonClicked')) { document.querySelectorAll('.ai-widget-container').forEach(el => el.classList.add('setu-btn-animated')); } setupAiButtonSpin(); }
+            function setupAiButtonSpin() { setInterval(() => { document.querySelectorAll('.ai-widget-container:not(.active) .original-icon').forEach(icon => { if (icon) { icon.classList.add('spin'); icon.addEventListener('animationend', () => icon.classList.remove('spin'), { once: true }); } }); }, 7000); }
+            function getCurrentLanguage() { const c = document.cookie.split('; ').find(r => r.startsWith('googtrans=')); if (c) { const l = c.split('/')[2]; const m = { 'hi': 'hi-IN', 'bn': 'bn-IN', 'te': 'te-IN', 'mr': 'mr-IN', 'ta': 'ta-IN', 'ur': 'ur-IN', 'gu': 'gu-IN', 'kn': 'kn-IN', 'ml': 'ml-IN' }; return m[l] || 'en-US'; } return 'en-US'; }
+            if (SpeechRecognition) { recognition = new SpeechRecognition(); recognition.continuous = false; recognition.interimResults = true; recognition.maxAlternatives = 1; recognition.onresult = (e) => { const t = Array.from(e.results).map(r => r[0].transcript).join(''); [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setStatus(`"${t}"`)); if (e.results[0].isFinal) { [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setState('idle')); querySarvamAI(t); } }; recognition.onerror = (e) => { const m = e.error === 'no-speech' ? "I didn't hear that." : "Mic error."; [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setStatus(m, true)); }; recognition.onend = () => { [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setState('idle')); }; }
+            function startListening(e) { if(e) e.stopPropagation(); if (!isAiActive || !SpeechRecognition) return; recognition.lang = getCurrentLanguage(); recognition.start(); [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setState('listening')); }
+            async function querySarvamAI(text) {
+                [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setStatus('Thinking...'));
+                try {
+                    const mockAI = (q, l) => {
+                        q = q.toLowerCase();
+                        const langResponses = {
+                            'en-US': { default: "Sorry, I'm not sure.", openSettings: 'Opening settings for you.', goToHome: 'Going to the home page.', showReport: 'Here is the report button.', showSearch: 'Here is the search button.', showProfile: 'You are on the profile page.', editProfile: 'Okay, enabling edit mode.' },
+                            'hi-IN': { default: "क्षमा करें, मुझे यकीन नहीं है।", openSettings: 'आपके लिए सेटिंग्स खोल रहा हूँ।', goToHome: 'होम पेज पर जा रहे हैं।', showReport: 'यह रिपोर्ट बटन है।', showSearch: 'यह खोज बटन है।', showProfile: 'आप प्रोफ़ाइल पेज पर हैं।', editProfile: 'ठीक है, संपादन मोड सक्षम कर रहा हूँ।' }
+                        };
+                        const r = langResponses[l] || langResponses['en-US'];
             
-            function toggleEditMode(enable) {
-                isEditMode = enable;
-                UI.buttons.edit.classList.toggle('hidden', enable);
-                UI.buttons.save.classList.toggle('hidden', !enable);
-                UI.buttons.cancel.classList.toggle('hidden', !enable);
+                        // Navigation / Action keywords
+                        const isGo = q.includes('go to') || q.includes('navigate') || q.includes('open') || q.includes('जाओ') || q.includes('खोलें');
+                        // Highlighting keywords
+                        const isWhere = q.includes('where is') || q.includes('show me') || q.includes('find') || q.includes('कहाँ है') || q.includes('दिखाओ');
 
-                if(enable) {
-                    UI.profile.fullName.innerHTML = `<input type="text" id="fullname-input" class="form-input text-center" value="${currentUserData.fullname}">`;
-                    UI.profile.city.innerHTML = `<input type="text" id="city-input" class="form-input text-center" value="${currentUserData.city}">`;
-                    UI.profile.dob.innerHTML = `<input type="date" id="dob-input" class="form-input" value="${currentUserData.dob}">`;
-                    UI.profile.mobile.innerHTML = `<input type="tel" id="mobile-input" class="form-input" value="${currentUserData.mobile}">`;
-                    UI.profile.email.innerHTML = `<input type="email" id="email-input" class="form-input" value="${currentUserData.email}">`;
-                    UI.profile.address.innerHTML = `<textarea id="address-input" class="form-input" rows="2">${currentUserData.address || ''}</textarea>`;
-                } else {
-                    displayProfileData();
-                }
-            }
-
-            function saveProfileChanges() {
-                currentUserData = {
-                    ...currentUserData,
-                    fullname: document.getElementById('fullname-input').value,
-                    city: document.getElementById('city-input').value,
-                    dob: document.getElementById('dob-input').value,
-                    mobile: document.getElementById('mobile-input').value,
-                    email: document.getElementById('email-input').value,
-                    address: document.getElementById('address-input').value
-                };
-                localStorage.setItem('userProfile', JSON.stringify(currentUserData));
-                toggleEditMode(false);
-                showToast();
-            }
-
-            function showToast(message = 'Profile updated successfully!') {
-                UI.toast.textContent = message;
-                UI.toast.classList.add('show');
-                setTimeout(() => UI.toast.classList.remove('show'), 3000);
-            }
-
-            // --- Initial Load ---
-            setupTheme();
-            setupLogoAnimation();
-            populateLanguageDropdowns();
-            restoreLanguageDisplay();
-            setupLanguageSwitcher();
-            loadUserProfile();
-
-            // --- Event Listeners ---
-            UI.buttons.edit.addEventListener('click', () => toggleEditMode(true));
-            UI.buttons.cancel.addEventListener('click', () => toggleEditMode(false));
-            UI.buttons.save.addEventListener('click', saveProfileChanges);
+                        if (q.includes('home') || q.includes('मुख पृष्ठ')) {
+                            if (isGo) return { action: 'navigate', targetId: 'desktop-home-link', responseText: r.goToHome };
+                            return { action: 'highlight', targetId: isDesktop() ? 'desktop-home-link' : 'bottom-nav-home', responseText: r.goToHome.replace('Going to', 'Here is') };
+                        }
+                        if (q.includes('report') || q.includes('रिपोर्ट')) {
+                            if (isGo) return { action: 'navigate', targetId: isDesktop() ? 'desktop-report-link' : 'bottom-nav-report', responseText: 'Taking you to the report page.' };
+                            return { action: 'highlight', targetId: isDesktop() ? 'desktop-report-link' : 'bottom-nav-report', responseText: r.showReport };
+                        }
+                        if (q.includes('search') || q.includes('खोज')) {
+                            if (isGo) return { action: 'navigate', targetId: isDesktop() ? 'desktop-search-link' : 'bottom-nav-search', responseText: 'Taking you to the search page.' };
+                            return { action: 'highlight', targetId: isDesktop() ? 'desktop-search-link' : 'bottom-nav-search', responseText: r.showSearch };
+                        }
+                        if (q.includes('profile') || q.includes('प्रोफ़ाइल')) {
+                            if (isGo) return { action: 'answer', targetId: null, responseText: r.showProfile };
+                            return { action: 'highlight', targetId: isDesktop() ? 'desktop-profile-link' : 'bottom-nav-profile', responseText: r.showProfile };
+                        }
+                        if (q.includes('setting') || q.includes('सेटिंग')) {
+                            return { action: 'open_panel', targetId: 'settings', responseText: r.openSettings };
+                        }
+                        if (q.includes('edit my profile') || q.includes('प्रोफ़ाइल संपादित करें')) {
+                            return { action: 'edit_profile', targetId: null, responseText: r.editProfile };
+                        }
             
-            // Settings Panel Listeners
-            UI.settingsBtnDesktop.addEventListener('click', openSettingsPanel);
-            UI.settingsBtnMobile.addEventListener('click', openSettingsPanel);
-            UI.closeSettingsBtn.addEventListener('click', closeSettingsPanel);
-            UI.settingsOverlay.addEventListener('click', closeSettingsPanel);
-
-            // Avatar Upload Listeners
-            UI.avatarContainer.addEventListener('click', () => {
-                UI.avatarInput.click();
-            });
-
-            UI.avatarInput.addEventListener('change', (event) => {
-                const file = event.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = (e) => {
-                        const avatarDataUrl = e.target.result;
-                        UI.profile.avatar.src = avatarDataUrl;
-                        currentUserData.avatar = avatarDataUrl;
-                        localStorage.setItem('userProfile', JSON.stringify(currentUserData));
-                        showToast('Profile image updated!');
+                        return { action: 'answer', targetId: null, responseText: r.default };
                     };
-                    reader.readAsDataURL(file);
+                    const result = mockAI(text, recognition.lang);
+                    processAIResponse(result);
+                } catch (error) {
+                    [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setStatus("Sorry, an error occurred.", true));
+                    speak("Sorry, I am having trouble connecting.");
                 }
-            });
+            }
+            function processAIResponse(response) {
+                clearTimeout(aiTimeout);
+                if (response.responseText) {
+                    speak(response.responseText);
+                    [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setStatus(response.responseText));
+                }
+                if (currentHighlight) currentHighlight.classList.remove('ai-highlight');
+                if (response.action === 'highlight' && response.targetId) {
+                    const el = document.getElementById(response.targetId);
+                    if (el) {
+                        if (isAiActive) [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.deactivate());
+                        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        el.classList.add('ai-highlight');
+                        currentHighlight = el;
+                        setTimeout(() => { if (currentHighlight) currentHighlight.classList.remove('ai-highlight'); }, 5000);
+                    }
+                } else if (response.action === 'navigate' && response.targetId) {
+                    const el = document.getElementById(response.targetId);
+                    if (el && el.href) window.location.href = el.href;
+                } else if (response.action === 'redirect' && response.targetId) {
+                    setTimeout(() => { window.location.href = response.targetId; }, 1200);
+                } else if (response.action === 'open_panel' && response.targetId === 'settings') {
+                    if (isAiActive) [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.deactivate());
+                    openSettingsPanel();
+                } else if (response.action === 'edit_profile') {
+                    if (!isEditMode) UI.buttons.edit.click();
+                } else {
+                    aiTimeout = setTimeout(() => { if (isAiActive) [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.deactivate()); }, 5000);
+                }
+            }
+            function speak(text) { if (!('speechSynthesis' in window)) return; const u = new SpeechSynthesisUtterance(text); u.lang = getCurrentLanguage(); u.onstart = () => { [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setState('speaking')); }; u.onend = () => { [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setState('idle')); clearTimeout(aiTimeout); aiTimeout = setTimeout(() => { if (isAiActive) [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.deactivate()); }, 5000); }; window.speechSynthesis.speak(u); }
+            class AiWidget { constructor(el, isM = false) { this.element = el; this.isMobile = isM; this.isActive = false; this.originalIcon = this.element.querySelector('.original-icon'); if(this.originalIcon) this.originalIcon.style.transition = 'transform 0.3s ease, opacity 0.3s ease'; this.element.insertAdjacentHTML('beforeend', this.createHTML()); this.widgetInner = this.element.querySelector('.ai-widget-inner'); this.statusEl = this.element.querySelector('.ai-status'); this.logoIcon = this.element.querySelector('.ai-logo-icon'); this.micIcon = this.element.querySelector('.ai-mic-icon'); this.element.addEventListener('click', (e) => this.handleMainClick(e)); this.widgetInner.querySelector('.ai-icon-container').addEventListener('click', (e) => this.handleMicClick(e)); } createHTML() { const lS = this.isMobile ? 'w-5 h-5' : 'w-8 h-8'; const mS = this.isMobile ? 'w-6 h-6' : 'w-8 h-8'; return ` <div class="ai-widget-inner"> <div class="ai-icon-container"> <svg class="${lS} text-white ai-logo-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12.0001 1.99219L3.45911 12.0002L12.0001 22.0082L20.5411 12.0002L12.0001 1.99219Z"/></svg> <svg class="${mS} text-white ai-mic-icon" viewBox="0 0 24 24" fill="none"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" fill="currentColor"/><path d="M19 10v2a7 7 0 0 1-14 0v-2H3v2a9 9 0 0 0 8 8.94V24h2v-3.06A9 9 0 0 0 21 12v-2h-2z" fill="currentColor"/></svg> </div> <div class="ai-content"> <p class="ai-status text-sm text-white w-full text-left font-semibold"></p> </div> </div> `; } handleMainClick(e) { if (e.target.closest('.ai-icon-container')) return; this.toggle(e); } handleMicClick(e) { e.stopPropagation(); if (this.isActive) { startListening(e); } else { const showInfo = !localStorage.getItem('setuAiInfoShown'); if (showInfo) { this.showAiInfoModal(); } else { this.activate(); } } } toggle(e) { e.stopPropagation(); const showInfo = !this.isActive && !localStorage.getItem('setuAiInfoShown'); if (showInfo) { this.showAiInfoModal(); return; } this.isActive ? this.deactivate() : this.activate(); } showAiInfoModal() { UI.aiInfoModalOverlay.classList.remove('hidden'); setTimeout(() => { UI.aiInfoModalOverlay.style.opacity = '1'; UI.aiInfoModal.classList.remove('scale-95', 'opacity-0'); }, 10); const gotItHandler = () => { localStorage.setItem('setuAiInfoShown', 'true'); UI.aiInfoModalOverlay.style.opacity = '0'; UI.aiInfoModal.classList.add('scale-95', 'opacity-0'); setTimeout(() => { UI.aiInfoModalOverlay.classList.add('hidden'); this.activate(); }, 300); UI.aiInfoGotItBtn.removeEventListener('click', gotItHandler); }; UI.aiInfoGotItBtn.addEventListener('click', gotItHandler); } activate() { if (navigator.vibrate) navigator.vibrate(50); this.isActive = true; isAiActive = true; this.element.classList.add('active'); if (this.isMobile) UI.mobileHeader.classList.add('ai-active'); this.setStatus('Tap the icon to speak.'); if (!sessionStorage.getItem('setuAiButtonClicked')) { document.querySelectorAll('.ai-widget-container').forEach(el => el.classList.remove('setu-btn-animated')); sessionStorage.setItem('setuAiButtonClicked', 'true'); } setTimeout(() => startListening({ stopPropagation: () => {} }), 500); } deactivate() { this.isActive = false; isAiActive = false; this.element.classList.remove('active'); if (this.isMobile) UI.mobileHeader.classList.remove('ai-active'); if (recognition) recognition.stop(); } setStatus(t, isE = false) { this.statusEl.textContent = t; this.statusEl.style.color = isE ? '#fee2e2' : '#ffffff'; } setState(s) { this.element.classList.remove('listening', 'speaking'); this.logoIcon.classList.remove('spin'); this.micIcon.classList.remove('spin'); if (s === 'listening') { this.element.classList.add('listening'); this.logoIcon.classList.add('spin'); } else if (s === 'speaking') { this.element.classList.add('speaking'); this.micIcon.classList.add('spin'); } } }
+
+            // --- Initial Load & Event Listeners ---
+            setupTheme(); setupLogoAnimation(); populateLanguageList(); restoreLanguageDisplay(); setupLanguageSwitcher(); loadUserProfile(); setupAiWidgets();
+            UI.buttons.edit.addEventListener('click', () => toggleEditMode(true)); UI.buttons.cancel.addEventListener('click', () => toggleEditMode(false)); UI.buttons.save.addEventListener('click', saveProfileChanges);
+            UI.settingsBtnDesktop.addEventListener('click', openSettingsPanel); UI.settingsBtnMobile.addEventListener('click', openSettingsPanel); UI.closeSettingsBtn.addEventListener('click', closeSettingsPanel); UI.settingsOverlay.addEventListener('click', closeSettingsPanel);
+            UI.avatarContainer.addEventListener('click', () => UI.avatarInput.click());
+            UI.avatarInput.addEventListener('change', (e) => { const f = e.target.files[0]; if (f) { const r = new FileReader(); r.onload = (ev) => { const d = ev.target.result; UI.profile.avatar.src = d; currentUserData.avatar = d; localStorage.setItem('userProfile', JSON.stringify(currentUserData)); showToast('Profile image updated!'); }; r.readAsDataURL(f); } });
+            document.addEventListener('click', (e) => { if(isAiActive && !e.target.closest('.ai-widget-container')) { [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.deactivate()); } });
         });
     </script>
     <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async defer></script>
 </body>
 </html>
+
