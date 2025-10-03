@@ -419,6 +419,19 @@
         <img id="fullscreen-image" src="" alt="Full screen complaint image" class="max-w-[90vw] max-h-[90vh] transition-transform duration-200">
     </div>
 
+    <div id="ai-info-modal-overlay" class="fixed inset-0 bg-black bg-opacity-60 backdrop-filter backdrop-blur-sm z-[130] hidden items-center justify-center p-4">
+        <div id="ai-info-modal" class="bg-[var(--bg-secondary)] rounded-2xl shadow-xl max-w-sm w-full p-6 text-center transform scale-95 opacity-0 transition-all duration-300 ease-out">
+            <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-[var(--bg-accent)] mb-4">
+                 <svg class="w-8 h-8 text-[var(--accent-primary)]" viewBox="0 0 24 24" fill="currentColor"><path d="M12.0001 1.99219L3.45911 12.0002L12.0001 22.0082L20.5411 12.0002L12.0001 1.99219Z"/></svg>
+            </div>
+            <h3 class="text-xl font-bold text-[var(--text-primary)] mb-2">Setu AI is Evolving!</h3>
+            <p class="text-sm text-[var(--text-muted)] mb-6">
+                Thank you for trying our new AI assistant! This feature is currently under active development. While it can perform some basic tasks, we're working hard to unlock its full potential. Stay tuned for exciting updates!
+            </p>
+            <button id="ai-info-got-it-btn" class="btn btn-primary w-full">Got it</button>
+        </div>
+    </div>
+
     <div id="google_translate_element"></div>
 
     <script>
@@ -462,6 +475,9 @@
                 notificationContent: document.getElementById('notification-content'),
                 notificationUnreadDot: document.getElementById('notification-unread-dot'),
                 notificationUnreadDotDesktop: document.getElementById('notification-unread-dot-desktop'),
+                aiInfoModalOverlay: document.getElementById('ai-info-modal-overlay'),
+                aiInfoModal: document.getElementById('ai-info-modal'),
+                aiInfoGotItBtn: document.getElementById('ai-info-got-it-btn'),
             };
             let scrollObserver;
             
@@ -971,13 +987,43 @@
                     if (this.isActive) {
                         startListening(event);
                     } else {
-                        this.activate();
+                        const showInfo = !localStorage.getItem('setuAiInfoShown');
+                        if (showInfo) {
+                            this.showAiInfoModal();
+                        } else {
+                            this.activate();
+                        }
                     }
                 }
 
                 toggle(event) {
                     event.stopPropagation();
+                    const showInfo = !this.isActive && !localStorage.getItem('setuAiInfoShown');
+                    if (showInfo) {
+                        this.showAiInfoModal();
+                        return;
+                    }
                     this.isActive ? this.deactivate() : this.activate();
+                }
+
+                showAiInfoModal() {
+                    UI.aiInfoModalOverlay.classList.remove('hidden');
+                    setTimeout(() => {
+                        UI.aiInfoModalOverlay.style.opacity = '1';
+                        UI.aiInfoModal.classList.remove('scale-95', 'opacity-0');
+                    }, 10);
+
+                    const gotItHandler = () => {
+                        localStorage.setItem('setuAiInfoShown', 'true');
+                        UI.aiInfoModalOverlay.style.opacity = '0';
+                        UI.aiInfoModal.classList.add('scale-95', 'opacity-0');
+                        setTimeout(() => {
+                            UI.aiInfoModalOverlay.classList.add('hidden');
+                            this.activate();
+                        }, 300);
+                        UI.aiInfoGotItBtn.removeEventListener('click', gotItHandler);
+                    };
+                    UI.aiInfoGotItBtn.addEventListener('click', gotItHandler);
                 }
 
                 activate() {
