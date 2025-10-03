@@ -218,13 +218,14 @@
             border-radius: 9999px; background-color: var(--accent-primary); border: 1px solid var(--bg-secondary);
         }
         
-        /* --- CORRECTED SETU AI INTERFACE STYLES --- */
+        /* --- SETU AI INTERFACE STYLES --- */
         #setu-ai-container-desktop {
             position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 50;
         }
         
         .ai-widget-container {
-            transition: all 0.5s ease-in-out; /* Slower animation */
+            /* IMPROVEMENT: Added smooth transition for all properties */
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
         }
 
@@ -277,6 +278,13 @@
             opacity: 1; transform: translateX(0); pointer-events: auto;
         }
         
+        /* IMPROVEMENT: Added styles to prevent text from breaking layout on language change */
+        .ai-status {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
         /* Icon Visibility States */
         .ai-widget-container:not(.active) .ai-widget-inner { display: none; }
         #setu-ai-btn-mobile:not(.active) { display: flex; align-items: center; justify-content: center;}
@@ -833,7 +841,17 @@
                         let responseText = { 'en-US': "Sorry, I'm not sure how to help.", 'hi-IN': "क्षमा करें, मुझे यकीन नहीं है कि इसमें कैसे मदद की जाए।" };
                         let result = { action: 'answer', targetId: null, responseText: responseText[lang] || responseText['en-US'] };
 
-                        if (query.includes('how to report') || query.includes('कैसे रिपोर्ट')) {
+                        // IMPROVEMENT: Added new AI responses
+                        if (query.includes('hello') || query.includes('hi') || query.includes('hey') || query.includes('नमस्ते') || query.includes('हाय')) {
+                             responseText = { 'en-US': 'Hello! How can I help you today?', 'hi-IN': 'नमस्ते! मैं आपकी कैसे मदद कर सकता हूँ?' };
+                             result = { action: 'answer', targetId: null, responseText: responseText[lang] || responseText['en-US'] };
+                        } else if (query.includes('who are you') || query.includes('what are you') || query.includes('what is setu') || query.includes('आप कौन हैं')) {
+                             responseText = { 'en-US': 'I am Setu AI, your smart assistant to make reporting civic issues seamless and effective. How can I assist?', 'hi-IN': 'मैं सेतु एआई हूं, नागरिक मुद्दों की रिपोर्टिंग को सहज और प्रभावी बनाने के लिए आपका स्मार्ट सहायक। मैं कैसे सहायता कर सकता हूं?' };
+                             result = { action: 'answer', targetId: null, responseText: responseText[lang] || responseText['en-US'] };
+                        } else if (query.includes('language') || query.includes('theme') || query.includes('setting') || query.includes('profile') || query.includes('भाषा') || query.includes('थीम')) {
+                             responseText = { 'en-US': 'Sure, heading to your profile and settings page.', 'hi-IN': 'ज़रूर, आपके प्रोफ़ाइल और सेटिंग्स पृष्ठ पर जा रहे हैं।' };
+                            result = { action: 'redirect', targetId: 'profile.html', responseText: responseText[lang] || responseText['en-US'] };
+                        } else if (query.includes('how to report') || query.includes('कैसे रिपोर्ट')) {
                              responseText = { 'en-US': 'To report an issue, please click the big red "Report" button.', 'hi-IN': 'समस्या की रिपोर्ट करने के लिए, कृपया बड़े लाल "रिपोर्ट" बटन पर क्लिक करें।'};
                              result = { action: 'answer', targetId: null, responseText: responseText[lang] || responseText['en-US'] };
                         } else if (query.includes('report') || query.includes('complaint') || query.includes('रिपोर्ट') || query.includes('शिकायत')) {
@@ -863,6 +881,7 @@
                     [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setStatus(response.responseText));
                 }
                 if (currentHighlight) currentHighlight.classList.remove('ai-highlight');
+
                 if (response.action === 'highlight' && response.targetId) {
                     const element = document.getElementById(response.targetId);
                     if (element) {
@@ -875,6 +894,8 @@
                 } else if (response.action === 'navigate' && response.targetId) {
                     const element = document.getElementById(response.targetId);
                     if (element && element.href) window.location.href = element.href;
+                } else if (response.action === 'redirect' && response.targetId) { // IMPROVEMENT: Added redirect action
+                    setTimeout(() => { window.location.href = response.targetId; }, 1200); // Delay for user to hear response
                 } else {
                     aiTimeout = setTimeout(() => { if (isAiActive) [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.deactivate()); }, 4000);
                 }
