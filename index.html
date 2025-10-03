@@ -422,15 +422,14 @@
     <div id="google_translate_element"></div>
 
     <script>
+        /* global google */
         let complaints = [];
         let notifications = [];
 
         function googleTranslateElementInit() { new google.translate.TranslateElement({ pageLanguage: 'en', includedLanguages: 'en,hi,bn,te,mr,ta,ur,gu,kn,ml,pa,or,as,ne', layout: google.translate.TranslateElement.InlineLayout.SIMPLE, autoDisplay: false }, 'google_translate_element'); }
         
         document.addEventListener('DOMContentLoaded', () => {
-            const issueTypes = { "Garbage Dump":{}, "No Dustbins":{}, "Open Sewage":{}, "Bad Roads":{} };
             const statusStyles = { "Submitted": { bg: "bg-yellow-100", text: "text-yellow-800" }, "In Progress": { bg: "bg-blue-100", text: "text-blue-800" }, "Resolved": { bg: "bg-green-100", text: "text-green-800" } };
-            const authorities = [ { name: "Mr. Alok Verma", designation: "Sanitation Officer, Circle 1", department: "Municipal Corporation" }, { name: "Ms. Priya Singh", designation: "Executive Engineer", department: "Public Works Dept." } ];
             const issueStyles = {
                 "Garbage Dump": { bg: "bg-red-100", text: "text-red-800", darkBg: "dark:bg-red-900/80", darkText: "dark:text-red-200" },
                 "No Dustbins": { bg: "bg-amber-100", text: "text-amber-800", darkBg: "dark:bg-amber-900/80", darkText: "dark:text-amber-200" },
