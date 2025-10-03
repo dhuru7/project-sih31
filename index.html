@@ -6,42 +6,39 @@
     <title>Setu</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
-    <style>
+    <style> 
         :root {
-            /* New color theme based on your palette */
-            --bg-primary: #f3f4f6; /* Softer Gray Background */
+            --bg-primary: #f3f4f6;
             --bg-secondary: #FFFFFF;
-            --bg-secondary-translucent: rgba(255, 255, 255, 0.85);
-            --bg-accent: #fee2e2; /* Light Red Accent */
-            --text-primary: #1f2937; /* Dark Slate Gray */
+            --bg-secondary-translucent: rgba(255, 255, 255, 0.75);
+            --bg-accent: #fee2e2;
+            --text-primary: #1f2937;
             --text-secondary: #374151;
             --text-muted: #6b7280;
             --border-light: #e5e7eb;
             --border-medium: #d1d5db;
-            --accent-primary: #f41f4e; /* UPDATED: New Red */
-            --accent-primary-hover: #d81b45; /* UPDATED: Darker Red */
-            --accent-secondary: #1f2937; /* Dark Slate Gray */
+            --accent-primary: #f41f4e;
+            --accent-primary-hover: #d81b45;
+            --accent-secondary: #1f2937;
             --accent-secondary-hover: #000000;
             --shadow-light: rgba(0, 0, 0, 0.07);
             --shadow-medium: rgba(0, 0, 0, 0.12);
         }
 
         [data-theme="dark"] {
-            /* New dark theme based on your palette */
-            --bg-primary: #111827; /* Dark Slate 900 */
-            --bg-secondary: #1f2937; /* Dark Slate 800 */
-            --bg-secondary-translucent: rgba(31, 41, 55, 0.85);
-            --bg-accent: #374151; /* Dark Slate 700 */
-            --text-primary: #f9fafb; /* Off-white */
+            --bg-primary: #111827;
+            --bg-secondary: #1f2937;
+            --bg-secondary-translucent: rgba(31, 41, 55, 0.75);
+            --bg-accent: #374151;
+            --text-primary: #f9fafb;
             --text-secondary: #d1d5db;
             --text-muted: #9ca3af;
             --border-light: #374151;
             --border-medium: #4b5563;
-            --accent-primary: #f41f4e; /* UPDATED: New Red */
-            --accent-primary-hover: #f64c71; /* UPDATED: Lighter Red */
+            --accent-primary: #f41f4e;
+            --accent-primary-hover: #f64c71;
             --accent-secondary: #f9fafb;
             --accent-secondary-hover: #FFFFFF;
-            /* UPDATED: Neutral shadows for dark mode */
             --shadow-light: rgba(0, 0, 0, 0.2);
             --shadow-medium: rgba(0, 0, 0, 0.3);
         }
@@ -61,9 +58,7 @@
             background-color: var(--bg-primary);
             color: var(--text-secondary);
         }
-        body.no-scroll {
-            overflow: hidden;
-        }
+        body.no-scroll { overflow: hidden; }
         
         .page { animation: fadeInPage 0.5s ease-in-out; }
         @keyframes fadeInPage {
@@ -76,10 +71,7 @@
             transform: translateY(30px);
             transition: opacity 0.6s ease-out, transform 0.6s ease-out;
         }
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
 
         .nav-content-wrapper {
             background-color: var(--bg-secondary-translucent);
@@ -110,10 +102,7 @@
             box-shadow: 0 10px 25px var(--shadow-medium); 
             border-color: var(--accent-primary); 
         }
-        .complaint-card.selected {
-             visibility: hidden; /* Hide original card during animation */
-        }
-
+        .complaint-card.selected { visibility: hidden; }
         .complaint-card.rated-by-user {
             border-width: 2px;
             border-color: var(--accent-secondary);
@@ -121,156 +110,70 @@
         }
         .complaint-card.rated-by-user:hover { border-color: var(--accent-secondary-hover); }
 
-        /* Modal overlay for expanded view on desktop */
         #modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            z-index: 100;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            display: none;
-            padding: 2rem;
+            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            z-index: 100; opacity: 0; transition: opacity 0.3s ease;
+            display: none; padding: 2rem;
         }
          #modal-overlay.active { display: flex; align-items: center; justify-content: center; }
          #modal-overlay.visible { opacity: 1; }
         
-        #modal-content-wrapper {
-             position: relative;
-             width: 100%;
-             height: 100%;
-        }
+        #modal-content-wrapper { position: relative; width: 100%; height: 100%; }
 
         .modal-card {
-            background-color: var(--bg-secondary);
-            border-radius: 1rem;
+            background-color: var(--bg-secondary); border-radius: 1rem;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            width: 100%;
-            max-width: 80vw; /* Covers more screen width */
-            max-height: 90vh; /* Limits height to 90% of viewport */
-            display: flex;
-            overflow: hidden; /* Changed to hidden to contain rounded corners */
-            position: absolute;
-            will-change: transform, opacity; /* OPTIMIZED */
-            opacity: 0;
+            width: 100%; max-width: 80vw; max-height: 90vh;
+            display: flex; overflow: hidden; position: absolute;
+            will-change: transform, opacity; opacity: 0;
         }
-        .modal-card.visible {
-            opacity: 1;
-            transition: opacity 0.2s ease 0.1s;
-        }
+        .modal-card.visible { opacity: 1; transition: opacity 0.2s ease 0.1s; }
         .modal-card .card-image-container { display: block !important; }
         .modal-close-btn {
-            position: absolute;
-            top: 0.75rem;
-            right: 0.75rem;
-            background: rgba(0,0,0,0.3);
-            color: white;
-            border-radius: 9999px;
-            padding: 0.5rem;
-            cursor: pointer;
-            z-index: 110;
-            transition: transform 0.2s ease;
+            position: absolute; top: 0.75rem; right: 0.75rem;
+            background: rgba(0,0,0,0.3); color: white; border-radius: 9999px;
+            padding: 0.5rem; cursor: pointer; z-index: 110; transition: transform 0.2s ease;
         }
-        .modal-close-btn:hover {
-            transform: scale(1.1) rotate(90deg);
-        }
+        .modal-close-btn:hover { transform: scale(1.1) rotate(90deg); }
         
-        /* Details are now always visible */
-        .card-details {
-            margin-top: 1rem;
-            overflow: visible;
-        }
-        .card-details-inner {
-            overflow: hidden;
-        }
+        .card-details { margin-top: 1rem; overflow: visible; }
+        .card-details-inner { overflow: hidden; }
 
         .card-image-container, .card-details-image-wrapper {
              cursor: zoom-in;
              background-color: var(--bg-accent);
         }
-        .card-image-container img, .card-details-image-wrapper img {
-            width: 100%;
-            height: 100%;
-        }
+        .card-image-container img, .card-details-image-wrapper img { width: 100%; height: 100%; }
+        .card-details-image-wrapper img { aspect-ratio: 16/9; }
 
-        .card-details-image-wrapper img {
-             aspect-ratio: 16/9;
-        }
-
-        /* Fullscreen Image Viewer */
         #image-viewer-overlay {
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            cursor: zoom-out;
+            opacity: 0; transition: opacity 0.3s ease; cursor: zoom-out;
         }
-        #image-viewer-overlay:not(.hidden) {
-            display: flex;
-        }
-        #image-viewer-overlay.visible {
-            opacity: 1;
-        }
+        #image-viewer-overlay:not(.hidden) { display: flex; }
+        #image-viewer-overlay.visible { opacity: 1; }
         #image-viewer-close {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            width: 44px;
-            height: 44px;
-            line-height: 44px;
-            text-align: center;
-            background: rgba(0,0,0,0.5);
-            border-radius: 50%;
-            border: none;
-            font-size: 2rem;
-            color: white;
-            cursor: pointer;
-            transition: transform 0.2s ease;
-            z-index: 121;
+            position: absolute; top: 1rem; right: 1rem; width: 44px; height: 44px;
+            line-height: 44px; text-align: center; background: rgba(0,0,0,0.5);
+            border-radius: 50%; border: none; font-size: 2rem; color: white;
+            cursor: pointer; transition: transform 0.2s ease; z-index: 121;
         }
-        #image-viewer-close:hover {
-            transform: scale(1.1) rotate(90deg);
-        }
-        #fullscreen-image {
-            cursor: grab;
-            touch-action: none; /* Important for pointer events */
-            object-fit: contain;
-        }
-        #fullscreen-image:active {
-            cursor: grabbing;
-        }
+        #image-viewer-close:hover { transform: scale(1.1) rotate(90deg); }
+        #fullscreen-image { cursor: grab; touch-action: none; object-fit: contain; }
+        #fullscreen-image:active { cursor: grabbing; }
 
-
-        /* Rating section polishing */
         .rating-container {
-            max-height: 0;
-            opacity: 0;
-            overflow: hidden;
-            transition: all 0.5s ease-in-out;
+            max-height: 0; opacity: 0; overflow: hidden; transition: all 0.5s ease-in-out;
         }
         .rating-container.expanded {
-            max-height: 200px;
-            opacity: 1;
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px solid var(--border-light);
+            max-height: 200px; opacity: 1; margin-top: 1rem;
+            padding-top: 1rem; border-top: 1px solid var(--border-light);
         }
-        .rating-stars button {
-            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        .rating-stars button.selected {
-            transform: scale(1.25);
-        }
-         .rating-stars button:hover {
-            transform: scale(1.15);
-        }
-        .rating-feedback {
-            min-height: 24px;
-            transition: opacity 0.3s ease-in-out;
-        }
+        .rating-stars button { transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .rating-stars button.selected { transform: scale(1.25); }
+        .rating-stars button:hover { transform: scale(1.15); }
+        .rating-feedback { min-height: 24px; transition: opacity 0.3s ease-in-out; }
 
         .btn { position: relative; display: inline-flex; align-items: center; justify-content: center; font-weight: 600; border-radius: 0.5rem; transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1); cursor: pointer; border: none; padding: 0.5rem 1rem; overflow: hidden; -webkit-tap-highlight-color: transparent; touch-action: manipulation; user-select: none; }
         .btn:active { transform: scale(0.97); }
@@ -282,154 +185,141 @@
         @keyframes animated-gradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         .btn-cta { background-image: linear-gradient(120deg, #f41f4e 0%, #c3193f 100%); background-size: 200% 200%; animation: animated-gradient 3s ease-in-out infinite; }
         .bottom-nav-content { background-color: var(--bg-secondary-translucent); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid var(--border-light); border-radius: 1.5rem; box-shadow: 0 4px 16px var(--shadow-light); }
-        .dropdown-content { display: none; position: absolute; right: 0; top: 100%; min-width: 12.5rem; background-color: var(--bg-secondary); border: 1px solid var(--border-light); border-radius: 0.75rem; box-shadow: 0 8px 32px var(--shadow-medium); z-index: 1000; padding: 0.5rem 0; margin-top: 0.25rem; max-height: 18.75rem; overflow-y: auto; opacity: 0; transform: translateY(-10px); transition: opacity 0.2s cubic-bezier(0.4, 0.0, 0.2, 1), transform 0.2s cubic-bezier(0.4, 0.0, 0.2, 1); }
-        .dropdown-content.show { display: block; opacity: 1; transform: translateY(0); }
-        .dropdown-item { display: block; padding: 0.75rem 1rem; color: var(--text-primary); text-decoration: none; cursor: pointer; transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1); }
-        .dropdown-item:hover { color: var(--accent-primary); transform: translateX(5px); background-color: var(--bg-accent); }
-        .language-indicator { font-size: 0.7rem; background-color: var(--accent-primary); color: #FFFFFF; font-weight: 600; padding: 2px 6px; border-radius: 0.375rem; margin-left: 0.5rem; transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1); }
-        .form-select { appearance: none; background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236c757d' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e"); background-position: right 0.5rem center; background-repeat: no-repeat; background-size: 1.5em 1.5em; padding-right: 2.5rem; }
-        [data-theme="dark"] .form-select { background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23adb5bd' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e"); }
-    
-        /* Styles for new Desktop Vertical Navbar */
-        .desktop-sidebar {
-            /* Sidebar is now permanently expanded */
-        }
-
+        
+        .desktop-sidebar {}
         .desktop-nav-link {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start; /* Changed from center to left-align content */
-            padding: 0.75rem;
-            width: 100%;
-            border-radius: 0.75rem;
-            color: var(--text-muted);
-            transition: all 0.2s ease-in-out;
+            display: flex; align-items: center; justify-content: flex-start;
+            padding: 0.75rem; width: 100%; border-radius: 0.75rem;
+            color: var(--text-muted); transition: all 0.2s ease-in-out;
         }
-
         .desktop-nav-text {
-            margin-left: 1rem;
-            font-size: 0.875rem;
-            font-weight: 600;
-            opacity: 1; /* Always visible */
-            white-space: nowrap;
-            width: auto;
-            overflow: visible;
+            margin-left: 1rem; font-size: 0.875rem; font-weight: 600;
+            opacity: 1; white-space: nowrap; width: auto; overflow: visible;
         }
-
         .desktop-nav-link:hover {
-            background-color: var(--bg-accent);
-            color: var(--text-primary);
-            transform: scale(1.05);
+            background-color: var(--bg-accent); color: var(--text-primary); transform: scale(1.05);
         }
-        .desktop-nav-link.active {
-            background-color: var(--bg-accent);
-            color: var(--text-primary);
-        }
-        .desktop-nav-link.active svg {
-            color: var(--accent-primary) !important;
-        }
-        .desktop-nav-link.active:hover svg {
-            color: var(--accent-primary) !important;
-        }
+        .desktop-nav-link.active { background-color: var(--bg-accent); color: var(--text-primary); }
+        .desktop-nav-link.active svg { color: var(--accent-primary) !important; }
+        .desktop-nav-link.active:hover svg { color: var(--accent-primary) !important; }
 
         @keyframes pulse-glow {
-            0% {
-                box-shadow: 0 0 0 0 var(--accent-primary);
-            }
-            70% {
-                box-shadow: 0 0 0 12px rgba(244, 31, 78, 0);
-            }
-            100% {
-                box-shadow: 0 0 0 0 rgba(244, 31, 78, 0);
-            }
+            0% { box-shadow: 0 0 0 0 var(--accent-primary); }
+            70% { box-shadow: 0 0 0 12px rgba(244, 31, 78, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(244, 31, 78, 0); }
         }
-        button.setu-btn-animated {
-            animation: pulse-glow 2.5s infinite;
-        }
-
-        /* Sarthi AI Intro Animation Styles */
-        #setu-intro-animation {
-            opacity: 1;
-            transition: opacity 0.5s ease-in-out, transform 0.7s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-        }
-
-        @keyframes text-fade-in-up {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        #setu-intro-logo {
-            /* No animation */
-        }
-
-        #setu-intro-text {
-            opacity: 0;
-            animation: text-fade-in-up 0.8s ease-out 0.5s forwards;
-        }
-
-        #setu-intro-subtext {
-            opacity: 0;
-            animation: text-fade-in-up 0.8s ease-out 0.8s forwards;
-        }
+        .setu-btn-animated:not(.active) { animation: pulse-glow 2.5s infinite; }
         
-        /* NEW: Sarthi AI Spin Animation */
-        @keyframes setu-spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        .setu-spin {
-            animation: setu-spin 0.7s ease-in-out;
-        }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .spin { animation: spin 0.7s ease-in-out; }
         
-        /* NEW: Notification Panel Styles */
         .notification-unread-dot {
-            position: absolute;
-            top: 2px;
-            right: 2px;
-            width: 8px;
-            height: 8px;
-            border-radius: 9999px;
-            background-color: var(--accent-primary);
-            border: 1px solid var(--bg-secondary);
+            position: absolute; top: 2px; right: 2px; width: 8px; height: 8px;
+            border-radius: 9999px; background-color: var(--accent-primary); border: 1px solid var(--bg-secondary);
+        }
+        
+        /* --- CORRECTED SETU AI INTERFACE STYLES --- */
+        #setu-ai-container-desktop {
+            position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 50;
+        }
+        
+        .ai-widget-container {
+            transition: all 0.5s ease-in-out; /* Slower animation */
+            position: relative;
         }
 
+        /* Base Button state */
+        .ai-widget-container:not(.active) {
+            width: 64px; height: 64px;
+        }
+        #setu-ai-btn-mobile:not(.active) {
+            width: 36px; height: 36px;
+        }
+        .ai-widget-container:not(.active):hover { transform: scale(1.1); }
+        
+        /* Expanded UI state */
+        .ai-widget-container.active {
+            width: 380px; max-width: calc(100vw - 2rem);
+            height: 80px;
+            background-color: rgba(244, 31, 78, 0.75);
+            -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 9999px;
+            box-shadow: var(--shadow-medium);
+        }
+
+        .ai-widget-inner {
+            display: flex; align-items: center; justify-content: flex-start;
+            width: 100%; height: 100%;
+            cursor: default;
+        }
+        
+        .ai-icon-container {
+            display: grid; place-items: center;
+            flex-shrink: 0; width: 80px; height: 100%; cursor: pointer;
+        }
+        #setu-ai-btn-mobile .ai-icon-container { width: 48px; }
+
+        .ai-icon-container svg {
+             grid-area: 1 / 1;
+             transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        }
+        
+        .ai-content {
+            width: 100%; height: 100%;
+            display: flex; align-items: center;
+            padding: 0 1rem 0 0; opacity: 0;
+            transform: translateX(-10px);
+            transition: opacity 0.3s ease-in-out 0.2s, transform 0.3s ease-in-out 0.2s;
+            pointer-events: none;
+        }
+        .ai-widget-container.active .ai-content {
+            opacity: 1; transform: translateX(0); pointer-events: auto;
+        }
+        
+        /* Icon Visibility States */
+        .ai-widget-container:not(.active) .ai-widget-inner { display: none; }
+        #setu-ai-btn-mobile:not(.active) { display: flex; align-items: center; justify-content: center;}
+        .ai-widget-container.active .original-icon { transform: scale(0); opacity: 0; }
+        .ai-widget-container.active:not(.listening):not(.speaking) .ai-logo-icon { transform: scale(0); opacity: 0; }
+        .ai-widget-container.listening .ai-mic-icon { transform: scale(0); opacity: 0; }
+        .ai-widget-container.listening .ai-logo-icon { transform: scale(1); opacity: 1; }
+        .ai-widget-container.speaking .ai-logo-icon { transform: scale(0); opacity: 0; }
+        .ai-widget-container.speaking .ai-mic-icon { transform: scale(1); opacity: 1; }
+        
+        .ai-highlight {
+            position: relative; z-index: 10;
+            box-shadow: 0 0 0 4px var(--accent-primary), 0 0 20px 10px rgba(244, 31, 78, 0.7);
+            border-radius: 0.75rem; transition: box-shadow 0.3s ease-in-out;
+        }
+        
+        #mobile-header.ai-active .nav-content-wrapper {
+            background-color: transparent; border-color: transparent; box-shadow: none;
+        }
+        #mobile-header.ai-active #setu-ai-btn-mobile {
+            width: calc(100% - 1rem); height: 100%; top: 0; left: 0.5rem; right: 0.5rem;
+            position: absolute; margin: 0; max-width: none;
+        }
+        #mobile-header.ai-active .logo, #mobile-header.ai-active #notification-btn-mobile {
+            opacity: 0; transform: scale(0.8); pointer-events: none;
+        }
     </style>
 </head>
 <body class="antialiased pb-28 sm:pb-0">
-
-    <!-- Sarthi AI Intro Animation -->
-    <div id="setu-intro-animation" class="fixed inset-0 bg-[var(--bg-primary)] z-[200] flex items-center justify-center">
-        <div class="text-center">
-            <div id="setu-intro-logo" class="inline-block">
-                 <svg class="w-24 h-24 text-[var(--accent-primary)]" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12.0001 1.99219L3.45911 12.0002L12.0001 22.0082L20.5411 12.0002L12.0001 1.99219Z"/>
-                </svg>
-            </div>
-            <h1 id="setu-intro-text" class="text-3xl font-bold text-[var(--text-primary)] mt-4">Setu AI</h1>
-            <p id="setu-intro-subtext" class="text-lg text-[var(--text-muted)]">Coming Soon...</p>
-        </div>
-    </div>
-
-    <!-- Desktop Vertical Navbar -->
     <nav class="hidden sm:flex flex-col fixed top-0 left-0 h-full bg-[var(--bg-secondary)] border-r border-[var(--border-light)] w-56 shadow-lg z-50 p-2 desktop-sidebar">
-        <!-- Logo -->
         <div class="flex-shrink-0 flex justify-center pt-2 pb-8">
-            <a href="index.html" class="logo !text-2xl">
-                <span id="animated-name-desktop-sidebar">Setu</span>
-            </a>
+            <a href="index.html" class="logo !text-2xl"><span id="animated-name-desktop-sidebar">Setu</span></a>
         </div>
-
-        <!-- Main Navigation Links -->
         <div class="flex-grow flex flex-col items-center justify-start space-y-2">
-            <a href="index.html" title="Home" class="desktop-nav-link active">
+            <a href="index.html" title="Home" class="desktop-nav-link active" id="desktop-home-link">
                 <svg class="w-7 h-7 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h7.5" /></svg>
                 <span class="desktop-nav-text">Home</span>
             </a>
-            <a href="search.html" title="Search" class="desktop-nav-link">
+            <a href="search.html" title="Search" class="desktop-nav-link" id="desktop-search-link">
                  <svg class="w-7 h-7 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" /></svg>
                  <span class="desktop-nav-text">Search</span>
             </a>
-            <a href="report.html" title="Report Issue" class="desktop-nav-link btn-cta !text-white transform hover:!scale-105 my-2 !py-4">
+            <a href="report.html" title="Report Issue" class="desktop-nav-link btn-cta !text-white transform hover:!scale-105 my-2 !py-4" id="desktop-report-link">
                 <svg class="w-8 h-8 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
                 <span class="desktop-nav-text">Report</span>
             </a>
@@ -437,46 +327,33 @@
                 <svg class="w-7 h-7 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" /></svg>
                 <span class="desktop-nav-text">Filter</span>
             </button>
-            <a href="profile.html" title="Profile" class="desktop-nav-link">
+            <a href="profile.html" title="Profile" class="desktop-nav-link" id="desktop-profile-link">
                  <svg class="w-7 h-7 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                  <span class="desktop-nav-text">Profile</span>
             </a>
         </div>
-
-        <!-- Bottom Controls -->
         <div class="flex-shrink-0 w-full flex flex-col items-center space-y-2 pb-2">
-            <!-- NEW: Desktop Notification Button -->
             <button id="notification-btn-desktop" title="Notifications" class="desktop-nav-link w-full relative">
-                <svg class="w-7 h-7 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
-                </svg>
+                <svg class="w-7 h-7 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" /></svg>
                 <span class="desktop-nav-text">Notifications</span>
                 <span id="notification-unread-dot-desktop" class="notification-unread-dot !top-2 !right-auto left-8 hidden"></span>
             </button>
         </div>
     </nav>
 
-
     <div id="app" class="min-h-screen sm:pl-56">
-        <!-- Header for Mobile -->
-        <header class="sm:hidden sticky top-0 z-40 py-2 px-2">
-             <div class="nav-content-wrapper rounded-xl max-w-7xl mx-auto">
-                <div class="flex justify-between items-center py-2 px-4">
-                    <a href="index.html" class="logo w-24"><span id="animated-name-mobile">Setu</span></a>
-                    <div class="flex items-center space-x-1">
-                        <button id="setu-ai-btn-mobile" class="btn btn-cta !p-2 !rounded-full" title="Setu AI Assistant">
-                            <svg class="w-5 h-5 flex-shrink-0 text-white" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12.0001 1.99219L3.45911 12.0002L12.0001 22.0082L20.5411 12.0002L12.0001 1.99219Z"/>
-                            </svg>
+        <header id="mobile-header" class="sm:hidden sticky top-0 z-40 py-2 px-2">
+             <div class="nav-content-wrapper rounded-xl max-w-7xl mx-auto relative">
+                <div class="flex justify-between items-center py-2 px-4 h-12">
+                    <a href="index.html" class="logo w-24 transition-all duration-300"><span id="animated-name-mobile">Setu</span></a>
+                    <div id="mobile-header-buttons" class="flex items-center space-x-1 transition-all duration-300">
+                        <button id="setu-ai-btn-mobile" title="Setu AI Assistant" class="btn btn-cta !p-2 !rounded-full ai-widget-container">
+                             <svg class="w-5 h-5 flex-shrink-0 text-white original-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12.0001 1.99219L3.45911 12.0002L12.0001 22.0082L20.5411 12.0002L12.0001 1.99219Z"/></svg>
                         </button>
-                        <!-- NEW: Notification Button -->
                         <button id="notification-btn-mobile" class="btn btn-secondary !p-2 relative" title="Notifications">
-                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
-                            </svg>
+                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" /></svg>
                             <span id="notification-unread-dot" class="notification-unread-dot hidden"></span>
                         </button>
-                        <!-- Language and Theme buttons removed -->
                     </div>
                 </div>
             </div>
@@ -497,100 +374,38 @@
              <div class="p-4 space-y-4 flex-grow overflow-y-auto flex items-center justify-center">
                  <p class="text-center text-[var(--text-muted)] p-4 bg-[var(--bg-accent)] rounded-lg">Filters will be available soon.</p>
              </div>
-             <div class="p-4 border-t border-[var(--border-light)] flex-shrink-0 flex gap-4 hidden">
-                 <button id="reset-filter-btn" class="btn btn-secondary w-full">Reset</button>
-                 <button id="apply-filter-btn" class="btn btn-primary w-full">Apply</button>
-             </div>
         </div>
 
-        <!-- NEW: Notification Panel -->
         <div id="notification-backdrop" class="fixed inset-0 bg-black bg-opacity-60 z-40 hidden"></div>
         <div id="notification-panel" class="fixed top-0 right-0 h-full w-80 max-w-full bg-[var(--bg-secondary)] shadow-xl z-50 transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
              <div class="p-4 border-b border-[var(--border-light)] flex justify-between items-center flex-shrink-0">
                  <h3 class="text-lg font-semibold flex items-center text-[var(--text-primary)]">Notifications</h3>
                 <button id="close-notification-btn" class="text-[var(--text-muted)] hover:text-[var(--text-primary)]"><svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg></button>
              </div>
-             <div id="notification-content" class="flex-grow overflow-y-auto">
-                <!-- Notifications will be rendered here -->
-             </div>
+             <div id="notification-content" class="flex-grow overflow-y-auto"></div>
         </div>
 
-        <!-- Bottom Nav for Mobile -->
         <div class="fixed bottom-0 left-0 right-0 z-30 p-2 sm:hidden">
             <nav class="bottom-nav-content max-w-md mx-auto flex justify-around py-2">
                  <a href="index.html" id="home-nav-link" class="nav-link active flex flex-col items-center text-[var(--text-muted)] p-2 w-1/5"><svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h7.5" /></svg><span class="text-xs font-semibold">Home</span></a>
-                 <a href="search.html" class="nav-link flex flex-col items-center text-[var(--text-muted)] hover:text-[var(--text-primary)] transition p-2 w-1/5"><svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" /></svg><span class="text-xs">Search</span></a>
-                 <a href="report.html" class="flex flex-col items-center justify-center p-2 w-1/5"><div class="btn-cta text-white p-3.5 rounded-full transition duration-300 ease-in-out transform hover:scale-110 flex items-center justify-center shadow-lg -mt-6 border-4 border-[var(--bg-primary)]"><svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg></div></a>
+                 <a href="search.html" id="search-nav-link" class="nav-link flex flex-col items-center text-[var(--text-muted)] hover:text-[var(--text-primary)] transition p-2 w-1/5"><svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" /></svg><span class="text-xs">Search</span></a>
+                 <a href="report.html" id="report-nav-link" class="flex flex-col items-center justify-center p-2 w-1/5"><div class="btn-cta text-white p-3.5 rounded-full transition duration-300 ease-in-out transform hover:scale-110 flex items-center justify-center shadow-lg -mt-6 border-4 border-[var(--bg-primary)]"><svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg></div></a>
                  <button id="open-filter-btn" class="nav-link flex flex-col items-center text-[var(--text-muted)] hover:text-[var(--text-primary)] transition p-2 w-1/5"><svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" /></svg><span class="text-xs">Filter</span></button>
-                 <a href="profile.html" class="nav-link flex flex-col items-center text-[var(--text-muted)] hover:text-[var(--text-primary)] transition p-2 w-1/5"><svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" /></svg><span class="text-xs">Profile</span></a>
+                 <a href="profile.html" id="profile-nav-link" class="nav-link flex flex-col items-center text-[var(--text-muted)] hover:text-[var(--text-primary)] transition p-2 w-1/5"><svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" /></svg><span class="text-xs">Profile</span></a>
             </nav>
         </div>
     </div>
 
-    <!-- Sarthi AI Button -->
-    <button id="setu-ai-btn" title="Setu AI Assistant" class="hidden sm:flex fixed bottom-6 right-6 z-50 btn btn-cta !p-4 !rounded-full shadow-lg transform hover:scale-110 transition-transform duration-200">
-        <svg class="w-8 h-8 flex-shrink-0 text-white" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12.0001 1.99219L3.45911 12.0002L12.0001 22.0082L20.5411 12.0002L12.0001 1.99219Z"/>
-        </svg>
-    </button>
-
-    <!-- Sarthi AI Modal -->
-    <div id="setu-ai-modal" class="fixed inset-0 bg-black bg-opacity-60 z-[110] hidden items-center justify-center p-4">
-        <div class="bg-[var(--bg-secondary)] rounded-2xl shadow-xl w-full max-w-md transform transition-all duration-300 ease-out opacity-0 -translate-y-4 overflow-hidden">
-            <div class="text-center p-6 bg-[var(--bg-accent)]">
-                <div class="bg-gradient-to-br from-[#f41f4e] to-[#d81b45] p-3 rounded-full inline-block shadow-lg">
-                    <svg class="w-8 h-8 text-white" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M12.0001 1.99219L3.45911 12.0002L12.0001 22.0082L20.5411 12.0002L12.0001 1.99219Z"/>
-                </div>
-                <h2 class="text-2xl font-bold text-[var(--text-primary)] mt-3">Setu AI</h2>
-                <p class="text-sm font-semibold uppercase tracking-wider text-[#f41f4e] dark:text-[#f64c71] mt-1">Coming Soon</p>
-            </div>
-            <div class="p-6">
-                <p class="text-center text-[var(--text-secondary)] mb-6">
-                    Our new AI assistant is under development. Get ready for a smarter, more guided experience with these upcoming features:
-                </p>
-                <ul class="space-y-4 text-left">
-                    <li class="flex items-start space-x-4">
-                        <div class="flex-shrink-0 bg-red-100 dark:bg-[#4f1824] text-[#f41f4e] dark:text-[#f64c71] rounded-full p-2">
-                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
-                        </div>
-                        <div>
-                            <h3 class="font-semibold text-[var(--text-primary)]">Live Guidance</h3>
-                            <p class="text-sm text-[var(--text-secondary)]">Navigate the app with ease as Sarthi provides real-time assistance.</p>
-                        </div>
-                    </li>
-                    <li class="flex items-start space-x-4">
-                        <div class="flex-shrink-0 bg-red-100 dark:bg-[#4f1824] text-[#f41f4e] dark:text-[#f64c71] rounded-full p-2">
-                             <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
-                        </div>
-                        <div>
-                            <h3 class="font-semibold text-[var(--text-primary)]">Smart Reporting</h3>
-                            <p class="text-sm text-[var(--text-secondary)]">Get help reporting issues quickly and accurately.</p>
-                        </div>
-                    </li>
-                    <li class="flex items-start space-x-4">
-                        <div class="flex-shrink-0 bg-red-100 dark:bg-[#4f1824] text-[#f41f4e] dark:text-[#f64c71] rounded-full p-2">
-                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                        </div>
-                        <div>
-                            <h3 class="font-semibold text-[var(--text-primary)]">Instant Answers</h3>
-                            <p class="text-sm text-[var(--text-secondary)]">Have your app-related questions answered in an instant.</p>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-             <div class="p-6 pt-0 text-center">
-                <button id="setu-ai-modal-ok" class="btn btn-primary w-full sm:w-auto">Got it!</button>
-            </div>
-        </div>
+    <div id="setu-ai-container-desktop" class="hidden sm:block">
+        <button id="setu-ai-btn" title="Setu AI Assistant" class="btn btn-cta !p-4 !rounded-full shadow-lg transform hover:scale-110 transition-transform duration-200 ai-widget-container">
+             <svg class="w-8 h-8 flex-shrink-0 text-white original-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12.0001 1.99219L3.45911 12.0002L12.0001 22.0082L20.5411 12.0002L12.0001 1.99219Z"/></svg>
+        </button>
     </div>
 
-    <!-- Desktop Modal for Expanded View -->
     <div id="modal-overlay">
         <div id="modal-content-wrapper"></div>
     </div>
 
-    <!-- Fullscreen Image Viewer -->
     <div id="image-viewer-overlay" class="fixed inset-0 z-[120] flex items-center justify-center bg-black bg-opacity-80 backdrop-filter backdrop-blur-lg hidden">
         <button id="image-viewer-close">&times;</button>
         <img id="fullscreen-image" src="" alt="Full screen complaint image" class="max-w-[90vw] max-h-[90vh] transition-transform duration-200">
@@ -631,11 +446,7 @@
                 imageViewerOverlay: document.getElementById('image-viewer-overlay'),
                 imageViewerClose: document.getElementById('image-viewer-close'),
                 fullscreenImage: document.getElementById('fullscreen-image'),
-                setuAiBtn: document.getElementById('setu-ai-btn'),
-                setuAiBtnMobile: document.getElementById('setu-ai-btn-mobile'),
-                setuAiModal: document.getElementById('setu-ai-modal'),
-                setuAiModalOk: document.getElementById('setu-ai-modal-ok'),
-                setuIntroAnimation: document.getElementById('setu-intro-animation'),
+                mobileHeader: document.getElementById('mobile-header'),
                 notificationBtnMobile: document.getElementById('notification-btn-mobile'),
                 notificationBtnDesktop: document.getElementById('notification-btn-desktop'),
                 notificationPanel: document.getElementById('notification-panel'),
@@ -647,7 +458,6 @@
             };
             let scrollObserver;
             
-            // UPDATED: Welcome Notification Logic with live timestamp
             let firstVisitTimestamp = localStorage.getItem('firstVisitTimestamp');
             if (!firstVisitTimestamp) {
                 firstVisitTimestamp = new Date().toISOString();
@@ -658,12 +468,11 @@
             const welcomeNotification = {
                 id: 1,
                 title: 'Welcome to Setu!',
-                message: 'We\'re glad you\'re here to help make our cities better. <a href="about.html" class="text-[var(--accent-primary)] font-semibold hover:underline">Learn more about Setu</a>.',
+                message: 'We\'re glad you\'re here. <a href="about.html" class="text-[var(--accent-primary)] font-semibold hover:underline">Learn more about Setu</a>.',
                 timestamp: firstVisitTimestamp,
                 read: welcomeNotificationRead
             };
             notifications.push(welcomeNotification);
-
 
             function saveComplaints() { localStorage.setItem('complaintsData', JSON.stringify(complaints)); }
             
@@ -735,9 +544,7 @@
                                   <span class="px-3 py-1 text-xs font-bold rounded-full ${s.bg} ${s.text}">${c.status}</span>
                               </div>
                               <div class="mb-2">
-                                  <p class="text-[var(--text-primary)] text-2xl font-bold">
-                                      <span>${c.location}</span>
-                                  </p>
+                                  <p class="text-[var(--text-primary)] text-2xl font-bold"><span>${c.location}</span></p>
                                   <p class="text-sm text-[var(--text-muted)] mt-1">Submitted ${formatTimeAgo(c.timestamp)}</p>
                               </div>
                              <div class="card-details flex-grow flex flex-col">
@@ -762,52 +569,9 @@
                      return imageHtml + contentHtml;
                 }
                 
-                // New horizontal layout for feed cards on desktop
-                const desktopImageHtml = `
-                    <div class="hidden md:block md:w-1/3 lg:w-1/4 flex-shrink-0 relative card-image-container">
-                        <img src="${c.image}" onerror="this.src='https://placehold.co/400x600/E1E2E2/1D2228?text=Image+Not+Available';" class="absolute top-0 left-0 w-full h-full object-contain" alt="Complaint Image"/>
-                    </div>
-                `;
-                
+                const desktopImageHtml = `<div class="hidden md:block md:w-1/3 lg:w-1/4 flex-shrink-0 relative card-image-container"><img src="${c.image}" onerror="this.src='https://placehold.co/400x600/E1E2E2/1D2228?text=Image+Not+Available';" class="absolute top-0 left-0 w-full h-full object-contain" alt="Complaint Image"/></div>`;
                 const wrapperClasses = `main-content-wrapper flex-grow p-5 flex flex-col`;
-
-                const contentHtml = `
-                    <div class="${wrapperClasses}">
-                         <div class="flex items-center justify-between gap-2 mb-3">
-                             <span class="font-bold px-3 py-1 rounded-full text-xs ${i.bg} ${i.text} ${i.darkBg} ${i.darkText}">${c.issue}</span>
-                             <span class="px-3 py-1 text-xs font-bold rounded-full ${s.bg} ${s.text}">${c.status}</span>
-                         </div>
-                         <div class="mb-2">
-                             <p class="text-[var(--text-primary)] text-2xl font-bold">
-                                 <span>${c.location}</span>
-                             </p>
-                             <p class="text-sm text-[var(--text-muted)] mt-1">Submitted ${formatTimeAgo(c.timestamp)}</p>
-                         </div>
-
-                        <div class="card-details flex-grow flex flex-col">
-                            <div class="card-details-inner">
-                                <!-- This image is for the main card view ON MOBILE -->
-                                <div class="card-details-image-wrapper my-4 -mx-5 rounded-lg overflow-hidden md:hidden"><img src="${c.image}" onerror="this.src='https://placehold.co/800x400/E1E2E2/1D2228?text=Image+Not+Available';" class="w-full h-48 object-contain"/></div>
-                                
-                                <p class="text-[var(--text-secondary)] leading-relaxed my-4">${c.description}</p>
-                                
-                                <div class="border-t border-[var(--border-light)] my-4"></div>
-                                
-                                <div class="grid grid-cols-2 gap-4 text-sm">
-                                    <div>
-                                        <p class="font-semibold text-[var(--text-muted)] text-xs uppercase tracking-wider">Reported By</p>
-                                        <p class="font-medium text-[var(--text-primary)]">${c.reporter}</p>
-                                    </div>
-                                    <div>
-                                        <p class="font-semibold text-[var(--text-muted)] text-xs uppercase tracking-wider">Assigned To</p>
-                                        <p class="font-medium text-[var(--text-primary)]">${c.authority.name}</p>
-                                        <p class="text-xs text-[var(--text-muted)]">${c.authority.department}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        ${ratingSectionHtml}
-                    </div>`;
+                const contentHtml = `<div class="${wrapperClasses}"><div class="flex items-center justify-between gap-2 mb-3"><span class="font-bold px-3 py-1 rounded-full text-xs ${i.bg} ${i.text} ${i.darkBg} ${i.darkText}">${c.issue}</span><span class="px-3 py-1 text-xs font-bold rounded-full ${s.bg} ${s.text}">${c.status}</span></div><div class="mb-2"><p class="text-[var(--text-primary)] text-2xl font-bold"><span>${c.location}</span></p><p class="text-sm text-[var(--text-muted)] mt-1">Submitted ${formatTimeAgo(c.timestamp)}</p></div><div class="card-details flex-grow flex flex-col"><div class="card-details-inner"><div class="card-details-image-wrapper my-4 -mx-5 rounded-lg overflow-hidden md:hidden"><img src="${c.image}" onerror="this.src='https://placehold.co/800x400/E1E2E2/1D2228?text=Image+Not+Available';" class="w-full h-48 object-contain"/></div><p class="text-[var(--text-secondary)] leading-relaxed my-4">${c.description}</p><div class="border-t border-[var(--border-light)] my-4"></div><div class="grid grid-cols-2 gap-4 text-sm"><div><p class="font-semibold text-[var(--text-muted)] text-xs uppercase tracking-wider">Reported By</p><p class="font-medium text-[var(--text-primary)]">${c.reporter}</p></div><div><p class="font-semibold text-[var(--text-muted)] text-xs uppercase tracking-wider">Assigned To</p><p class="font-medium text-[var(--text-primary)]">${c.authority.name}</p><p class="text-xs text-[var(--text-muted)]">${c.authority.department}</p></div></div></div></div>${ratingSectionHtml}</div>`;
                 return desktopImageHtml + contentHtml;
             };
 
@@ -823,25 +587,7 @@
             const renderFeed = cList => {
                 UI.feedContainer.innerHTML = '';
                 if (!cList || cList.length === 0) {
-                    UI.feedContainer.innerHTML = `
-                        <div class="text-center py-16 px-6 bg-[var(--bg-secondary)] rounded-2xl shadow-sm fade-in visible col-span-1 md:col-span-2 lg:col-span-3">
-                            <svg class="mx-auto h-12 w-12 text-[var(--text-muted)]" fill="none" viewBox="0 0 24 24" stroke-width="1.5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
-                            </svg>
-                            <h3 class="mt-4 text-lg font-semibold text-[var(--text-primary)]">No Reports Found</h3>
-                            <p class="mt-1 text-sm text-[var(--text-muted)]">
-                                It looks like there are no reports in your area yet.
-                            </p>
-                            <div class="mt-6">
-                                <a href="report.html" class="btn btn-primary">
-                                    <svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                        <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
-                                    </svg>
-                                    Create the First Report
-                                </a>
-                            </div>
-                        </div>
-                    `;
+                    UI.feedContainer.innerHTML = `<div class="text-center py-16 px-6 bg-[var(--bg-secondary)] rounded-2xl shadow-sm fade-in visible col-span-1 md:col-span-2 lg:col-span-3"><svg class="mx-auto h-12 w-12 text-[var(--text-muted)]" fill="none" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" /></svg><h3 class="mt-4 text-lg font-semibold text-[var(--text-primary)]">No Reports Found</h3><p class="mt-1 text-sm text-[var(--text-muted)]">It looks like there are no reports in your area yet.</p><div class="mt-6"><a href="report.html" class="btn btn-primary"><svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" /></svg>Create the First Report</a></div></div>`;
                 } else {
                     cList.sort((a,b)=>new Date(b.timestamp)-new Date(a.timestamp)).forEach(c => UI.feedContainer.appendChild(createPostElement(c)));
                 }
@@ -854,10 +600,7 @@
             const handleCardClick = (e) => {
                 const card = e.target.closest('.complaint-card');
                 if (!card || e.target.closest('button, a, .card-image-container, .card-details-image-wrapper')) return;
-
-                if (isDesktop()) {
-                    openModal(card);
-                }
+                if (isDesktop()) openModal(card);
             };
             
             const openModal = (card) => {
@@ -900,7 +643,6 @@
                 if (!originalCard) return;
                 const cardRect = originalCard.getBoundingClientRect();
                 const finalRect = modalCard.getBoundingClientRect();
-
                 const dx = cardRect.left - finalRect.left;
                 const dy = cardRect.top - finalRect.top;
                 const dw = cardRect.width / finalRect.width;
@@ -921,9 +663,7 @@
                 }, 350);
             };
 
-            // --- Image Viewer Logic ---
             let isPanning = false, startX, startY, transformX = 0, transformY = 0, scale = 1;
-
             const openImageViewer = (src) => {
                 UI.fullscreenImage.src = src;
                 UI.imageViewerOverlay.classList.remove('hidden');
@@ -931,15 +671,10 @@
                 UI.fullscreenImage.style.transform = `translate(${transformX}px, ${transformY}px) scale(${scale})`;
                 setTimeout(() => UI.imageViewerOverlay.classList.add('visible'), 10);
             };
-
             const closeImageViewer = () => {
                 UI.imageViewerOverlay.classList.remove('visible');
-                setTimeout(() => {
-                    UI.imageViewerOverlay.classList.add('hidden');
-                    UI.fullscreenImage.src = '';
-                }, 300);
+                setTimeout(() => { UI.imageViewerOverlay.classList.add('hidden'); UI.fullscreenImage.src = ''; }, 300);
             };
-
             const handleWheel = (e) => { e.preventDefault(); const scaleAmount = 0.1; scale += e.deltaY > 0 ? -scaleAmount : scaleAmount; scale = Math.min(Math.max(0.5, scale), 4); UI.fullscreenImage.style.transform = `translate(${transformX}px, ${transformY}px) scale(${scale})`; };
             const handlePointerDown = (e) => { isPanning = true; startX = e.clientX - transformX; startY = e.clientY - transformY; UI.fullscreenImage.style.cursor = 'grabbing'; };
             const handlePointerMove = (e) => { if (!isPanning) return; e.preventDefault(); transformX = e.clientX - startX; transformY = e.clientY - startY; UI.fullscreenImage.style.transform = `translate(${transformX}px, ${transformY}px) scale(${scale})`; };
@@ -947,8 +682,6 @@
 
             const handleInteractiveElements = (e) => {
                 const parent = e.target.closest('.complaint-card, .modal-card');
-
-                // Image Viewer Click
                 const imageContainer = e.target.closest('.card-image-container, .card-details-image-wrapper');
                 if (imageContainer) {
                     e.stopPropagation();
@@ -956,9 +689,7 @@
                     if (image && image.src) openImageViewer(image.src);
                     return;
                 }
-                
                 if (!parent) return;
-
                 const rateNowBtn = e.target.closest('.rate-now-btn');
                 if (rateNowBtn) {
                     e.stopPropagation();
@@ -966,7 +697,6 @@
                     if (ratingContainer) ratingContainer.classList.toggle('expanded');
                     return;
                 }
-
                 const ratingStar = e.target.closest('.rating-star');
                 if (ratingStar) {
                     e.stopPropagation();
@@ -975,23 +705,17 @@
                     const submitBtn = parent.querySelector('.submit-rating-btn');
                     const ratingValue = parseInt(ratingStar.dataset.value);
                     const selectedColor = ratingStarColors[ratingValue];
-
                     feedbackEl.textContent = ratingFeedbacks[ratingValue];
                     stars.forEach(star => {
                         const starValue = parseInt(star.dataset.value);
                         star.classList.remove(...ratingStarColors.filter(c => c), 'text-gray-300', 'selected');
-                        if (starValue <= ratingValue) {
-                            star.classList.add(selectedColor);
-                            if(starValue === ratingValue) star.classList.add('selected');
-                        } else {
-                            star.classList.add('text-gray-300');
-                        }
+                        star.classList.add(starValue <= ratingValue ? selectedColor : 'text-gray-300');
+                        if(starValue === ratingValue) star.classList.add('selected');
                     });
                     submitBtn.disabled = false;
                     submitBtn.dataset.rating = ratingValue;
                     return;
                 }
-                
                 const submitRatingBtn = e.target.closest('.submit-rating-btn');
                 if (submitRatingBtn) {
                     e.stopPropagation();
@@ -1012,99 +736,13 @@
                 }
             };
             
-            // --- Sarthi AI Modal Logic ---
-            const openSetuModal = () => {
-                const modalContent = UI.setuAiModal.querySelector('div');
-                UI.setuAiModal.classList.remove('hidden');
-                UI.setuAiModal.classList.add('flex');
-                setTimeout(() => {
-                    modalContent.classList.remove('opacity-0', '-translate-y-4');
-                }, 10);
-
-                // Stop animation and save state
-                if (!sessionStorage.getItem('setuAiButtonClicked')) {
-                    UI.setuAiBtn.classList.remove('setu-btn-animated');
-                    UI.setuAiBtnMobile.classList.remove('setu-btn-animated');
-                    sessionStorage.setItem('setuAiButtonClicked', 'true');
-                }
-            };
-
-            const closeSetuModal = () => {
-                const modalContent = UI.setuAiModal.querySelector('div');
-                modalContent.classList.add('opacity-0', '-translate-y-4');
-                setTimeout(() => {
-                    UI.setuAiModal.classList.add('hidden');
-                    UI.setuAiModal.classList.remove('flex');
-                }, 300); // Wait for transition to finish
-            };
-
-            // --- Sarthi AI Intro Animation ---
-            const runSetuIntro = () => {
-                if (sessionStorage.getItem('setuIntroShown')) {
-                    UI.setuIntroAnimation.style.display = 'none';
-                    // Check if button should be animated
-                    if (!sessionStorage.getItem('setuAiButtonClicked')) {
-                        UI.setuAiBtn.classList.add('setu-btn-animated');
-                        UI.setuAiBtnMobile.classList.add('setu-btn-animated');
-                    }
-                    return;
-                }
-
-                document.body.classList.add('no-scroll');
-
-                setTimeout(() => {
-                    const targetBtn = isDesktop() ? UI.setuAiBtn : UI.setuAiBtnMobile;
-                    const setuBtnRect = targetBtn.getBoundingClientRect();
-                    const introRect = UI.setuIntroAnimation.getBoundingClientRect();
-
-                    if(setuBtnRect.width === 0) { // If button is hidden, just fade out
-                         UI.setuIntroAnimation.style.opacity = '0';
-                    } else {
-                        const scale = (setuBtnRect.width / introRect.width) * 1.5;
-                        const translateX = (setuBtnRect.left + setuBtnRect.width / 2) - (introRect.left + introRect.width / 2);
-                        const translateY = (setuBtnRect.top + setuBtnRect.height / 2) - (introRect.top + introRect.height / 2);
-
-                        UI.setuIntroAnimation.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
-                        UI.setuIntroAnimation.style.opacity = '0';
-                    }
-                }, 2500); // Start shrinking after 2.5 seconds
-
-                setTimeout(() => {
-                    UI.setuIntroAnimation.style.display = 'none';
-                    document.body.classList.remove('no-scroll');
-                    sessionStorage.setItem('setuIntroShown', 'true');
-                    // Start pulsing the actual button after the intro
-                    if (!sessionStorage.getItem('setuAiButtonClicked')) {
-                        UI.setuAiBtn.classList.add('setu-btn-animated');
-                        UI.setuAiBtnMobile.classList.add('setu-btn-animated');
-                    }
-                }, 3200); // Hide after transition (0.7s)
-            };
-            
-            // UPDATED: Sarthi AI Button Spin
-            const setupSetuSpin = () => {
-                const setuSvgs = document.querySelectorAll('#setu-ai-btn-mobile svg, #setu-ai-btn svg');
-                if (setuSvgs.length === 0) return;
-                setInterval(() => {
-                    setuSvgs.forEach(svg => {
-                        svg.classList.add('setu-spin');
-                        svg.addEventListener('animationend', () => {
-                            svg.classList.remove('setu-spin');
-                        }, { once: true });
-                    });
-                }, 7000); // UPDATED to 7 seconds
-            };
-
-            // --- Notification Panel Logic ---
             const openNotificationPanel = () => { 
                 UI.notificationBackdrop.classList.remove('hidden'); 
                 UI.notificationPanel.classList.remove('translate-x-full'); 
-                
-                // Mark welcome notification as read
                 if (!welcomeNotification.read) {
                     welcomeNotification.read = true;
                     localStorage.setItem('welcomeNotificationRead', 'true');
-                    renderNotifications(); // Re-render to update the UI
+                    renderNotifications();
                 }
             };
             const closeNotificationPanel = () => { UI.notificationBackdrop.classList.add('hidden'); UI.notificationPanel.classList.add('translate-x-full'); };
@@ -1112,84 +750,260 @@
             const renderNotifications = () => {
                 const hasUnread = notifications.some(n => !n.read);
                 UI.notificationUnreadDot.classList.toggle('hidden', !hasUnread);
-                if (UI.notificationUnreadDotDesktop) {
-                    UI.notificationUnreadDotDesktop.classList.toggle('hidden', !hasUnread);
-                }
-
+                if (UI.notificationUnreadDotDesktop) UI.notificationUnreadDotDesktop.classList.toggle('hidden', !hasUnread);
                 if (notifications.length === 0) {
                     UI.notificationContent.innerHTML = `<p class="text-center text-[var(--text-muted)] p-8">You have no new notifications.</p>`;
                     return;
                 }
-                
-                // UPDATED: Use formatTimeAgo for timestamps
-                UI.notificationContent.innerHTML = notifications.map(n => `
-                    <div class="p-4 border-b border-[var(--border-light)] flex items-start space-x-3 ${!n.read ? '' : 'opacity-70'}">
-                        ${!n.read ? '<div class="w-2 h-2 rounded-full bg-[#f41f4e] mt-2 flex-shrink-0"></div>' : '<div class="w-2 h-2 flex-shrink-0"></div>'}
-                        <div class="flex-grow">
-                            <p class="font-semibold text-[var(--text-primary)]">${n.title}</p>
-                            <p class="text-sm text-[var(--text-secondary)]">${n.message}</p>
-                            <p class="text-xs text-[var(--text-muted)] mt-1">${formatTimeAgo(n.timestamp)}</p>
-                        </div>
-                    </div>
-                `).join('');
+                UI.notificationContent.innerHTML = notifications.map(n => `<div class="p-4 border-b border-[var(--border-light)] flex items-start space-x-3 ${!n.read ? '' : 'opacity-70'}">${!n.read ? '<div class="w-2 h-2 rounded-full bg-[#f41f4e] mt-2 flex-shrink-0"></div>' : '<div class="w-2 h-2 flex-shrink-0"></div>'}<div class="flex-grow"><p class="font-semibold text-[var(--text-primary)]">${n.title}</p><p class="text-sm text-[var(--text-secondary)]">${n.message}</p><p class="text-xs text-[var(--text-muted)] mt-1">${formatTimeAgo(n.timestamp)}</p></div></div>`).join('');
             };
 
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            let recognition;
+            let currentHighlight = null;
+            let isAiActive = false;
+            let aiTimeout;
+            let aiWidgetDesktop, aiWidgetMobile;
+
+            function setupAiWidgets() {
+                aiWidgetDesktop = new AiWidget(document.querySelector('#setu-ai-btn'));
+                aiWidgetMobile = new AiWidget(document.querySelector('#setu-ai-btn-mobile'), true);
+                if (!sessionStorage.getItem('setuAiButtonClicked')) {
+                    document.querySelectorAll('.ai-widget-container').forEach(el => el.classList.add('setu-btn-animated'));
+                }
+                setupAiButtonSpin();
+            }
+            
+            function setupAiButtonSpin() {
+                setInterval(() => {
+                    document.querySelectorAll('.ai-widget-container:not(.active) .original-icon').forEach(icon => {
+                        if (icon) {
+                            icon.classList.add('spin');
+                            icon.addEventListener('animationend', () => {
+                                icon.classList.remove('spin');
+                            }, { once: true });
+                        }
+                    });
+                }, 7000);
+            }
+
+            function getCurrentLanguage() {
+                const cookieValue = document.cookie.split('; ').find(row => row.startsWith('googtrans='));
+                if (cookieValue) {
+                    const langCode = cookieValue.split('/')[2];
+                    const langMap = { 'hi': 'hi-IN', 'bn': 'bn-IN', 'te': 'te-IN', 'mr': 'mr-IN', 'ta': 'ta-IN', 'ur': 'ur-IN', 'gu': 'gu-IN', 'kn': 'kn-IN', 'ml': 'ml-IN' };
+                    return langMap[langCode] || 'en-US';
+                }
+                return 'en-US';
+            }
+            
+            if (SpeechRecognition) {
+                recognition = new SpeechRecognition();
+                recognition.continuous = false;
+                recognition.interimResults = true;
+                recognition.maxAlternatives = 1;
+                recognition.onresult = (event) => {
+                    const transcript = Array.from(event.results).map(r => r[0].transcript).join('');
+                    [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setStatus(`"${transcript}"`));
+                    if (event.results[0].isFinal) {
+                        [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setState('idle'));
+                        querySarvamAI(transcript);
+                    }
+                };
+                recognition.onerror = (event) => {
+                    const errorMsg = event.error === 'no-speech' ? "I didn't hear that." : "Mic error.";
+                    [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setStatus(errorMsg, true));
+                };
+                recognition.onend = () => { [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setState('idle')); };
+            }
+
+            function startListening(event) {
+                if(event) event.stopPropagation();
+                if (!isAiActive || !SpeechRecognition) return;
+                recognition.lang = getCurrentLanguage();
+                recognition.start();
+                [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setState('listening'));
+            }
+            
+            async function querySarvamAI(text) {
+                 [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setStatus('Thinking...'));
+                 try {
+                    const mockAI = (query, lang) => {
+                        query = query.toLowerCase();
+                        let responseText = { 'en-US': "Sorry, I'm not sure how to help.", 'hi-IN': "क्षमा करें, मुझे यकीन नहीं है कि इसमें कैसे मदद की जाए।" };
+                        let result = { action: 'answer', targetId: null, responseText: responseText[lang] || responseText['en-US'] };
+
+                        if (query.includes('how to report') || query.includes('कैसे रिपोर्ट')) {
+                             responseText = { 'en-US': 'To report an issue, please click the big red "Report" button.', 'hi-IN': 'समस्या की रिपोर्ट करने के लिए, कृपया बड़े लाल "रिपोर्ट" बटन पर क्लिक करें।'};
+                             result = { action: 'answer', targetId: null, responseText: responseText[lang] || responseText['en-US'] };
+                        } else if (query.includes('report') || query.includes('complaint') || query.includes('रिपोर्ट') || query.includes('शिकायत')) {
+                             responseText = { 'en-US': 'Here is the report button.', 'hi-IN': 'यह रिपोर्ट बटन है।' };
+                             result = { action: 'highlight', targetId: isDesktop() ? 'desktop-report-link' : 'report-nav-link', responseText: responseText[lang] || responseText['en-US'] };
+                        } else if (query.includes('profile') || query.includes('प्रोफ़ाइल')) {
+                             responseText = { 'en-US': 'You can view your profile here.', 'hi-IN': 'आप अपनी प्रोफ़ाइल यहां देख सकते हैं।' };
+                             result = { action: 'highlight', targetId: isDesktop() ? 'desktop-profile-link' : 'profile-nav-link', responseText: responseText[lang] || responseText['en-US'] };
+                        } else if (query.includes('search') || query.includes('खोज')) {
+                             responseText = { 'en-US': 'Taking you to the search page.', 'hi-IN': 'आपको खोज पृष्ठ पर ले जा रहा हूँ।' };
+                            result = { action: 'navigate', targetId: isDesktop() ? 'desktop-search-link' : 'search-nav-link', responseText: responseText[lang] || responseText['en-US'] };
+                        }
+                        return result;
+                    };
+                    const result = mockAI(text, recognition.lang);
+                    processAIResponse(result);
+                } catch (error) {
+                    [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setStatus("Sorry, I had an issue.", true));
+                    speak("Sorry, I am having trouble connecting right now.");
+                }
+            }
+            
+            function processAIResponse(response) {
+                clearTimeout(aiTimeout);
+                if (response.responseText) {
+                    speak(response.responseText);
+                    [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setStatus(response.responseText));
+                }
+                if (currentHighlight) currentHighlight.classList.remove('ai-highlight');
+                if (response.action === 'highlight' && response.targetId) {
+                    const element = document.getElementById(response.targetId);
+                    if (element) {
+                        if (isAiActive) [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.deactivate());
+                        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        element.classList.add('ai-highlight');
+                        currentHighlight = element;
+                        setTimeout(() => { if (currentHighlight) currentHighlight.classList.remove('ai-highlight'); }, 5000);
+                    }
+                } else if (response.action === 'navigate' && response.targetId) {
+                    const element = document.getElementById(response.targetId);
+                    if (element && element.href) window.location.href = element.href;
+                } else {
+                    aiTimeout = setTimeout(() => { if (isAiActive) [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.deactivate()); }, 4000);
+                }
+            }
+            
+            function speak(text) {
+                if (!('speechSynthesis' in window)) return;
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = getCurrentLanguage();
+                utterance.onstart = () => { [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setState('speaking')); };
+                utterance.onend = () => { [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setState('idle')); };
+                window.speechSynthesis.speak(utterance);
+            }
+            
+            class AiWidget {
+                constructor(element, isMobile = false) {
+                    this.element = element;
+                    this.isMobile = isMobile;
+                    this.isActive = false;
+                    
+                    this.originalIcon = this.element.querySelector('.original-icon');
+                    if(this.originalIcon) this.originalIcon.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+
+                    this.element.insertAdjacentHTML('beforeend', this.createHTML());
+                    
+                    this.widgetInner = this.element.querySelector('.ai-widget-inner');
+                    this.statusEl = this.element.querySelector('.ai-status');
+                    this.logoIcon = this.element.querySelector('.ai-logo-icon');
+                    this.micIcon = this.element.querySelector('.ai-mic-icon');
+                    
+                    this.element.addEventListener('click', (e) => this.toggle(e));
+                    this.widgetInner.querySelector('.ai-icon-container').addEventListener('click', startListening);
+                }
+
+                createHTML() {
+                     const logoSize = this.isMobile ? 'w-5 h-5' : 'w-8 h-8';
+                     const micSize = this.isMobile ? 'w-6 h-6' : 'w-8 h-8';
+                     return `
+                        <div class="ai-widget-inner">
+                            <div class="ai-icon-container">
+                                <svg class="${logoSize} text-white ai-logo-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12.0001 1.99219L3.45911 12.0002L12.0001 22.0082L20.5411 12.0002L12.0001 1.99219Z"/></svg>
+                                <svg class="${micSize} text-white ai-mic-icon" viewBox="0 0 24 24" fill="none"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" fill="currentColor"/><path d="M19 10v2a7 7 0 0 1-14 0v-2H3v2a9 9 0 0 0 8 8.94V24h2v-3.06A9 9 0 0 0 21 12v-2h-2z" fill="currentColor"/></svg>
+                            </div>
+                            <div class="ai-content">
+                                <p class="ai-status text-sm text-white w-full text-left font-semibold"></p>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                toggle(event) {
+                    event.stopPropagation();
+                    this.isActive ? this.deactivate() : this.activate();
+                }
+
+                activate() {
+                    if (navigator.vibrate) navigator.vibrate(50);
+                    this.isActive = true; isAiActive = true;
+                    this.element.classList.add('active');
+                    if (this.isMobile) UI.mobileHeader.classList.add('ai-active');
+                    this.setStatus('Tap the icon to speak.');
+                    
+                    if (!sessionStorage.getItem('setuAiButtonClicked')) {
+                        document.querySelectorAll('.ai-widget-container').forEach(el => el.classList.remove('setu-btn-animated'));
+                        sessionStorage.setItem('setuAiButtonClicked', 'true');
+                    }
+                    setTimeout(() => startListening({ stopPropagation: () => {} }), 500);
+                }
+
+                deactivate() {
+                    this.isActive = false; isAiActive = false;
+                    this.element.classList.remove('active');
+                    if (this.isMobile) UI.mobileHeader.classList.remove('ai-active');
+                    if (recognition) recognition.stop();
+                }
+
+                setStatus(text, isError = false) {
+                    this.statusEl.textContent = text;
+                    this.statusEl.style.color = isError ? '#fee2e2' : '#ffffff';
+                }
+
+                setState(state) {
+                    this.element.classList.remove('listening', 'speaking');
+                    this.logoIcon.classList.remove('spin');
+                    this.micIcon.classList.remove('spin');
+                    if (state === 'listening') {
+                        this.element.classList.add('listening');
+                        this.logoIcon.classList.add('spin');
+                    } else if (state === 'speaking') {
+                        this.element.classList.add('speaking');
+                        this.micIcon.classList.add('spin');
+                    }
+                }
+            }
+
             // Initial setup
-            runSetuIntro();
+            setupAiWidgets();
+            if(!sessionStorage.getItem('setuIntroShown')) {
+                // This is a placeholder for your intro animation logic if you bring it back
+            }
             loadComplaints();
             setupTheme(); 
             setupLogoAnimation(); 
             restoreLanguageDisplay(); 
             setupScrollAnimations(); 
             renderFeed(complaints);
-            setupSetuSpin();
             renderNotifications();
 
             // Event Listeners
-            let lastHomeClick = 0;
-            UI.homeNavLink.addEventListener('click', (e) => {
-                e.preventDefault();
-                const now = new Date().getTime();
-                if (now - lastHomeClick < 300) { // Double click
-                    location.reload();
-                } else { // Single click
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                }
-                lastHomeClick = now;
-            });
-
+            UI.homeNavLink.addEventListener('click', (e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
             UI.feedContainer.addEventListener('click', handleCardClick);
             document.body.addEventListener('click', handleInteractiveElements);
             UI.openFilterBtn.addEventListener('click',openFilter); 
-            if (UI.openFilterBtnDesktop) {
-                UI.openFilterBtnDesktop.addEventListener('click',openFilter); 
-            }
+            if (UI.openFilterBtnDesktop) UI.openFilterBtnDesktop.addEventListener('click',openFilter); 
             UI.closeFilterBtn.addEventListener('click',closeFilter); 
             UI.filterBackdrop.addEventListener('click',closeFilter);
-
-            // Image Viewer Listeners
             UI.imageViewerClose.addEventListener('click', closeImageViewer);
             UI.imageViewerOverlay.addEventListener('click', (e) => { if (e.target === UI.imageViewerOverlay) closeImageViewer(); });
             UI.fullscreenImage.addEventListener('wheel', handleWheel, { passive: false });
             UI.fullscreenImage.addEventListener('pointerdown', handlePointerDown);
             window.addEventListener('pointermove', handlePointerMove);
             window.addEventListener('pointerup', handlePointerUp);
-
-            // Sarthi AI Listeners
-            UI.setuAiBtn.addEventListener('click', openSetuModal);
-            UI.setuAiBtnMobile.addEventListener('click', openSetuModal);
-            UI.setuAiModalOk.addEventListener('click', closeSetuModal);
-            UI.setuAiModal.addEventListener('click', (e) => {
-                if (e.target === UI.setuAiModal) {
-                    closeSetuModal();
+            document.addEventListener('click', (e) => {
+                if(isAiActive && !e.target.closest('.ai-widget-container')) {
+                    [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.deactivate());
                 }
             });
-            
-            // Notification Listeners
             UI.notificationBtnMobile.addEventListener('click', openNotificationPanel);
-            if (UI.notificationBtnDesktop) {
-                UI.notificationBtnDesktop.addEventListener('click', openNotificationPanel);
-            }
+            if (UI.notificationBtnDesktop) UI.notificationBtnDesktop.addEventListener('click', openNotificationPanel);
             UI.closeNotificationBtn.addEventListener('click', closeNotificationPanel);
             UI.notificationBackdrop.addEventListener('click', closeNotificationPanel);
         });
