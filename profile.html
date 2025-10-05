@@ -136,19 +136,119 @@
         .desktop-nav-link.active:hover svg { color: var(--accent-primary) !important; }
         
         /* --- SETU AI INTERFACE STYLES (Copied from index.html) --- */
-        #setu-ai-container-desktop { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 50; }
-        .ai-widget-container { transition: all 0.35s cubic-bezier(0.34, 1.3, 0.64, 1); position: relative; }
+        #setu-ai-container-desktop {
+            position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 50;
+            transform: translateX(150%);
+            animation: slideInFab 0.7s 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* --- START: AI Summary Box --- */
+        .ai-summary-box {
+            position: absolute;
+            bottom: calc(100% + 1rem); /* Positioned above the AI widget */
+            right: 0;
+            width: 380px;
+            max-width: calc(100vw - 2rem);
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-light);
+            border-radius: 1rem;
+            box-shadow: var(--shadow-medium);
+            padding: 1rem 1.25rem;
+            opacity: 0;
+            transform: translateY(10px) scale(0.95);
+            transform-origin: bottom right;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: -1; /* To appear behind the main widget if it ever overlaps */
+        }
+
+        .ai-summary-box.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        
+        .ai-summary-box .summary-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .ai-summary-box ul {
+            list-style-type: disc;
+            list-style-position: inside;
+            padding-left: 0.25rem;
+        }
+
+        .ai-summary-box li {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            line-height: 1.5;
+        }
+        .ai-summary-box li::marker {
+             color: var(--accent-primary);
+        }
+
+        /* For mobile header where AI widget is on top */
+        #mobile-header.ai-active .ai-summary-box {
+            bottom: auto;
+            top: calc(100% + 0.5rem);
+            left: 0;
+            right: 0;
+            width: auto;
+            transform-origin: top center;
+        }
+        /* --- END: AI Summary Box --- */
+        
+        .ai-widget-container {
+            transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+            position: relative;
+        }
         .ai-widget-container:not(.active) { width: 64px; height: 64px; }
         #setu-ai-btn-mobile:not(.active) { width: 36px; height: 36px; }
         .ai-widget-container:not(.active):hover { transform: scale(1.1); }
         .ai-widget-container.active { width: 380px; max-width: calc(100vw - 2rem); height: 80px; background-color: rgba(244, 31, 78, 0.75); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 9999px; box-shadow: var(--shadow-medium); }
+        
+        /* NEW: Style for vertically expanded state */
+        .ai-widget-container.active.expanded-vertically {
+            height: auto;
+            min-height: 80px;
+            max-height: 250px;
+            border-radius: 1.5rem; /* Rectangular shape */
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+
         .ai-widget-inner { display: flex; align-items: center; justify-content: flex-start; width: 100%; height: 100%; cursor: default; }
+        
+        /* NEW: Adjust inner alignment for expanded state */
+        .ai-widget-container.expanded-vertically .ai-widget-inner {
+            align-items: flex-start;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+
         .ai-icon-container { display: grid; place-items: center; flex-shrink: 0; width: 80px; height: 100%; cursor: pointer; }
         #setu-ai-btn-mobile .ai-icon-container { width: 48px; }
         .ai-icon-container svg { grid-area: 1 / 1; transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; }
         .ai-content { width: 100%; height: 100%; display: flex; align-items: center; padding: 0 1rem 0 0; opacity: 0; transform: translateX(-10px); transition: opacity 0.3s ease-in-out 0.2s, transform 0.3s ease-in-out 0.2s; pointer-events: none; }
         .ai-widget-container.active .ai-content { opacity: 1; transform: translateX(0); pointer-events: auto; }
-        .ai-status { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        
+        .ai-status {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* NEW: Allow text to wrap in expanded state */
+        .ai-widget-container.expanded-vertically .ai-status {
+            white-space: normal;
+        }
+
         .ai-widget-container:not(.active) .ai-widget-inner { display: none; }
         #setu-ai-btn-mobile:not(.active) { display: flex; align-items: center; justify-content: center; }
         .ai-widget-container.active .original-icon { transform: scale(0); opacity: 0; }
@@ -161,6 +261,8 @@
         #mobile-header.ai-active .nav-content-wrapper { background-color: transparent; border-color: transparent; box-shadow: none; }
         #mobile-header.ai-active #setu-ai-btn-mobile { width: calc(100% - 1rem); height: 100%; top: 0; left: 0.5rem; right: 0.5rem; position: absolute; margin: 0; max-width: none; }
         #mobile-header.ai-active .logo { opacity: 0; transform: scale(0.8); pointer-events: none; }
+        
+        @keyframes slideInFab { to { transform: translateX(0); } }
         @keyframes pulse-glow { 0% { box-shadow: 0 0 0 0 var(--accent-primary); } 70% { box-shadow: 0 0 0 12px rgba(244, 31, 78, 0); } 100% { box-shadow: 0 0 0 0 rgba(244, 31, 78, 0); } }
         .setu-btn-animated:not(.active) { animation: pulse-glow 2.5s infinite; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
@@ -470,6 +572,50 @@
             let recognition; let currentHighlight = null; let isAiActive = false; let aiTimeout; let aiWidgetDesktop, aiWidgetMobile;
             const isDesktop = () => window.innerWidth >= 640;
 
+            // --- START: AI Summary Functions ---
+            function generatePageSummary() {
+                const summaryPoints = [];
+                if (!currentUserData || Object.keys(currentUserData).length === 0) {
+                    return ["No user profile data is available to summarize."];
+                }
+                summaryPoints.push(`The user's name is ${currentUserData.fullname}.`);
+                summaryPoints.push(`They live in ${currentUserData.city}.`);
+                if (currentUserData.email) {
+                    summaryPoints.push(`Their email is available for contact.`);
+                }
+                if (currentUserData.mobile) {
+                    summaryPoints.push(`Their mobile number is registered.`);
+                }
+                return summaryPoints;
+            }
+
+            function displaySummary(summaryPoints) {
+                const existingBox = document.querySelector('#ai-summary-box');
+                if (existingBox) existingBox.remove();
+                const summaryBox = document.createElement('div');
+                summaryBox.id = 'ai-summary-box';
+                summaryBox.className = 'ai-summary-box';
+                const title = document.createElement('h4');
+                title.className = 'summary-title';
+                title.textContent = 'Page Summary';
+                summaryBox.appendChild(title);
+                const list = document.createElement('ul');
+                summaryPoints.forEach(point => {
+                    const li = document.createElement('li');
+                    li.textContent = point;
+                    list.appendChild(li);
+                });
+                summaryBox.appendChild(list);
+                const activeWidget = document.querySelector('.ai-widget-container.active');
+                if (activeWidget) {
+                    activeWidget.appendChild(summaryBox);
+                    requestAnimationFrame(() => {
+                        summaryBox.classList.add('visible');
+                    });
+                }
+            }
+            // --- END: AI Summary Functions ---
+
             function setupAiWidgets() { aiWidgetDesktop = new AiWidget(document.querySelector('#setu-ai-btn')); aiWidgetMobile = new AiWidget(document.querySelector('#setu-ai-btn-mobile'), true); if (!sessionStorage.getItem('setuAiButtonClicked')) { document.querySelectorAll('.ai-widget-container').forEach(el => el.classList.add('setu-btn-animated')); } setupAiButtonSpin(); }
             function setupAiButtonSpin() { setInterval(() => { document.querySelectorAll('.ai-widget-container:not(.active) .original-icon').forEach(icon => { if (icon) { icon.classList.add('spin'); icon.addEventListener('animationend', () => icon.classList.remove('spin'), { once: true }); } }); }, 7000); }
             function getCurrentLanguage() { const c = document.cookie.split('; ').find(r => r.startsWith('googtrans=')); if (c) { const l = c.split('/')[2]; const m = { 'hi': 'hi-IN', 'bn': 'bn-IN', 'te': 'te-IN', 'mr': 'mr-IN', 'ta': 'ta-IN', 'ur': 'ur-IN', 'gu': 'gu-IN', 'kn': 'kn-IN', 'ml': 'ml-IN' }; return m[l] || 'en-US'; } return 'en-US'; }
@@ -480,41 +626,40 @@
                 try {
                     const mockAI = (q, l) => {
                         q = q.toLowerCase();
-                        const langResponses = {
-                            'en-US': { default: "Sorry, I'm not sure.", openSettings: 'Opening settings for you.', goToHome: 'Going to the home page.', showReport: 'Here is the report button.', showSearch: 'Here is the search button.', showProfile: 'You are on the profile page.', editProfile: 'Okay, enabling edit mode.' },
-                            'hi-IN': { default: "क्षमा करें, मुझे यकीन नहीं है।", openSettings: 'आपके लिए सेटिंग्स खोल रहा हूँ।', goToHome: 'होम पेज पर जा रहे हैं।', showReport: 'यह रिपोर्ट बटन है।', showSearch: 'यह खोज बटन है।', showProfile: 'आप प्रोफ़ाइल पेज पर हैं।', editProfile: 'ठीक है, संपादन मोड सक्षम कर रहा हूँ।' }
+                        const r = {
+                            'en-US': { default: "Sorry, I'm not sure.", openSettings: 'Opening settings for you.', goToHome: 'Going to the home page.', showReport: 'Here is the report button.', showSearch: 'Here is the search button.', showProfile: 'You are on the profile page.', editProfile: 'Okay, enabling edit mode.', summarize: 'Certainly. Here is a summary of your profile details.' },
+                            'hi-IN': { default: "क्षमा करें, मुझे यकीन नहीं है।", openSettings: 'आपके लिए सेटिंग्स खोल रहा हूँ।', goToHome: 'होम पेज पर जा रहे हैं।', showReport: 'यह रिपोर्ट बटन है।', showSearch: 'यह खोज बटन है।', showProfile: 'आप प्रोफ़ाइल पेज पर हैं।', editProfile: 'ठीक है, संपादन मोड सक्षम कर रहा हूँ।', summarize: 'ज़रूर। यहां आपके प्रोफ़ाइल विवरण का सारांश दिया गया है।' }
                         };
-                        const r = langResponses[l] || langResponses['en-US'];
-            
-                        // Navigation / Action keywords
+                        const responses = r[l] || r['en-US'];
                         const isGo = q.includes('go to') || q.includes('navigate') || q.includes('open') || q.includes('जाओ') || q.includes('खोलें');
-                        // Highlighting keywords
                         const isWhere = q.includes('where is') || q.includes('show me') || q.includes('find') || q.includes('कहाँ है') || q.includes('दिखाओ');
 
                         if (q.includes('home') || q.includes('मुख पृष्ठ')) {
-                            if (isGo) return { action: 'navigate', targetId: 'desktop-home-link', responseText: r.goToHome };
-                            return { action: 'highlight', targetId: isDesktop() ? 'desktop-home-link' : 'bottom-nav-home', responseText: r.goToHome.replace('Going to', 'Here is') };
+                            if (isGo) return { action: 'navigate', targetId: 'desktop-home-link', responseText: responses.goToHome };
+                            return { action: 'highlight', targetId: isDesktop() ? 'desktop-home-link' : 'bottom-nav-home', responseText: responses.goToHome.replace('Going to', 'Here is') };
                         }
                         if (q.includes('report') || q.includes('रिपोर्ट')) {
                             if (isGo) return { action: 'navigate', targetId: isDesktop() ? 'desktop-report-link' : 'bottom-nav-report', responseText: 'Taking you to the report page.' };
-                            return { action: 'highlight', targetId: isDesktop() ? 'desktop-report-link' : 'bottom-nav-report', responseText: r.showReport };
+                            return { action: 'highlight', targetId: isDesktop() ? 'desktop-report-link' : 'bottom-nav-report', responseText: responses.showReport };
                         }
                         if (q.includes('search') || q.includes('खोज')) {
                             if (isGo) return { action: 'navigate', targetId: isDesktop() ? 'desktop-search-link' : 'bottom-nav-search', responseText: 'Taking you to the search page.' };
-                            return { action: 'highlight', targetId: isDesktop() ? 'desktop-search-link' : 'bottom-nav-search', responseText: r.showSearch };
+                            return { action: 'highlight', targetId: isDesktop() ? 'desktop-search-link' : 'bottom-nav-search', responseText: responses.showSearch };
                         }
                         if (q.includes('profile') || q.includes('प्रोफ़ाइल')) {
-                            if (isGo) return { action: 'answer', targetId: null, responseText: r.showProfile };
-                            return { action: 'highlight', targetId: isDesktop() ? 'desktop-profile-link' : 'bottom-nav-profile', responseText: r.showProfile };
+                            if (isGo) return { action: 'answer', targetId: null, responseText: responses.showProfile };
+                            return { action: 'highlight', targetId: isDesktop() ? 'desktop-profile-link' : 'bottom-nav-profile', responseText: responses.showProfile };
                         }
                         if (q.includes('setting') || q.includes('सेटिंग')) {
-                            return { action: 'open_panel', targetId: 'settings', responseText: r.openSettings };
+                            return { action: 'open_panel', targetId: 'settings', responseText: responses.openSettings };
                         }
                         if (q.includes('edit my profile') || q.includes('प्रोफ़ाइल संपादित करें')) {
-                            return { action: 'edit_profile', targetId: null, responseText: r.editProfile };
+                            return { action: 'edit_profile', targetId: null, responseText: responses.editProfile };
                         }
-            
-                        return { action: 'answer', targetId: null, responseText: r.default };
+                        if (q.includes('summarise') || q.includes('summarize') || q.includes('summary')) {
+                            return { action: 'summarize', targetId: null, responseText: responses.summarize };
+                        }
+                        return { action: 'answer', targetId: null, responseText: responses.default };
                     };
                     const result = mockAI(text, recognition.lang);
                     processAIResponse(result);
@@ -549,12 +694,16 @@
                     openSettingsPanel();
                 } else if (response.action === 'edit_profile') {
                     if (!isEditMode) UI.buttons.edit.click();
+                } else if (response.action === 'summarize') {
+                    const summaryPoints = generatePageSummary();
+                    displaySummary(summaryPoints);
+                    aiTimeout = setTimeout(() => { if (isAiActive) [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.deactivate()); }, 15000);
                 } else {
                     aiTimeout = setTimeout(() => { if (isAiActive) [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.deactivate()); }, 5000);
                 }
             }
             function speak(text) { if (!('speechSynthesis' in window)) return; const u = new SpeechSynthesisUtterance(text); u.lang = getCurrentLanguage(); u.onstart = () => { [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setState('speaking')); }; u.onend = () => { [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setState('idle')); clearTimeout(aiTimeout); aiTimeout = setTimeout(() => { if (isAiActive) [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.deactivate()); }, 5000); }; window.speechSynthesis.speak(u); }
-            class AiWidget { constructor(el, isM = false) { this.element = el; this.isMobile = isM; this.isActive = false; this.originalIcon = this.element.querySelector('.original-icon'); if(this.originalIcon) this.originalIcon.style.transition = 'transform 0.3s ease, opacity 0.3s ease'; this.element.insertAdjacentHTML('beforeend', this.createHTML()); this.widgetInner = this.element.querySelector('.ai-widget-inner'); this.statusEl = this.element.querySelector('.ai-status'); this.logoIcon = this.element.querySelector('.ai-logo-icon'); this.micIcon = this.element.querySelector('.ai-mic-icon'); this.element.addEventListener('click', (e) => this.handleMainClick(e)); this.widgetInner.querySelector('.ai-icon-container').addEventListener('click', (e) => this.handleMicClick(e)); } createHTML() { const lS = this.isMobile ? 'w-5 h-5' : 'w-8 h-8'; const mS = this.isMobile ? 'w-6 h-6' : 'w-8 h-8'; return ` <div class="ai-widget-inner"> <div class="ai-icon-container"> <svg class="${lS} text-white ai-logo-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12.0001 1.99219L3.45911 12.0002L12.0001 22.0082L20.5411 12.0002L12.0001 1.99219Z"/></svg> <svg class="${mS} text-white ai-mic-icon" viewBox="0 0 24 24" fill="none"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" fill="currentColor"/><path d="M19 10v2a7 7 0 0 1-14 0v-2H3v2a9 9 0 0 0 8 8.94V24h2v-3.06A9 9 0 0 0 21 12v-2h-2z" fill="currentColor"/></svg> </div> <div class="ai-content"> <p class="ai-status text-sm text-white w-full text-left font-semibold"></p> </div> </div> `; } handleMainClick(e) { if (e.target.closest('.ai-icon-container')) return; this.toggle(e); } handleMicClick(e) { e.stopPropagation(); if (this.isActive) { startListening(e); } else { const showInfo = !localStorage.getItem('setuAiInfoShown'); if (showInfo) { this.showAiInfoModal(); } else { this.activate(); } } } toggle(e) { e.stopPropagation(); const showInfo = !this.isActive && !localStorage.getItem('setuAiInfoShown'); if (showInfo) { this.showAiInfoModal(); return; } this.isActive ? this.deactivate() : this.activate(); } showAiInfoModal() { UI.aiInfoModalOverlay.classList.remove('hidden'); setTimeout(() => { UI.aiInfoModalOverlay.style.opacity = '1'; UI.aiInfoModal.classList.remove('scale-95', 'opacity-0'); }, 10); const gotItHandler = () => { localStorage.setItem('setuAiInfoShown', 'true'); UI.aiInfoModalOverlay.style.opacity = '0'; UI.aiInfoModal.classList.add('scale-95', 'opacity-0'); setTimeout(() => { UI.aiInfoModalOverlay.classList.add('hidden'); this.activate(); }, 300); UI.aiInfoGotItBtn.removeEventListener('click', gotItHandler); }; UI.aiInfoGotItBtn.addEventListener('click', gotItHandler); } activate() { if (navigator.vibrate) navigator.vibrate(50); this.isActive = true; isAiActive = true; this.element.classList.add('active'); if (this.isMobile) UI.mobileHeader.classList.add('ai-active'); this.setStatus('Tap the icon to speak.'); if (!sessionStorage.getItem('setuAiButtonClicked')) { document.querySelectorAll('.ai-widget-container').forEach(el => el.classList.remove('setu-btn-animated')); sessionStorage.setItem('setuAiButtonClicked', 'true'); } setTimeout(() => startListening({ stopPropagation: () => {} }), 500); } deactivate() { this.isActive = false; isAiActive = false; this.element.classList.remove('active'); if (this.isMobile) UI.mobileHeader.classList.remove('ai-active'); if (recognition) recognition.stop(); } setStatus(t, isE = false) { this.statusEl.textContent = t; this.statusEl.style.color = isE ? '#fee2e2' : '#ffffff'; } setState(s) { this.element.classList.remove('listening', 'speaking'); this.logoIcon.classList.remove('spin'); this.micIcon.classList.remove('spin'); if (s === 'listening') { this.element.classList.add('listening'); this.logoIcon.classList.add('spin'); } else if (s === 'speaking') { this.element.classList.add('speaking'); this.micIcon.classList.add('spin'); } } }
+            class AiWidget { constructor(el, isM = false) { this.element = el; this.isMobile = isM; this.isActive = false; this.originalIcon = this.element.querySelector('.original-icon'); if(this.originalIcon) this.originalIcon.style.transition = 'transform 0.3s ease, opacity 0.3s ease'; this.element.insertAdjacentHTML('beforeend', this.createHTML()); this.widgetInner = this.element.querySelector('.ai-widget-inner'); this.statusEl = this.element.querySelector('.ai-status'); this.logoIcon = this.element.querySelector('.ai-logo-icon'); this.micIcon = this.element.querySelector('.ai-mic-icon'); this.element.addEventListener('click', (e) => this.handleMainClick(e)); this.widgetInner.querySelector('.ai-icon-container').addEventListener('click', (e) => this.handleMicClick(e)); } createHTML() { const lS = this.isMobile ? 'w-5 h-5' : 'w-8 h-8'; const mS = this.isMobile ? 'w-6 h-6' : 'w-8 h-8'; return ` <div class="ai-widget-inner"> <div class="ai-icon-container"> <svg class="${lS} text-white ai-logo-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12.0001 1.99219L3.45911 12.0002L12.0001 22.0082L20.5411 12.0002L12.0001 1.99219Z"/></svg> <svg class="${mS} text-white ai-mic-icon" viewBox="0 0 24 24" fill="none"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" fill="currentColor"/><path d="M19 10v2a7 7 0 0 1-14 0v-2H3v2a9 9 0 0 0 8 8.94V24h2v-3.06A9 9 0 0 0 21 12v-2h-2z" fill="currentColor"/></svg> </div> <div class="ai-content"> <p class="ai-status text-sm text-white w-full text-left font-semibold"></p> </div> </div> `; } handleMainClick(e) { if (e.target.closest('.ai-icon-container')) return; this.toggle(e); } handleMicClick(e) { e.stopPropagation(); if (this.isActive) { startListening(e); } else { const showInfo = !localStorage.getItem('setuAiInfoShown'); if (showInfo) { this.showAiInfoModal(); } else { this.activate(); } } } toggle(e) { e.stopPropagation(); const showInfo = !this.isActive && !localStorage.getItem('setuAiInfoShown'); if (showInfo) { this.showAiInfoModal(); return; } this.isActive ? this.deactivate() : this.activate(); } showAiInfoModal() { UI.aiInfoModalOverlay.classList.remove('hidden'); setTimeout(() => { UI.aiInfoModalOverlay.style.opacity = '1'; UI.aiInfoModal.classList.remove('scale-95', 'opacity-0'); }, 10); const gotItHandler = () => { localStorage.setItem('setuAiInfoShown', 'true'); UI.aiInfoModalOverlay.style.opacity = '0'; UI.aiInfoModal.classList.add('scale-95', 'opacity-0'); setTimeout(() => { UI.aiInfoModalOverlay.classList.add('hidden'); this.activate(); }, 300); UI.aiInfoGotItBtn.removeEventListener('click', gotItHandler); }; UI.aiInfoGotItBtn.addEventListener('click', gotItHandler); } activate() { if (navigator.vibrate) navigator.vibrate(50); this.isActive = true; isAiActive = true; this.element.classList.add('active'); if (this.isMobile) UI.mobileHeader.classList.add('ai-active'); this.setStatus('Tap the icon to speak.'); if (!sessionStorage.getItem('setuAiButtonClicked')) { document.querySelectorAll('.ai-widget-container').forEach(el => el.classList.remove('setu-btn-animated')); sessionStorage.setItem('setuAiButtonClicked', 'true'); } setTimeout(() => startListening({ stopPropagation: () => {} }), 500); } deactivate() { this.isActive = false; isAiActive = false; this.element.classList.remove('active', 'expanded-vertically'); if (this.isMobile) UI.mobileHeader.classList.remove('ai-active'); if (recognition) recognition.stop(); const summaryBox = this.element.querySelector('#ai-summary-box'); if (summaryBox) { summaryBox.classList.remove('visible'); setTimeout(() => summaryBox.remove(), 300); } } setStatus(t, isE = false) { this.statusEl.textContent = t; this.statusEl.style.color = isE ? '#fee2e2' : '#ffffff'; const charLimit = 45; if (this.isActive && t.length > charLimit) { this.element.classList.add('expanded-vertically'); } else { this.element.classList.remove('expanded-vertically'); } } setState(s) { this.element.classList.remove('listening', 'speaking'); this.logoIcon.classList.remove('spin'); this.micIcon.classList.remove('spin'); if (s === 'listening') { this.element.classList.add('listening'); this.logoIcon.classList.add('spin'); } else if (s === 'speaking') { this.element.classList.add('speaking'); this.micIcon.classList.add('spin'); } } }
 
             // --- Initial Load & Event Listeners ---
             setupTheme(); setupLogoAnimation(); populateLanguageList(); restoreLanguageDisplay(); setupLanguageSwitcher(); loadUserProfile(); setupAiWidgets();
