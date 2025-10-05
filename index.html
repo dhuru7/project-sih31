@@ -213,6 +213,13 @@
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .spin { animation: spin 0.7s ease-in-out; }
         
+        /* NEW: Keyframe animation for the FAB */
+        @keyframes slideInFab {
+            to {
+                transform: translateX(0);
+            }
+        }
+        
         .notification-unread-dot {
             position: absolute; top: 2px; right: 2px; width: 8px; height: 8px;
             border-radius: 9999px; background-color: var(--accent-primary); border: 1px solid var(--bg-secondary);
@@ -221,11 +228,76 @@
         /* --- SETU AI INTERFACE STYLES --- */
         #setu-ai-container-desktop {
             position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 50;
+            /* NEW: Add entry animation */
+            transform: translateX(150%);
+            animation: slideInFab 0.7s 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* --- START: AI Summary Box --- */
+        .ai-summary-box {
+            position: absolute;
+            bottom: calc(100% + 1rem); /* Positioned above the AI widget */
+            right: 0;
+            width: 380px;
+            max-width: calc(100vw - 2rem);
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-light);
+            border-radius: 1rem;
+            box-shadow: var(--shadow-medium);
+            padding: 1rem 1.25rem;
+            opacity: 0;
+            transform: translateY(10px) scale(0.95);
+            transform-origin: bottom right;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: -1; /* To appear behind the main widget if it ever overlaps */
+        }
+
+        .ai-summary-box.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
         }
         
+        .ai-summary-box .summary-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .ai-summary-box ul {
+            list-style-type: disc;
+            list-style-position: inside;
+            padding-left: 0.25rem;
+        }
+
+        .ai-summary-box li {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            line-height: 1.5;
+        }
+        .ai-summary-box li::marker {
+             color: var(--accent-primary);
+        }
+
+        /* For mobile header where AI widget is on top */
+        #mobile-header.ai-active .ai-summary-box {
+            bottom: auto;
+            top: calc(100% + 0.5rem);
+            left: 0;
+            right: 0;
+            width: auto;
+            transform-origin: top center;
+        }
+        /* --- END: AI Summary Box --- */
+        
         .ai-widget-container {
-            /* IMPROVEMENT: Added smooth transition for all properties */
-            transition: all 0.35s cubic-bezier(0.34, 1.3, 0.64, 1);
+            /* IMPROVEMENT: Changed to a smoother, non-bouncy transition curve and longer duration */
+            transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
             position: relative;
         }
 
@@ -249,12 +321,29 @@
             box-shadow: var(--shadow-medium);
         }
 
+        /* NEW: Style for vertically expanded state */
+        .ai-widget-container.active.expanded-vertically {
+            height: auto;
+            min-height: 80px;
+            max-height: 250px;
+            border-radius: 1.5rem; /* Rectangular shape */
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+
         .ai-widget-inner {
             display: flex; align-items: center; justify-content: flex-start;
             width: 100%; height: 100%;
             cursor: default;
         }
         
+        /* NEW: Adjust inner alignment for expanded state */
+        .ai-widget-container.expanded-vertically .ai-widget-inner {
+            align-items: flex-start;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+
         .ai-icon-container {
             display: grid; place-items: center;
             flex-shrink: 0; width: 80px; height: 100%; cursor: pointer;
@@ -283,6 +372,11 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+        }
+
+        /* NEW: Allow text to wrap in expanded state */
+        .ai-widget-container.expanded-vertically .ai-status {
+            white-space: normal;
         }
 
         /* Icon Visibility States */
@@ -610,7 +704,7 @@
             const renderFeed = cList => {
                 UI.feedContainer.innerHTML = '';
                 if (!cList || cList.length === 0) {
-                    UI.feedContainer.innerHTML = `<div class="text-center py-16 px-6 bg-[var(--bg-secondary)] rounded-2xl shadow-sm fade-in visible col-span-1 md:col-span-2 lg:col-span-3"><svg class="mx-auto h-12 w-12 text-[var(--text-muted)]" fill="none" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" /></svg><h3 class="mt-4 text-lg font-semibold text-[var(--text-primary)]">No Reports Found</h3><p class="mt-1 text-sm text-[var(--text-muted)]">It looks like there are no reports in your area yet.</p><div class="mt-6"><a href="report.html" class="btn btn-primary"><svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" /></svg>Create the First Report</a></div></div>`;
+                    UI.feedContainer.innerHTML = `<div class="text-center py-16 px-6 bg-[var(--bg-secondary)] rounded-2xl shadow-sm fade-in visible col-span-1 md:col-span-2 lg:col-span-3"><svg class="mx-auto h-12 w-12 text-[var(--text-muted)]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" /></svg><h3 class="mt-4 text-lg font-semibold text-[var(--text-primary)]">No Reports Found</h3><p class="mt-1 text-sm text-[var(--text-muted)]">It looks like there are no reports in your area yet.</p><div class="mt-6"><a href="report.html" class="btn btn-primary"><svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" /></svg>Create the First Report</a></div></div>`;
                 } else {
                     cList.sort((a,b)=>new Date(b.timestamp)-new Date(a.timestamp)).forEach(c => UI.feedContainer.appendChild(createPostElement(c)));
                 }
@@ -788,6 +882,60 @@
             let aiTimeout;
             let aiWidgetDesktop, aiWidgetMobile;
 
+            // --- START: AI Summary Functions ---
+            function generatePageSummary() {
+                const summaryPoints = [];
+                const cards = document.querySelectorAll('#feed-container .complaint-card');
+                if (cards.length === 0) {
+                    return ["There are no issues on the page to summarize."];
+                }
+                cards.forEach(card => {
+                    const issueEl = card.querySelector('.flex.items-center.justify-between span:first-child');
+                    const statusEl = card.querySelector('.flex.items-center.justify-between span:last-child');
+                    const locationEl = card.querySelector('.text-\\[var\\(--text-primary\\)\\].text-2xl.font-bold span');
+
+                    if (issueEl && locationEl && statusEl) {
+                        const issue = issueEl.textContent.trim();
+                        const location = locationEl.textContent.trim();
+                        const status = statusEl.textContent.trim();
+                        summaryPoints.push(`'${issue}' at '${location}' is marked as '${status}'.`);
+                    }
+                });
+                return summaryPoints.length > 0 ? summaryPoints : ["Could not find any issues to summarize on the page."];
+            }
+
+            function displaySummary(summaryPoints) {
+                // Remove existing summary box if any to prevent duplicates
+                const existingBox = document.querySelector('#ai-summary-box');
+                if (existingBox) existingBox.remove();
+
+                const summaryBox = document.createElement('div');
+                summaryBox.id = 'ai-summary-box';
+                summaryBox.className = 'ai-summary-box';
+
+                const title = document.createElement('h4');
+                title.className = 'summary-title';
+                title.textContent = 'Page Summary';
+                summaryBox.appendChild(title);
+
+                const list = document.createElement('ul');
+                summaryPoints.forEach(point => {
+                    const li = document.createElement('li');
+                    li.textContent = point;
+                    list.appendChild(li);
+                });
+                summaryBox.appendChild(list);
+
+                const activeWidget = document.querySelector('.ai-widget-container.active');
+                if (activeWidget) {
+                    activeWidget.appendChild(summaryBox);
+                    requestAnimationFrame(() => {
+                        summaryBox.classList.add('visible');
+                    });
+                }
+            }
+            // --- END: AI Summary Functions ---
+
             function setupAiWidgets() {
                 aiWidgetDesktop = new AiWidget(document.querySelector('#setu-ai-btn'));
                 aiWidgetMobile = new AiWidget(document.querySelector('#setu-ai-btn-mobile'), true);
@@ -872,6 +1020,9 @@
                         } else if (query.includes('report') || query.includes('complaint') || query.includes('रिपोर्ट') || query.includes('शिकायत')) {
                              responseText = { 'en-US': 'Here is the report button.', 'hi-IN': 'यह रिपोर्ट बटन है।' };
                              result = { action: 'highlight', targetId: isDesktop() ? 'desktop-report-link' : 'report-nav-link', responseText: responseText[lang] || responseText['en-US'] };
+                        } else if (query.includes('summarise') || query.includes('summarize') || query.includes('summary')) {
+                            responseText = { 'en-US': 'Certainly. Here is a summary of the issues on this page.', 'hi-IN': 'ज़रूर। इस पृष्ठ पर मौजूद समस्याओं का सारांश यहां दिया गया है।' };
+                            result = { action: 'summarize', targetId: null, responseText: responseText[lang] || responseText['en-US'] };
                         } else if (query.includes('profile') || query.includes('प्रोफ़ाइल')) {
                              responseText = { 'en-US': 'You can view your profile here.', 'hi-IN': 'आप अपनी प्रोफ़ाइल यहां देख सकते हैं।' };
                              result = { action: 'highlight', targetId: isDesktop() ? 'desktop-profile-link' : 'profile-nav-link', responseText: responseText[lang] || responseText['en-US'] };
@@ -921,6 +1072,10 @@
                     if (isAiActive) [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.deactivate());
                     if (response.targetId === 'filter') openFilter();
                     else if (response.targetId === 'notification') openNotificationPanel();
+                } else if (response.action === 'summarize') {
+                    const summaryPoints = generatePageSummary();
+                    displaySummary(summaryPoints);
+                    aiTimeout = setTimeout(() => { if (isAiActive) [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.deactivate()); }, 15000);
                 } else {
                     aiTimeout = setTimeout(() => { if (isAiActive) [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.deactivate()); }, 5000);
                 }
@@ -1042,14 +1197,28 @@
 
                 deactivate() {
                     this.isActive = false; isAiActive = false;
-                    this.element.classList.remove('active');
+                    this.element.classList.remove('active', 'expanded-vertically');
                     if (this.isMobile) UI.mobileHeader.classList.remove('ai-active');
                     if (recognition) recognition.stop();
+                    
+                    const summaryBox = this.element.querySelector('#ai-summary-box');
+                    if (summaryBox) {
+                        summaryBox.classList.remove('visible');
+                        setTimeout(() => summaryBox.remove(), 300);
+                    }
                 }
 
                 setStatus(text, isError = false) {
                     this.statusEl.textContent = text;
                     this.statusEl.style.color = isError ? '#fee2e2' : '#ffffff';
+
+                    // Add/remove class based on text length to expand the container
+                    const characterLimit = 45; // Characters before expanding
+                    if (this.isActive && text.length > characterLimit) {
+                        this.element.classList.add('expanded-vertically');
+                    } else {
+                        this.element.classList.remove('expanded-vertically');
+                    }
                 }
 
                 setState(state) {
