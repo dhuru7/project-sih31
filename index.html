@@ -213,27 +213,35 @@
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .spin { animation: spin 0.7s ease-in-out; }
         
-        /* NEW: Keyframe animation for the FAB */
-        @keyframes slideInFab {
-            to {
-                transform: translateX(0);
-            }
-        }
+        /* NEW: Keyframe animation for the FAB on desktop */
+        @keyframes slideInFab { to { transform: translateX(0); } }
         
         .notification-unread-dot {
             position: absolute; top: 2px; right: 2px; width: 8px; height: 8px;
             border-radius: 9999px; background-color: var(--accent-primary); border: 1px solid var(--bg-secondary);
         }
         
-        /* --- SETU AI INTERFACE STYLES --- */
+        /* --- SETU AI INTERFACE STYLES (UPDATED) --- */
+        @keyframes magic-gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* This is the new "magical" animation style from profile page */
+        .ai-widget-container.modern-animation.active {
+            background-image: linear-gradient(-45deg, #f41f4e, #f77c34, #4f46e5, #d946ef, #10b981, #f41f4e);
+            background-size: 600% 600%;
+            animation: magic-gradient 15s ease infinite;
+            border: none;
+        }
+
         #setu-ai-container-desktop {
             position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 50;
-            /* NEW: Add entry animation */
             transform: translateX(150%);
             animation: slideInFab 0.7s 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        /* --- START: AI Summary Box --- */
         .ai-summary-box {
             position: absolute;
             bottom: calc(100% + 1rem); /* Positioned above the AI widget */
@@ -249,10 +257,10 @@
             transform: translateY(10px) scale(0.95);
             transform-origin: bottom right;
             transition: opacity 0.3s ease, transform 0.3s ease;
-            max-height: 300px;
-            overflow-y: auto;
-            z-index: -1; /* To appear behind the main widget if it ever overlaps */
+            max-height: 300px; overflow-y: auto; z-index: -1;
         }
+        .ai-summary-box.visible { opacity: 1; transform: translateY(0) scale(1); }
+        .ai-summary-box .summary-title { font-size: 1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.75rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border-light); }
 
         .ai-summary-box.visible {
             opacity: 1;
@@ -296,41 +304,44 @@
         /* --- END: AI Summary Box --- */
         
         .ai-widget-container {
-            /* IMPROVEMENT: Changed to a smoother, non-bouncy transition curve and longer duration */
             transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
             position: relative;
         }
-
-        /* Base Button state */
-        .ai-widget-container:not(.active) {
-            width: 64px; height: 64px;
-        }
-        #setu-ai-btn-mobile:not(.active) {
-            width: 36px; height: 36px;
-        }
         .ai-widget-container:not(.active):hover { transform: scale(1.1); }
         
-        /* Expanded UI state */
+        #setu-ai-btn:not(.active) { width: 64px; height: 64px; }
+        #setu-ai-btn-mobile:not(.active) { width: 36px; height: 36px; }
+
+        /* Default Solid AI Bar Style */
         .ai-widget-container.active {
             width: 380px; max-width: calc(100vw - 2rem);
             height: 80px;
-            background-color: rgba(244, 31, 78, 0.75);
-            -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 9999px;
             box-shadow: var(--shadow-medium);
         }
 
-        /* NEW: Style for vertically expanded state */
         .ai-widget-container.active.expanded-vertically {
-            height: auto;
-            min-height: 80px;
-            max-height: 250px;
-            border-radius: 1.5rem; /* Rectangular shape */
-            padding-top: 0.5rem;
-            padding-bottom: 0.5rem;
+            height: auto; min-height: 80px; max-height: 250px;
+            border-radius: 1.5rem; padding-top: 0.5rem; padding-bottom: 0.5rem;
         }
 
+        .ai-widget-inner { display: flex; align-items: center; justify-content: flex-start; width: 100%; height: 100%; cursor: default; }
+        .ai-widget-container.expanded-vertically .ai-widget-inner { align-items: flex-start; padding-top: 0.5rem; padding-bottom: 0.5rem; }
+        .ai-icon-container { display: grid; place-items: center; flex-shrink: 0; width: 80px; height: 100%; cursor: pointer; }
+        #setu-ai-btn-mobile .ai-icon-container { width: 48px; }
+        .ai-icon-container svg { grid-area: 1 / 1; transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; }
+        
+        .ai-content {
+            width: 100%; height: 100%; display: flex; align-items: center;
+            padding: 0 1rem 0 0; opacity: 0;
+            transform: scaleX(0); transform-origin: left;
+            transition: opacity 0.2s ease 0.2s, transform 0.3s cubic-bezier(0.42, 0, 0.58, 1) 0.15s;
+            pointer-events: none;
+        }
+        .ai-widget-container.active .ai-content { opacity: 1; transform: scaleX(1); pointer-events: auto; }
+        
+        .ai-status { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .ai-widget-container.expanded-vertically .ai-status { white-space: normal; }
         .ai-widget-inner {
             display: flex; align-items: center; justify-content: flex-start;
             width: 100%; height: 100%;
@@ -359,22 +370,26 @@
             width: 100%; height: 100%;
             display: flex; align-items: center;
             padding: 0 1rem 0 0; opacity: 0;
-            transform: translateX(-10px);
-            transition: opacity 0.3s ease-in-out 0.2s, transform 0.3s ease-in-out 0.2s;
+            /* MODIFIED: Added scaleX and transform-origin for the new "slit open" animation */
+            transform: scaleX(0);
+            transform-origin: left;
+            /* MODIFIED: Adjusted transition timing to sync with the container's expansion */
+            transition: opacity 0.2s ease 0.2s, transform 0.3s cubic-bezier(0.42, 0, 0.58, 1) 0.15s;
             pointer-events: none;
         }
         .ai-widget-container.active .ai-content {
-            opacity: 1; transform: translateX(0); pointer-events: auto;
+            opacity: 1; 
+            /* MODIFIED: Changed final transform state for the new animation */
+            transform: scaleX(1); 
+            pointer-events: auto;
         }
         
-        /* IMPROVEMENT: Added styles to prevent text from breaking layout on language change */
         .ai-status {
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
-        /* NEW: Allow text to wrap in expanded state */
         .ai-widget-container.expanded-vertically .ai-status {
             white-space: normal;
         }
@@ -536,6 +551,18 @@
         function googleTranslateElementInit() { new google.translate.TranslateElement({ pageLanguage: 'en', includedLanguages: 'en,hi,bn,te,mr,ta,ur,gu,kn,ml,pa,or,as,ne', layout: google.translate.TranslateElement.InlineLayout.SIMPLE, autoDisplay: false }, 'google_translate_element'); }
         
         document.addEventListener('DOMContentLoaded', () => {
+            /*
+            --- NEW FEATURE: Animation Preference ---
+            You can control the AI widget's animation style by setting a value in localStorage.
+            This would typically be done via a toggle/button on a settings page.
+
+            To enable the modern, dynamic glow animation, open your browser's developer
+            console and run this command:
+            localStorage.setItem('animationPreference', 'modern');
+
+            To use the default, solid gradient animation (default behavior), run:
+            localStorage.setItem('animationPreference', 'solid');
+            */
             const statusStyles = { "Submitted": { bg: "bg-yellow-100", text: "text-yellow-800" }, "In Progress": { bg: "bg-blue-100", text: "text-blue-800" }, "Resolved": { bg: "bg-green-100", text: "text-green-800" } };
             const issueStyles = {
                 "Garbage Dump": { bg: "bg-red-100", text: "text-red-800", darkBg: "dark:bg-red-900/80", darkText: "dark:text-red-200" },
@@ -1183,6 +1210,11 @@
 
                 activate() {
                     if (navigator.vibrate) navigator.vibrate(50);
+                    const animationPreference = localStorage.getItem('animationPreference');
+                    this.element.classList.remove('modern-animation'); // Clear old animation class
+                    if (animationPreference === 'modern') {
+                        this.element.classList.add('modern-animation');
+                    }
                     this.isActive = true; isAiActive = true;
                     this.element.classList.add('active');
                     if (this.isMobile) UI.mobileHeader.classList.add('ai-active');
@@ -1197,7 +1229,7 @@
 
                 deactivate() {
                     this.isActive = false; isAiActive = false;
-                    this.element.classList.remove('active', 'expanded-vertically');
+                    this.element.classList.remove('active', 'expanded-vertically', 'modern-animation');
                     if (this.isMobile) UI.mobileHeader.classList.remove('ai-active');
                     if (recognition) recognition.stop();
                     
@@ -1236,6 +1268,7 @@
             }
 
             // Initial setup
+            setupTheme(); 
             setupAiWidgets();
             if(!sessionStorage.getItem('setuIntroShown')) {
                 // This is a placeholder for your intro animation logic if you bring it back
