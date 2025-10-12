@@ -135,119 +135,69 @@
         .desktop-nav-link.active svg { color: var(--accent-primary) !important; }
         .desktop-nav-link.active:hover svg { color: var(--accent-primary) !important; }
         
-        /* --- SETU AI INTERFACE STYLES (Copied from index.html) --- */
+        /* --- SETU AI INTERFACE STYLES (UPDATED) --- */
+        @keyframes magic-gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* This is the new "magical" animation style */
+        .ai-widget-container.modern-animation.active {
+            background-image: linear-gradient(-45deg, #f41f4e, #f77c34, #4f46e5, #d946ef, #10b981, #f41f4e);
+            background-size: 600% 600%;
+            animation: magic-gradient 15s ease infinite;
+            border: none; /* Override any borders */
+        }
+
+        @keyframes slideInFab { to { transform: translateX(0); } }
+        
         #setu-ai-container-desktop {
             position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 50;
             transform: translateX(150%);
             animation: slideInFab 0.7s 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        /* --- START: AI Summary Box --- */
         .ai-summary-box {
-            position: absolute;
-            bottom: calc(100% + 1rem); /* Positioned above the AI widget */
-            right: 0;
-            width: 380px;
-            max-width: calc(100vw - 2rem);
-            background-color: var(--bg-secondary);
-            border: 1px solid var(--border-light);
-            border-radius: 1rem;
-            box-shadow: var(--shadow-medium);
-            padding: 1rem 1.25rem;
-            opacity: 0;
-            transform: translateY(10px) scale(0.95);
-            transform-origin: bottom right;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-            max-height: 300px;
-            overflow-y: auto;
-            z-index: -1; /* To appear behind the main widget if it ever overlaps */
+            position: absolute; bottom: calc(100% + 1rem); right: 0; width: 380px; max-width: calc(100vw - 2rem);
+            background-color: var(--bg-secondary); border: 1px solid var(--border-light); border-radius: 1rem;
+            box-shadow: var(--shadow-medium); padding: 1rem 1.25rem; opacity: 0;
+            transform: translateY(10px) scale(0.95); transform-origin: bottom right;
+            transition: opacity 0.3s ease, transform 0.3s ease; max-height: 300px; overflow-y: auto; z-index: -1;
         }
+        .ai-summary-box.visible { opacity: 1; transform: translateY(0) scale(1); }
+        .ai-summary-box .summary-title { font-size: 1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.75rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border-light); }
+        .ai-summary-box ul { list-style-type: disc; list-style-position: inside; padding-left: 0.25rem; }
+        .ai-summary-box li { font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.5rem; line-height: 1.5; }
+        .ai-summary-box li::marker { color: var(--accent-primary); }
 
-        .ai-summary-box.visible {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
+        #mobile-header.ai-active .ai-summary-box { bottom: auto; top: calc(100% + 0.5rem); left: 0; right: 0; width: auto; transform-origin: top center; }
         
-        .ai-summary-box .summary-title {
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 0.75rem;
-            padding-bottom: 0.75rem;
-            border-bottom: 1px solid var(--border-light);
-        }
-
-        .ai-summary-box ul {
-            list-style-type: disc;
-            list-style-position: inside;
-            padding-left: 0.25rem;
-        }
-
-        .ai-summary-box li {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-            margin-bottom: 0.5rem;
-            line-height: 1.5;
-        }
-        .ai-summary-box li::marker {
-             color: var(--accent-primary);
-        }
-
-        /* For mobile header where AI widget is on top */
-        #mobile-header.ai-active .ai-summary-box {
-            bottom: auto;
-            top: calc(100% + 0.5rem);
-            left: 0;
-            right: 0;
-            width: auto;
-            transform-origin: top center;
-        }
-        /* --- END: AI Summary Box --- */
-        
-        .ai-widget-container {
-            transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-            position: relative;
-        }
+        .ai-widget-container { transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1); position: relative; }
         .ai-widget-container:not(.active) { width: 64px; height: 64px; }
         #setu-ai-btn-mobile:not(.active) { width: 36px; height: 36px; }
         .ai-widget-container:not(.active):hover { transform: scale(1.1); }
-        .ai-widget-container.active { width: 380px; max-width: calc(100vw - 2rem); height: 80px; background-color: rgba(244, 31, 78, 0.75); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 9999px; box-shadow: var(--shadow-medium); }
-        
-        /* NEW: Style for vertically expanded state */
-        .ai-widget-container.active.expanded-vertically {
-            height: auto;
-            min-height: 80px;
-            max-height: 250px;
-            border-radius: 1.5rem; /* Rectangular shape */
-            padding-top: 0.5rem;
-            padding-bottom: 0.5rem;
-        }
+        .ai-widget-container.active { width: 380px; max-width: calc(100vw - 2rem); height: 80px; border-radius: 9999px; box-shadow: var(--shadow-medium); }
 
+        .ai-widget-container.modern-animation.active { background-image: linear-gradient(-45deg, #f41f4e, #f77c34, #4f46e5, #d946ef, #10b981, #f41f4e); background-size: 600% 600%; animation: magic-gradient 15s ease infinite; border: none; }
+
+        .ai-widget-container.active.expanded-vertically { height: auto; min-height: 80px; max-height: 250px; border-radius: 1.5rem; padding-top: 0.5rem; padding-bottom: 0.5rem; }
         .ai-widget-inner { display: flex; align-items: center; justify-content: flex-start; width: 100%; height: 100%; cursor: default; }
-        
-        /* NEW: Adjust inner alignment for expanded state */
-        .ai-widget-container.expanded-vertically .ai-widget-inner {
-            align-items: flex-start;
-            padding-top: 0.5rem;
-            padding-bottom: 0.5rem;
-        }
-
+        .ai-widget-container.expanded-vertically .ai-widget-inner { align-items: flex-start; padding-top: 0.5rem; padding-bottom: 0.5rem; }
         .ai-icon-container { display: grid; place-items: center; flex-shrink: 0; width: 80px; height: 100%; cursor: pointer; }
         #setu-ai-btn-mobile .ai-icon-container { width: 48px; }
         .ai-icon-container svg { grid-area: 1 / 1; transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; }
-        .ai-content { width: 100%; height: 100%; display: flex; align-items: center; padding: 0 1rem 0 0; opacity: 0; transform: translateX(-10px); transition: opacity 0.3s ease-in-out 0.2s, transform 0.3s ease-in-out 0.2s; pointer-events: none; }
-        .ai-widget-container.active .ai-content { opacity: 1; transform: translateX(0); pointer-events: auto; }
         
-        .ai-status {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+        .ai-content {
+            width: 100%; height: 100%; display: flex; align-items: center; padding: 0 1rem 0 0; opacity: 0;
+            transform: scaleX(0); transform-origin: left;
+            transition: opacity 0.2s ease 0.2s, transform 0.3s cubic-bezier(0.42, 0, 0.58, 1) 0.15s;
+            pointer-events: none;
         }
-
-        /* NEW: Allow text to wrap in expanded state */
-        .ai-widget-container.expanded-vertically .ai-status {
-            white-space: normal;
-        }
+        .ai-widget-container.active .ai-content { opacity: 1; transform: scaleX(1); pointer-events: auto; }
+        
+        .ai-status { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .ai-widget-container.expanded-vertically .ai-status { white-space: normal; }
 
         .ai-widget-container:not(.active) .ai-widget-inner { display: none; }
         #setu-ai-btn-mobile:not(.active) { display: flex; align-items: center; justify-content: center; }
@@ -260,9 +210,8 @@
         .ai-highlight { position: relative; z-index: 10; box-shadow: 0 0 0 4px var(--accent-primary), 0 0 20px 10px rgba(244, 31, 78, 0.7); border-radius: 0.75rem; transition: box-shadow 0.3s ease-in-out; }
         #mobile-header.ai-active .nav-content-wrapper { background-color: transparent; border-color: transparent; box-shadow: none; }
         #mobile-header.ai-active #setu-ai-btn-mobile { width: calc(100% - 1rem); height: 100%; top: 0; left: 0.5rem; right: 0.5rem; position: absolute; margin: 0; max-width: none; }
-        #mobile-header.ai-active .logo { opacity: 0; transform: scale(0.8); pointer-events: none; }
+        #mobile-header.ai-active .logo, #mobile-header.ai-active #notification-btn-mobile { opacity: 0; transform: scale(0.8); pointer-events: none; }
         
-        @keyframes slideInFab { to { transform: translateX(0); } }
         @keyframes pulse-glow { 0% { box-shadow: 0 0 0 0 var(--accent-primary); } 70% { box-shadow: 0 0 0 12px rgba(244, 31, 78, 0); } 100% { box-shadow: 0 0 0 0 rgba(244, 31, 78, 0); } }
         .setu-btn-animated:not(.active) { animation: pulse-glow 2.5s infinite; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
@@ -432,6 +381,16 @@
                         </div>
                     </div>
                     <div>
+                        <label class="text-sm font-semibold text-[var(--text-muted)] px-1">Animation</label>
+                        <div class="mt-2 flex items-center justify-between p-3 bg-[var(--bg-primary)] rounded-lg">
+                            <span class="font-medium text-[var(--text-primary)]">Dynamic Animation</span>
+                            <label for="animation-toggle" class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" value="" id="animation-toggle" class="sr-only peer">
+                                <div class="w-11 h-6 bg-[var(--border-medium)] rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-[var(--accent-primary)]"></div>
+                            </label>
+                        </div>
+                    </div>
+                    <div>
                         <label class="text-sm font-semibold text-[var(--text-muted)] px-1">Content</label>
                         <div class="mt-2">
                             <button id="language-btn-settings" class="w-full flex items-center justify-between text-left p-3 bg-[var(--bg-primary)] rounded-lg">
@@ -492,6 +451,7 @@
                 themeToggle: document.getElementById('theme-toggle-settings'),
                 sunIcons: document.querySelectorAll('.sun-icon'),
                 moonIcons: document.querySelectorAll('.moon-icon'),
+                animationToggle: document.getElementById('animation-toggle'), // New animation toggle
                 languageBtn: document.getElementById('language-btn-settings'),
                 languageList: document.getElementById('language-list-settings'),
                 languageArrow: document.getElementById('language-arrow'),
@@ -518,6 +478,17 @@
             const applyTheme = t => { const isDark=t==='dark';document.documentElement.setAttribute('data-theme',isDark?'dark':'light');UI.sunIcons.forEach(i=>i.classList.toggle('hidden',isDark));UI.moonIcons.forEach(i=>i.classList.toggle('hidden',!isDark));};
             const setupTheme = () => { const i=localStorage.getItem('theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');applyTheme(i);UI.themeToggle.addEventListener('click',()=>{const n=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';localStorage.setItem('theme',n);applyTheme(n);});};
             
+            // NEW: Setup for Animation Preference
+            const setupAnimationPreference = () => {
+                const savedPref = localStorage.getItem('animationPreference') || 'solid'; // Default to solid
+                UI.animationToggle.checked = savedPref === 'modern';
+
+                UI.animationToggle.addEventListener('change', () => {
+                    const preference = UI.animationToggle.checked ? 'modern' : 'solid';
+                    localStorage.setItem('animationPreference', preference);
+                });
+            };
+
             const setupLogoAnimation = () => { const names = ['Setu', 'सेतु', 'সেতু', 'सेतू', 'સેતુ', 'ಸೇತು']; let currentIndex = 0; const logoElements = [UI.animatedNameDesktopSidebar, UI.animatedNameMobile].filter(el => el); if(logoElements.length === 0) return; setInterval(() => { logoElements.forEach(el => el.classList.add('fade-out')); setTimeout(() => { currentIndex = (currentIndex + 1) % names.length; logoElements.forEach(el => { el.textContent = names[currentIndex]; el.classList.remove('fade-out'); }); }, 400); }, 4000); };
 
             const populateLanguageList = () => { const html=Object.entries(LANGUAGES).map(([c,{name,short}])=>`<a href="#" class="dropdown-item flex justify-between items-center !p-2 !rounded-md" data-lang="${c}" data-name="${name}"><span>${name}</span><span class="language-indicator !bg-[var(--bg-accent)] !text-[var(--text-primary)]">${short}</span></a>`).join('');UI.languageList.innerHTML=html;};
@@ -572,20 +543,13 @@
             let recognition; let currentHighlight = null; let isAiActive = false; let aiTimeout; let aiWidgetDesktop, aiWidgetMobile;
             const isDesktop = () => window.innerWidth >= 640;
 
-            // --- START: AI Summary Functions ---
             function generatePageSummary() {
                 const summaryPoints = [];
-                if (!currentUserData || Object.keys(currentUserData).length === 0) {
-                    return ["No user profile data is available to summarize."];
-                }
+                if (!currentUserData || Object.keys(currentUserData).length === 0) { return ["No user profile data is available to summarize."]; }
                 summaryPoints.push(`The user's name is ${currentUserData.fullname}.`);
                 summaryPoints.push(`They live in ${currentUserData.city}.`);
-                if (currentUserData.email) {
-                    summaryPoints.push(`Their email is available for contact.`);
-                }
-                if (currentUserData.mobile) {
-                    summaryPoints.push(`Their mobile number is registered.`);
-                }
+                if (currentUserData.email) { summaryPoints.push(`Their email is available for contact.`); }
+                if (currentUserData.mobile) { summaryPoints.push(`Their mobile number is registered.`); }
                 return summaryPoints;
             }
 
@@ -600,21 +564,11 @@
                 title.textContent = 'Page Summary';
                 summaryBox.appendChild(title);
                 const list = document.createElement('ul');
-                summaryPoints.forEach(point => {
-                    const li = document.createElement('li');
-                    li.textContent = point;
-                    list.appendChild(li);
-                });
+                summaryPoints.forEach(point => { const li = document.createElement('li'); li.textContent = point; list.appendChild(li); });
                 summaryBox.appendChild(list);
                 const activeWidget = document.querySelector('.ai-widget-container.active');
-                if (activeWidget) {
-                    activeWidget.appendChild(summaryBox);
-                    requestAnimationFrame(() => {
-                        summaryBox.classList.add('visible');
-                    });
-                }
+                if (activeWidget) { activeWidget.appendChild(summaryBox); requestAnimationFrame(() => { summaryBox.classList.add('visible'); }); }
             }
-            // --- END: AI Summary Functions ---
 
             function setupAiWidgets() { aiWidgetDesktop = new AiWidget(document.querySelector('#setu-ai-btn')); aiWidgetMobile = new AiWidget(document.querySelector('#setu-ai-btn-mobile'), true); if (!sessionStorage.getItem('setuAiButtonClicked')) { document.querySelectorAll('.ai-widget-container').forEach(el => el.classList.add('setu-btn-animated')); } setupAiButtonSpin(); }
             function setupAiButtonSpin() { setInterval(() => { document.querySelectorAll('.ai-widget-container:not(.active) .original-icon').forEach(icon => { if (icon) { icon.classList.add('spin'); icon.addEventListener('animationend', () => icon.classList.remove('spin'), { once: true }); } }); }, 7000); }
@@ -632,81 +586,59 @@
                         };
                         const responses = r[l] || r['en-US'];
                         const isGo = q.includes('go to') || q.includes('navigate') || q.includes('open') || q.includes('जाओ') || q.includes('खोलें');
-                        const isWhere = q.includes('where is') || q.includes('show me') || q.includes('find') || q.includes('कहाँ है') || q.includes('दिखाओ');
-
-                        if (q.includes('home') || q.includes('मुख पृष्ठ')) {
-                            if (isGo) return { action: 'navigate', targetId: 'desktop-home-link', responseText: responses.goToHome };
-                            return { action: 'highlight', targetId: isDesktop() ? 'desktop-home-link' : 'bottom-nav-home', responseText: responses.goToHome.replace('Going to', 'Here is') };
-                        }
-                        if (q.includes('report') || q.includes('रिपोर्ट')) {
-                            if (isGo) return { action: 'navigate', targetId: isDesktop() ? 'desktop-report-link' : 'bottom-nav-report', responseText: 'Taking you to the report page.' };
-                            return { action: 'highlight', targetId: isDesktop() ? 'desktop-report-link' : 'bottom-nav-report', responseText: responses.showReport };
-                        }
-                        if (q.includes('search') || q.includes('खोज')) {
-                            if (isGo) return { action: 'navigate', targetId: isDesktop() ? 'desktop-search-link' : 'bottom-nav-search', responseText: 'Taking you to the search page.' };
-                            return { action: 'highlight', targetId: isDesktop() ? 'desktop-search-link' : 'bottom-nav-search', responseText: responses.showSearch };
-                        }
-                        if (q.includes('profile') || q.includes('प्रोफ़ाइल')) {
-                            if (isGo) return { action: 'answer', targetId: null, responseText: responses.showProfile };
-                            return { action: 'highlight', targetId: isDesktop() ? 'desktop-profile-link' : 'bottom-nav-profile', responseText: responses.showProfile };
-                        }
-                        if (q.includes('setting') || q.includes('सेटिंग')) {
-                            return { action: 'open_panel', targetId: 'settings', responseText: responses.openSettings };
-                        }
-                        if (q.includes('edit my profile') || q.includes('प्रोफ़ाइल संपादित करें')) {
-                            return { action: 'edit_profile', targetId: null, responseText: responses.editProfile };
-                        }
-                        if (q.includes('summarise') || q.includes('summarize') || q.includes('summary')) {
-                            return { action: 'summarize', targetId: null, responseText: responses.summarize };
-                        }
+                        
+                        if (q.includes('home') || q.includes('मुख पृष्ठ')) { return { action: 'navigate', targetId: 'desktop-home-link', responseText: responses.goToHome }; }
+                        if (q.includes('report') || q.includes('रिपोर्ट')) { return { action: 'navigate', targetId: isDesktop() ? 'desktop-report-link' : 'bottom-nav-report', responseText: 'Taking you to the report page.' }; }
+                        if (q.includes('search') || q.includes('खोज')) { return { action: 'navigate', targetId: isDesktop() ? 'desktop-search-link' : 'bottom-nav-search', responseText: 'Taking you to the search page.' }; }
+                        if (q.includes('profile') || q.includes('प्रोफ़ाइल')) { return { action: 'answer', targetId: null, responseText: responses.showProfile }; }
+                        if (q.includes('setting') || q.includes('सेटिंग')) { return { action: 'open_panel', targetId: 'settings', responseText: responses.openSettings }; }
+                        if (q.includes('edit my profile') || q.includes('प्रोफ़ाइल संपादित करें')) { return { action: 'edit_profile', targetId: null, responseText: responses.editProfile }; }
+                        if (q.includes('summarise') || q.includes('summarize') || q.includes('summary')) { return { action: 'summarize', targetId: null, responseText: responses.summarize }; }
                         return { action: 'answer', targetId: null, responseText: responses.default };
                     };
                     const result = mockAI(text, recognition.lang);
                     processAIResponse(result);
-                } catch (error) {
-                    [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setStatus("Sorry, an error occurred.", true));
-                    speak("Sorry, I am having trouble connecting.");
-                }
+                } catch (error) { [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setStatus("Sorry, an error occurred.", true)); speak("Sorry, I am having trouble connecting."); }
             }
             function processAIResponse(response) {
                 clearTimeout(aiTimeout);
-                if (response.responseText) {
-                    speak(response.responseText);
-                    [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setStatus(response.responseText));
-                }
+                if (response.responseText) { speak(response.responseText); [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setStatus(response.responseText)); }
                 if (currentHighlight) currentHighlight.classList.remove('ai-highlight');
-                if (response.action === 'highlight' && response.targetId) {
-                    const el = document.getElementById(response.targetId);
-                    if (el) {
-                        if (isAiActive) [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.deactivate());
-                        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        el.classList.add('ai-highlight');
-                        currentHighlight = el;
-                        setTimeout(() => { if (currentHighlight) currentHighlight.classList.remove('ai-highlight'); }, 5000);
-                    }
-                } else if (response.action === 'navigate' && response.targetId) {
-                    const el = document.getElementById(response.targetId);
-                    if (el && el.href) window.location.href = el.href;
-                } else if (response.action === 'redirect' && response.targetId) {
-                    setTimeout(() => { window.location.href = response.targetId; }, 1200);
-                } else if (response.action === 'open_panel' && response.targetId === 'settings') {
-                    if (isAiActive) [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.deactivate());
-                    openSettingsPanel();
-                } else if (response.action === 'edit_profile') {
-                    if (!isEditMode) UI.buttons.edit.click();
-                } else if (response.action === 'summarize') {
-                    const summaryPoints = generatePageSummary();
-                    displaySummary(summaryPoints);
-                    aiTimeout = setTimeout(() => { if (isAiActive) [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.deactivate()); }, 15000);
-                } else {
-                    aiTimeout = setTimeout(() => { if (isAiActive) [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.deactivate()); }, 5000);
-                }
+                if (response.action === 'highlight' && response.targetId) { const el = document.getElementById(response.targetId); if (el) { if (isAiActive) [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.deactivate()); el.scrollIntoView({ behavior: 'smooth', block: 'center' }); el.classList.add('ai-highlight'); currentHighlight = el; setTimeout(() => { if (currentHighlight) currentHighlight.classList.remove('ai-highlight'); }, 5000); } }
+                else if (response.action === 'navigate' && response.targetId) { const el = document.getElementById(response.targetId); if (el && el.href) window.location.href = el.href; }
+                else if (response.action === 'redirect' && response.targetId) { setTimeout(() => { window.location.href = response.targetId; }, 1200); }
+                else if (response.action === 'open_panel' && response.targetId === 'settings') { if (isAiActive) [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.deactivate()); openSettingsPanel(); }
+                else if (response.action === 'edit_profile') { if (!isEditMode) UI.buttons.edit.click(); }
+                else if (response.action === 'summarize') { const summaryPoints = generatePageSummary(); displaySummary(summaryPoints); aiTimeout = setTimeout(() => { if (isAiActive) [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.deactivate()); }, 15000); }
+                else { aiTimeout = setTimeout(() => { if (isAiActive) [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.deactivate()); }, 5000); }
             }
             function speak(text) { if (!('speechSynthesis' in window)) return; const u = new SpeechSynthesisUtterance(text); u.lang = getCurrentLanguage(); u.onstart = () => { [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setState('speaking')); }; u.onend = () => { [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setState('idle')); clearTimeout(aiTimeout); aiTimeout = setTimeout(() => { if (isAiActive) [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.deactivate()); }, 5000); }; window.speechSynthesis.speak(u); }
-            class AiWidget { constructor(el, isM = false) { this.element = el; this.isMobile = isM; this.isActive = false; this.originalIcon = this.element.querySelector('.original-icon'); if(this.originalIcon) this.originalIcon.style.transition = 'transform 0.3s ease, opacity 0.3s ease'; this.element.insertAdjacentHTML('beforeend', this.createHTML()); this.widgetInner = this.element.querySelector('.ai-widget-inner'); this.statusEl = this.element.querySelector('.ai-status'); this.logoIcon = this.element.querySelector('.ai-logo-icon'); this.micIcon = this.element.querySelector('.ai-mic-icon'); this.element.addEventListener('click', (e) => this.handleMainClick(e)); this.widgetInner.querySelector('.ai-icon-container').addEventListener('click', (e) => this.handleMicClick(e)); } createHTML() { const lS = this.isMobile ? 'w-5 h-5' : 'w-8 h-8'; const mS = this.isMobile ? 'w-6 h-6' : 'w-8 h-8'; return ` <div class="ai-widget-inner"> <div class="ai-icon-container"> <svg class="${lS} text-white ai-logo-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12.0001 1.99219L3.45911 12.0002L12.0001 22.0082L20.5411 12.0002L12.0001 1.99219Z"/></svg> <svg class="${mS} text-white ai-mic-icon" viewBox="0 0 24 24" fill="none"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" fill="currentColor"/><path d="M19 10v2a7 7 0 0 1-14 0v-2H3v2a9 9 0 0 0 8 8.94V24h2v-3.06A9 9 0 0 0 21 12v-2h-2z" fill="currentColor"/></svg> </div> <div class="ai-content"> <p class="ai-status text-sm text-white w-full text-left font-semibold"></p> </div> </div> `; } handleMainClick(e) { if (e.target.closest('.ai-icon-container')) return; this.toggle(e); } handleMicClick(e) { e.stopPropagation(); if (this.isActive) { startListening(e); } else { const showInfo = !localStorage.getItem('setuAiInfoShown'); if (showInfo) { this.showAiInfoModal(); } else { this.activate(); } } } toggle(e) { e.stopPropagation(); const showInfo = !this.isActive && !localStorage.getItem('setuAiInfoShown'); if (showInfo) { this.showAiInfoModal(); return; } this.isActive ? this.deactivate() : this.activate(); } showAiInfoModal() { UI.aiInfoModalOverlay.classList.remove('hidden'); setTimeout(() => { UI.aiInfoModalOverlay.style.opacity = '1'; UI.aiInfoModal.classList.remove('scale-95', 'opacity-0'); }, 10); const gotItHandler = () => { localStorage.setItem('setuAiInfoShown', 'true'); UI.aiInfoModalOverlay.style.opacity = '0'; UI.aiInfoModal.classList.add('scale-95', 'opacity-0'); setTimeout(() => { UI.aiInfoModalOverlay.classList.add('hidden'); this.activate(); }, 300); UI.aiInfoGotItBtn.removeEventListener('click', gotItHandler); }; UI.aiInfoGotItBtn.addEventListener('click', gotItHandler); } activate() { if (navigator.vibrate) navigator.vibrate(50); this.isActive = true; isAiActive = true; this.element.classList.add('active'); if (this.isMobile) UI.mobileHeader.classList.add('ai-active'); this.setStatus('Tap the icon to speak.'); if (!sessionStorage.getItem('setuAiButtonClicked')) { document.querySelectorAll('.ai-widget-container').forEach(el => el.classList.remove('setu-btn-animated')); sessionStorage.setItem('setuAiButtonClicked', 'true'); } setTimeout(() => startListening({ stopPropagation: () => {} }), 500); } deactivate() { this.isActive = false; isAiActive = false; this.element.classList.remove('active', 'expanded-vertically'); if (this.isMobile) UI.mobileHeader.classList.remove('ai-active'); if (recognition) recognition.stop(); const summaryBox = this.element.querySelector('#ai-summary-box'); if (summaryBox) { summaryBox.classList.remove('visible'); setTimeout(() => summaryBox.remove(), 300); } } setStatus(t, isE = false) { this.statusEl.textContent = t; this.statusEl.style.color = isE ? '#fee2e2' : '#ffffff'; const charLimit = 45; if (this.isActive && t.length > charLimit) { this.element.classList.add('expanded-vertically'); } else { this.element.classList.remove('expanded-vertically'); } } setState(s) { this.element.classList.remove('listening', 'speaking'); this.logoIcon.classList.remove('spin'); this.micIcon.classList.remove('spin'); if (s === 'listening') { this.element.classList.add('listening'); this.logoIcon.classList.add('spin'); } else if (s === 'speaking') { this.element.classList.add('speaking'); this.micIcon.classList.add('spin'); } } }
+            class AiWidget { constructor(el, isM = false) { this.element = el; this.isMobile = isM; this.isActive = false; this.originalIcon = this.element.querySelector('.original-icon'); if(this.originalIcon) this.originalIcon.style.transition = 'transform 0.3s ease, opacity 0.3s ease'; this.element.insertAdjacentHTML('beforeend', this.createHTML()); this.widgetInner = this.element.querySelector('.ai-widget-inner'); this.statusEl = this.element.querySelector('.ai-status'); this.logoIcon = this.element.querySelector('.ai-logo-icon'); this.micIcon = this.element.querySelector('.ai-mic-icon'); this.element.addEventListener('click', (e) => this.handleMainClick(e)); this.widgetInner.querySelector('.ai-icon-container').addEventListener('click', (e) => this.handleMicClick(e)); } createHTML() { const lS = this.isMobile ? 'w-5 h-5' : 'w-8 h-8'; const mS = this.isMobile ? 'w-6 h-6' : 'w-8 h-8'; return ` <div class="ai-widget-inner"> <div class="ai-icon-container"> <svg class="${lS} text-white ai-logo-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12.0001 1.99219L3.45911 12.0002L12.0001 22.0082L20.5411 12.0002L12.0001 1.99219Z"/></svg> <svg class="${mS} text-white ai-mic-icon" viewBox="0 0 24 24" fill="none"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" fill="currentColor"/><path d="M19 10v2a7 7 0 0 1-14 0v-2H3v2a9 9 0 0 0 8 8.94V24h2v-3.06A9 9 0 0 0 21 12v-2h-2z" fill="currentColor"/></svg> </div> <div class="ai-content"> <p class="ai-status text-sm text-white w-full text-left font-semibold"></p> </div> </div> `; } handleMainClick(e) { if (e.target.closest('.ai-icon-container')) return; this.toggle(e); } handleMicClick(e) { e.stopPropagation(); if (this.isActive) { startListening(e); } else { const showInfo = !localStorage.getItem('setuAiInfoShown'); if (showInfo) { this.showAiInfoModal(); } else { this.activate(); } } } toggle(e) { e.stopPropagation(); const showInfo = !this.isActive && !localStorage.getItem('setuAiInfoShown'); if (showInfo) { this.showAiInfoModal(); return; } this.isActive ? this.deactivate() : this.activate(); } showAiInfoModal() { UI.aiInfoModalOverlay.classList.remove('hidden'); setTimeout(() => { UI.aiInfoModalOverlay.style.opacity = '1'; UI.aiInfoModal.classList.remove('scale-95', 'opacity-0'); }, 10); const gotItHandler = () => { localStorage.setItem('setuAiInfoShown', 'true'); UI.aiInfoModalOverlay.style.opacity = '0'; UI.aiInfoModal.classList.add('scale-95', 'opacity-0'); setTimeout(() => { UI.aiInfoModalOverlay.classList.add('hidden'); this.activate(); }, 300); UI.aiInfoGotItBtn.removeEventListener('click', gotItHandler); }; UI.aiInfoGotItBtn.addEventListener('click', gotItHandler); }
+                activate() {
+                    if (navigator.vibrate) navigator.vibrate(50);
+                    const animationPreference = localStorage.getItem('animationPreference');
+                    if (animationPreference === 'modern') {
+                        this.element.classList.add('modern-animation');
+                    }
+                    this.isActive = true; isAiActive = true;
+                    this.element.classList.add('active');
+                    if (this.isMobile) UI.mobileHeader.classList.add('ai-active');
+                    this.setStatus('Tap the icon to speak.');
+                    if (!sessionStorage.getItem('setuAiButtonClicked')) { document.querySelectorAll('.ai-widget-container').forEach(el => el.classList.remove('setu-btn-animated')); sessionStorage.setItem('setuAiButtonClicked', 'true'); }
+                    setTimeout(() => startListening({ stopPropagation: () => {} }), 500);
+                }
+                deactivate() {
+                    this.isActive = false; isAiActive = false;
+                    this.element.classList.remove('active', 'expanded-vertically', 'modern-animation');
+                    if (this.isMobile) UI.mobileHeader.classList.remove('ai-active');
+                    if (recognition) recognition.stop();
+                    const summaryBox = this.element.querySelector('#ai-summary-box');
+                    if (summaryBox) { summaryBox.classList.remove('visible'); setTimeout(() => summaryBox.remove(), 300); }
+                }
+                setStatus(t, isE = false) { this.statusEl.textContent = t; this.statusEl.style.color = isE ? '#fee2e2' : '#ffffff'; const charLimit = 45; if (this.isActive && t.length > charLimit) { this.element.classList.add('expanded-vertically'); } else { this.element.classList.remove('expanded-vertically'); } } setState(s) { this.element.classList.remove('listening', 'speaking'); this.logoIcon.classList.remove('spin'); this.micIcon.classList.remove('spin'); if (s === 'listening') { this.element.classList.add('listening'); this.logoIcon.classList.add('spin'); } else if (s === 'speaking') { this.element.classList.add('speaking'); this.micIcon.classList.add('spin'); } } }
 
             // --- Initial Load & Event Listeners ---
-            setupTheme(); setupLogoAnimation(); populateLanguageList(); restoreLanguageDisplay(); setupLanguageSwitcher(); loadUserProfile(); setupAiWidgets();
+            setupTheme(); setupAnimationPreference(); setupLogoAnimation(); populateLanguageList(); restoreLanguageDisplay(); setupLanguageSwitcher(); loadUserProfile(); setupAiWidgets();
             UI.buttons.edit.addEventListener('click', () => toggleEditMode(true)); UI.buttons.cancel.addEventListener('click', () => toggleEditMode(false)); UI.buttons.save.addEventListener('click', saveProfileChanges);
             UI.settingsBtnDesktop.addEventListener('click', openSettingsPanel); UI.settingsBtnMobile.addEventListener('click', openSettingsPanel); UI.closeSettingsBtn.addEventListener('click', closeSettingsPanel); UI.settingsOverlay.addEventListener('click', closeSettingsPanel);
             UI.avatarContainer.addEventListener('click', () => UI.avatarInput.click());
@@ -717,4 +649,3 @@
     <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async defer></script>
 </body>
 </html>
-
