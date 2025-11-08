@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display.swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Link to the new common stylesheet -->
     <link rel="stylesheet" href="set2_style.css">
     
@@ -109,10 +109,15 @@
                     </button>
                 </div>
 
-                <!-- Mobile Menu Button -->
-                <button id="mobile-menu-btn" class="md:hidden theme-toggle" aria-label="Open menu">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-                </button>
+                <!-- === MODIFIED: NEW MOBILE MENU BUTTON === -->
+                <div id="mobile-menu-btn" class="md:hidden menu-wrapper" aria-label="Open menu">
+                    <div class="hamburger-menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+                <!-- === END MODIFIED BUTTON === -->
             </div>
 
             <!-- Mobile Menu -->
@@ -332,7 +337,7 @@
             const LANGUAGES = {
                 'en': { name: 'English', short: 'EN' }, 'hi': { name: 'हिन्दी', short: 'HI' },
                 'bn': { name: 'বাংলা', short: 'BN' }, 'te': { name: 'తెలుగు', short: 'TE' },
-                'mr': { name: 'मराठी', short: 'MR' }, 'ta': { name: 'தமிழ்', short: 'TA' },
+                'mr': { name: 'మराठी', short: 'MR' }, 'ta': { name: 'தமிழ்', short: 'TA' },
                 'ur': { name: 'اردو', short: 'UR' }, 'gu': { name: 'ગુજરાતી', short: 'GU' },
                 'kn': { name: 'ಕನ್ನಡ', short: 'KN' }, 'ml': { name: 'മലയാളം', short: 'ML' },
                 'pa': { name: 'ਪੰਜਾਬੀ', short: 'PA' }, 'or': { name: 'ଓଡ଼ିଆ', short: 'OR' },
@@ -525,14 +530,19 @@
             localStorage.setItem('theme', theme);
         }
 
+        // === MODIFIED: SETUPMOBILEMENU FUNCTION ===
         function setupMobileMenu() {
             const mobileMenuBtn = document.getElementById('mobile-menu-btn');
             const mobileMenu = document.getElementById('mobile-menu');
             
             mobileMenuBtn.addEventListener('click', () => {
+                // Toggle the 'open' class on the button for the animation
+                mobileMenuBtn.classList.toggle('open');
+                // Toggle the 'hidden' class on the menu panel
                 mobileMenu.classList.toggle('hidden');
             });
         }
+        // === END MODIFIED FUNCTION ===
 
         function setupLogoAnimation() {
             const animatedName = document.getElementById('animated-name');

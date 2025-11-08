@@ -1,4 +1,4 @@
-/* This is the common stylesheet for the SIH 2025 Setu project.
+/*
   It contains styles for about.html
 */
 
@@ -122,15 +122,6 @@ body {
 }
 
 /* --- Old CTA button style removed --- */
-/*
-.btn-cta {
-    background-image: linear-gradient(120deg, #f41f4e 0%, #c3193f 100%);
-    background-size: 200% 200%;
-    animation: animated-gradient 3s ease-in-out infinite;
-    color: #FFFFFF;
-    font-weight: 700;
-}
-*/
 
 .btn-secondary {
     background-color: transparent;
@@ -563,3 +554,80 @@ body {
     transform: translateZ(0) scale(1.4);
   }
 }
+
+/* --- NEW HAMBURGER MENU STYLES --- */
+.menu-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  /* OPTIMIZED: Match site border radius and background */
+  border-radius: 0.75rem; 
+  background-color: var(--bg-accent);
+}
+
+.menu-wrapper:hover {
+  /* OPTIMIZED: Use theme-aware hover color */
+  background-color: var(--border-light);
+}
+
+.hamburger-menu {
+  width: 30px;
+  height: 20px;
+  position: relative;
+}
+
+.hamburger-menu span {
+  display: block;
+  position: absolute;
+  height: 3px;
+  width: 100%;
+  /* OPTIMIZED: Use theme-aware color */
+  background: var(--text-primary);
+  border-radius: 3px;
+  opacity: 1;
+  left: 0;
+  transform: rotate(0deg);
+  transition: all 0.25s ease-in-out;
+}
+
+.hamburger-menu span:nth-child(1) {
+  top: 0px;
+}
+
+.hamburger-menu span:nth-child(2) {
+  top: 8px;
+}
+
+.hamburger-menu span:nth-child(3) {
+  top: 16px;
+}
+
+.menu-wrapper:hover .hamburger-menu span {
+  /* OPTIMIZED: Use theme-aware accent color on hover */
+  background: var(--accent-primary);
+}
+
+.menu-wrapper.open .hamburger-menu span {
+    /* OPTIMIZED: Make sure open (X) icon is also accent color */
+    background: var(--accent-primary);
+}
+
+.menu-wrapper.open .hamburger-menu span:nth-child(1) {
+  top: 8px;
+  transform: rotate(135deg);
+}
+
+.menu-wrapper.open .hamburger-menu span:nth-child(2) {
+  opacity: 0;
+  left: -60px;
+}
+
+.menu-wrapper.open .hamburger-menu span:nth-child(3) {
+  top: 8px;
+  transform: rotate(-135deg);
+}
+/* --- END NEW HAMBURGER MENU STYLES --- */

@@ -50,10 +50,15 @@
                     </div>
                 </div>
 
-                <!-- Mobile Menu Button -->
-                <button id="mobile-menu-btn" class="md:hidden theme-toggle" aria-label="Open menu">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-                </button>
+                <!-- === MODIFIED: NEW MOBILE MENU BUTTON === -->
+                <div id="mobile-menu-btn" class="md:hidden menu-wrapper" aria-label="Open menu">
+                    <div class="hamburger-menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+                <!-- === END MODIFIED BUTTON === -->
             </div>
 
             <!-- Mobile Menu -->
@@ -578,11 +583,16 @@
 
             // --- UI & ANIMATIONS ---
 
+            // === MODIFIED: SETUPMOBILEMENU FUNCTION ===
             function setupMobileMenu() {
                 UI_ELEMENTS.mobileMenuBtn.addEventListener('click', () => {
+                    // Toggle the 'open' class on the button for the animation
+                    UI_ELEMENTS.mobileMenuBtn.classList.toggle('open');
+                    // Toggle the 'hidden' class on the menu panel
                     UI_ELEMENTS.mobileMenu.classList.toggle('hidden');
                 });
             }
+            // === END MODIFIED FUNCTION ===
             
             function populateLanguageDropdowns() {
                 const dropdownHTML = Object.entries(LANGUAGES)
@@ -596,6 +606,7 @@
                 const closeDropdowns = () => {
                     if(UI_ELEMENTS.desktopDropdown) UI_ELEMENTS.desktopDropdown.classList.remove('show');
                     if(UI_ELEMENTS.mobileDropdown) UI_ELEMENTS.mobileDropdown.classList.remove('show');
+
                 };
 
                 if(UI_ELEMENTS.desktopDropdownBtn) UI_ELEMENTS.desktopDropdownBtn.addEventListener('click', (e) => {

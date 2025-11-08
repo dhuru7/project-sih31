@@ -97,10 +97,15 @@
                     </button>
                 </div>
 
-                <!-- Mobile Menu Button -->
-                <button id="mobile-menu-btn" class="md:hidden theme-toggle" aria-label="Open menu">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-                </button>
+                <!-- === MODIFIED: NEW MOBILE MENU BUTTON === -->
+                <div id="mobile-menu-btn" class="md:hidden menu-wrapper" aria-label="Open menu">
+                    <div class="hamburger-menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+                <!-- === END MODIFIED BUTTON === -->
             </div>
 
             <!-- Mobile Menu -->
@@ -621,14 +626,19 @@
             localStorage.setItem('theme', theme);
         }
 
+        // === MODIFIED: SETUPMOBILEMENU FUNCTION ===
         function setupMobileMenu() {
             const mobileMenuBtn = document.getElementById('mobile-menu-btn');
             const mobileMenu = document.getElementById('mobile-menu');
             
             mobileMenuBtn.addEventListener('click', () => {
+                // Toggle the 'open' class on the button for the animation
+                mobileMenuBtn.classList.toggle('open');
+                // Toggle the 'hidden' class on the menu panel
                 mobileMenu.classList.toggle('hidden');
             });
         }
+        // === END MODIFIED FUNCTION ===
 
         function setupLogoAnimation() {
             const animatedName = document.getElementById('animated-name');
