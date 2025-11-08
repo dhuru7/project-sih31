@@ -84,7 +84,8 @@
     <header class="nav-header sticky top-0 z-50">
         <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
             <div class="flex items-center justify-between">
-                <a href="signup.html" class="logo">
+                <!-- === MODIFIED: Added 'notranslate' class to logo === -->
+                <a href="signup.html" class="logo notranslate">
                     <span id="animated-name">Setu</span>
                 </a>
 
@@ -93,9 +94,10 @@
                     <a href="about.html" class="btn btn-ghost">About</a>
                     
                     <div class="language-dropdown">
+                        <!-- === MODIFIED: Added 'notranslate' class to language button spans === -->
                         <button id="language-btn" class="btn btn-ghost flex items-center">
-                            <span class="language-text">English</span>
-                            <span id="current-lang" class="language-indicator">EN</span>
+                            <span class="language-text notranslate">English</span>
+                            <span id="current-lang" class="language-indicator notranslate">EN</span>
                             <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </button>
                         <div id="language-dropdown" class="dropdown-content">
@@ -126,9 +128,10 @@
                     <a href="about.html" class="block btn btn-ghost text-left w-full">About</a>
                     
                     <div class="language-dropdown w-full">
+                        <!-- === MODIFIED: Added 'notranslate' class to mobile language button spans === -->
                         <button id="mobile-language-btn" class="btn btn-ghost text-left w-full flex justify-between items-center">
-                            <span class="mobile-language-text">English</span>
-                            <span id="mobile-current-lang" class="language-indicator">EN</span>
+                            <span class="mobile-language-text notranslate">English</span>
+                            <span id="mobile-current-lang" class="language-indicator notranslate">EN</span>
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </button>
                         <div id="mobile-language-dropdown" class="dropdown-content w-full">
@@ -434,8 +437,9 @@
             const savedName = localStorage.getItem('selectedLanguageName') || 'English';
             updateLanguageUI(savedName, savedLang, LANGUAGES);
 
+            // === MODIFIED: Added 'notranslate' class to dropdown items ===
             const dropdownHTML = Object.entries(LANGUAGES)
-                .map(([code, { name }]) => `<a href="#" class="dropdown-item" data-lang="${code}" data-name="${name}">${name}</a>`)
+                .map(([code, { name }]) => `<a href="#" class="dropdown-item notranslate" data-lang="${code}" data-name="${name}">${name}</a>`)
                 .join('');
             
             document.getElementById('language-dropdown').innerHTML = dropdownHTML;
