@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,412 +9,45 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            /* New color theme based on homepage */
-            --bg-primary: #f3f4f6; /* Softer Gray Background */
-            --bg-secondary: #FFFFFF;
-            --bg-secondary-translucent: rgba(255, 255, 255, 0.85);
-            --bg-accent: #fee2e2; /* Light Red Accent */
-            --text-primary: #1f2937; /* Dark Slate Gray */
-            --text-secondary: #374151;
-            --text-muted: #6b7280;
-            --border-light: #e5e7eb;
-            --border-medium: #d1d5db;
-            --accent-primary: #f41f4e; /* UPDATED: New Red */
-            --accent-primary-hover: #d81b45; /* UPDATED: Darker Red */
-            --accent-secondary: #1f2937; /* Dark Slate Gray */
-            --accent-secondary-hover: #000000;
-            --accent-success: #28a745; /* Green for success states */
-            --shadow-light: rgba(0, 0, 0, 0.07);
-            --shadow-medium: rgba(0, 0, 0, 0.12);
-        }
-
-        [data-theme="dark"] {
-            /* New dark theme based on homepage */
-            --bg-primary: #111827; /* Dark Slate 900 */
-            --bg-secondary: #1f2937; /* Dark Slate 800 */
-            --bg-secondary-translucent: rgba(31, 41, 55, 0.85);
-            --bg-accent: #374151; /* Dark Slate 700 */
-            --text-primary: #f9fafb; /* Off-white */
-            --text-secondary: #d1d5db;
-            --text-muted: #9ca3af;
-            --border-light: #374151;
-            --border-medium: #4b5563;
-            --accent-primary: #f41f4e; /* UPDATED: New Red */
-            --accent-primary-hover: #f64c71; /* UPDATED: Lighter Red */
-            --accent-secondary: #f9fafb;
-            --accent-secondary-hover: #FFFFFF;
-            --accent-success: #28a745;
-            /* UPDATED: Neutral shadows for dark mode */
-            --shadow-light: rgba(0, 0, 0, 0.2);
-            --shadow-medium: rgba(0, 0, 0, 0.3);
-        }
-        
-        #google_translate_element, .skiptranslate { display: none !important; }
-        body { top: 0 !important; }
-        .goog-te-banner-frame { display: none !important; }
-
-        * {
-            transition: background-color 0.2s cubic-bezier(0.4, 0.0, 0.2, 1), 
-                       color 0.2s cubic-bezier(0.4, 0.0, 0.2, 1), 
-                       border-color 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
-        }
-
-        body {
-            font-family: 'Inter', 'Roboto', sans-serif;
-            background-color: var(--bg-primary);
-            color: var(--text-secondary);
-        }
-
-        /* NEW Heading Style */
-        .wizard-heading {
-            font-family: 'Poppins', sans-serif;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            color: var(--text-primary);
-        }
-        
-        .btn { position: relative; display: inline-flex; align-items: center; justify-content: center; font-weight: 600; border-radius: 0.5rem; transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1); cursor: pointer; border: none; padding: 0.75rem 1.5rem; overflow: hidden; -webkit-tap-highlight-color: transparent; touch-action: manipulation; user-select: none; }
-        .btn:active { transform: scale(0.97); }
-        .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: scale(1) !important; background-image: none !important; background-color: var(--border-medium) !important; color: var(--text-muted) !important; }
-        .btn-primary { background-color: var(--accent-primary); color: #FFFFFF; }
-        .btn-primary:hover { background-color: var(--accent-primary-hover); transform: scale(1.03); }
-        .btn-secondary { background-color: var(--bg-secondary); color: var(--text-primary); border: 2px solid var(--border-medium); }
-        .btn-secondary:hover { border-color: var(--accent-secondary); color: var(--accent-secondary); background-color: var(--bg-accent); }
-        
-        @keyframes animated-gradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-        .btn-cta { background-image: linear-gradient(120deg, #f41f4e 0%, #c3193f 100%); background-size: 200% 200%; animation: animated-gradient 3s ease-in-out infinite; color: white; }
-        
-        /* NEW Form Styles */
-        .form-label {
-            display: block;
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: var(--text-secondary);
-            margin-bottom: 0.5rem;
-        }
-        .form-input {
-            background-color: var(--bg-primary);
-            border: 1px solid var(--border-light);
-            border-radius: 0.5rem;
-            padding: 0.875rem 1rem;
-            font-size: 1rem;
-            color: var(--text-primary);
-            transition: all 0.2s ease-in-out;
-            width: 100%;
-        }
-        .form-input::placeholder {
-            color: var(--text-muted);
-        }
-        .form-input:focus {
-            border-color: var(--accent-primary);
-            background-color: var(--bg-secondary);
-            box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent-primary) 15%, transparent);
-            outline: none;
-        }
-        
-        /* Modal Styles */
-        .modal-overlay { transition: opacity 0.3s ease-in-out; }
-        .modal-box { transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; }
-
-        /* Wizard Styles */
-        #wizard-container {
-            background-color: var(--bg-secondary);
-            border-radius: 1rem;
-            box-shadow: 0 10px 25px -5px var(--shadow-medium);
-            border: 1px solid var(--border-light);
-            overflow: hidden;
-        }
-
-        .wizard-step {
-            display: none;
-            animation: fadeIn 0.5s ease-in-out;
-        }
-        .wizard-step.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Progress Bar */
-        .progress-bar { display: flex; background-color: var(--bg-accent); border-bottom: 1px solid var(--border-light); }
-        .progress-step { flex: 1; text-align: center; color: var(--text-muted); position: relative; font-weight: 500; }
-        .progress-step:not(:last-child)::after { content: ''; position: absolute; top: 11px; right: -50%; width: 100%; height: 2px; background-color: var(--border-medium); transition: background-color 0.3s; z-index: 1; }
-        .progress-step .step-circle { position: relative; z-index: 2; display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; background-color: var(--bg-secondary); border: 2px solid var(--border-medium); margin: 0 auto 0.5rem; transition: all 0.3s; font-size: 0.8rem; }
-        .progress-step.active .step-circle { border-color: var(--accent-primary); background-color: var(--accent-primary); color: white; }
-        .progress-step.active .step-name { color: var(--text-primary); font-weight: 600; }
-        .progress-step.completed .step-circle { border-color: var(--accent-secondary); background-color: var(--accent-secondary); color: white; }
-        .progress-step.completed::after { background-color: var(--accent-secondary); }
-        [data-theme="dark"] .progress-step.completed .step-circle { color: var(--bg-primary); }
-
-        /* Redesigned Upload Options */
-        .upload-option {
-            background-color: var(--bg-primary);
-            border: 2px dashed var(--border-medium);
-            transition: all 0.2s ease-in-out;
-            position: relative;
-            overflow: hidden;
-        }
-        .upload-option:hover {
-            border-color: var(--accent-primary);
-            background-color: var(--bg-accent);
-            transform: translateY(-5px);
-            box-shadow: 0 4px 10px var(--shadow-light);
-        }
-
-        /* Redesigned Issue Types - Caption Style */
-        .issue-type-option {
-            border: 2px solid var(--border-light);
-            transition: all 0.2s ease-in-out;
-            position: relative;
-            border-radius: 0.75rem;
-            aspect-ratio: 1 / 1;
-            overflow: hidden; /* Important for containing the image */
-        }
-        .issue-type-option:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 8px 20px var(--shadow-medium);
-            border-color: var(--accent-primary);
-        }
-        .issue-type-option.selected {
-            transform: translateY(0);
-            border-color: var(--accent-primary);
-            box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent-primary) 25%, transparent);
-        }
-        .issue-type-option.selected .check-icon {
-            opacity: 1;
-            transform: scale(1);
-        }
-        .check-icon {
-            position: absolute;
-            top: 0.75rem;
-            right: 0.75rem;
-            background-color: var(--accent-primary);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 28px;
-            height: 28px;
-            opacity: 0;
-            transform: scale(0.5);
-            transition: all 0.2s ease-in-out;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-            z-index: 3;
-        }
-        .check-icon svg {
-            width: 16px;
-            height: 16px;
-        }
-
-        /* MODIFIED: Styles for issue type icons */
-        .issue-icon {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* This makes the image fill the container */
-            pointer-events: none;
-            z-index: 1;
-            transition: transform 0.3s ease-in-out;
-        }
-        .issue-type-option:hover .issue-icon {
-            transform: scale(1.1);
-        }
-        
-        /* MODIFIED: Style for the text - Caption Box */
-        .issue-type-option .issue-text {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
-            color: white;
-            font-size: 1rem;
-            font-weight: 600;
-            padding: 1.5rem 0.75rem 0.75rem;
-            text-align: center;
-            z-index: 2;
-            pointer-events: none;
-        }
-
-        /* NEW: Styles for the location button */
-        #location-btn-container {
-            text-align: center;
-            margin-bottom: 1.5rem;
-        }
-        #get-location-btn {
-            outline: none;
-            height: 40px;
-            text-align: center;
-            width: 200px; /* Adjusted width */
-            border-radius: 40px;
-            background: #fff;
-            border: 2px solid var(--accent-primary);
-            color: var(--accent-primary);
-            letter-spacing: 1px;
-            text-shadow: 0;
-            font-size: 12px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.25s ease;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            position: relative; /* Needed for icon positioning */
-        }
-        
-        #location-btn-success-icon {
-            display: none; /* Hide icon by default */
-        }
-
-        #get-location-btn:hover {
-            color: white;
-            background: var(--accent-primary);
-        }
-        #get-location-btn.loading {
-            width: 40px;
-            border-color: #bbbbbb;
-            border-width: 3px;
-            font-size: 0;
-            border-left-color: var(--accent-primary);
-            animation: rotating 2s 0.25s linear infinite;
-        }
-        #get-location-btn.loading > * {
-             display: none;
-        }
-        
-        /* New Success State for Location Button */
-        #get-location-btn.success {
-            width: 40px;
-            background: var(--accent-success);
-            border-color: var(--accent-success);
-            color: white; /* Set color for the SVG icon */
-        }
-        #get-location-btn.success #location-btn-text {
-             display: none;
-        }
-        #get-location-btn.success #location-btn-success-icon {
-            display: block;
-            width: 20px;
-            height: 20px;
-        }
-
-        @keyframes rotating {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        /* NEW: Styles for the animated submit button */
-        .submit-button-container {
-            display: flex;
-            justify-content: flex-end;
-        }
-        .submit-button {
-            background-image: linear-gradient(120deg, #f41f4e 0%, #c3193f 100%);
-            background-size: 200% 200%;
-            animation: animated-gradient 3s ease-in-out infinite;
-            height: 48px;
-            width: 100%;
-            text-align: center;
-            position: relative;
-            cursor: pointer;
-            border-radius: 8px;
-            font-family: 'Inter', sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
-        @media (min-width: 640px) {
-            .submit-button {
-                width: auto;
-                min-width: 150px;
-                padding-left: 1.5rem;
-                padding-right: 1.5rem;
-            }
-        }
-        .submit-text {
-            font-weight: 600;
-            font-size: 1rem;
-            color: white;
-            line-height: 48px;
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            transition: opacity 0.2s ease;
-        }
-        .submit-button .progress-bar-animated {
-            position: absolute;
-            height: 100%;
-            width: 0;
-            top: 0;
-            left: 0;
-            border-radius: 8px;
-            background: var(--accent-success);
-        }
-        .submit-button svg {
-            width: 30px;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            opacity: 0;
-        }
-        .submit-button .check {
-            fill: none;
-            stroke: white;
-            stroke-width: 4;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-
-        /* NEW: Animation for auto-filled inputs */
-        .input-filled-animation {
-            animation: input-glow 1.5s ease-out;
-        }
-
-        @keyframes input-glow {
-            0% {
-                border-color: var(--border-medium);
-                box-shadow: none;
-            }
-            50% {
-                border-color: var(--accent-primary);
-                box-shadow: 0 0 0 3px var(--bg-accent);
-            }
-            100% {
-                border-color: var(--border-medium);
-                box-shadow: none;
-            }
-        }
-        
-        .required-marker {
-            color: var(--accent-primary);
-        }
-    </style>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="set4_style.css">
 </head>
+
 <body class="antialiased pb-28">
 
     <div id="app" class="min-h-screen flex items-center justify-center p-4">
-        
+
         <main id="report-page-container" class="max-w-3xl w-full">
-            
+
             <div id="wizard-container" class="relative">
-                <a href="index.html" class="absolute top-3 right-3 z-10 p-1.5 rounded-full bg-[var(--bg-secondary-translucent)] text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-accent)] transition-all duration-200" aria-label="Close">
-                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                <a href="index.html"
+                    class="absolute top-3 right-3 z-10 p-1.5 rounded-full bg-[var(--bg-secondary-translucent)] text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-accent)] transition-all duration-200"
+                    aria-label="Close">
+                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
                 </a>
-                
+
                 <div class="progress-bar p-4 sm:p-6">
-                    <div id="step-indicator-1" class="progress-step active"><div class="step-circle">1</div><div class="step-name hidden sm:block">Upload</div></div>
-                    <div id="step-indicator-2" class="progress-step"><div class="step-circle">2</div><div class="step-name hidden sm:block">Details</div></div>
-                    <div id="step-indicator-3" class="progress-step"><div class="step-circle">3</div><div class="step-name hidden sm:block">Location</div></div>
-                    <div id="step-indicator-4" class="progress-step"><div class="step-circle">4</div><div class="step-name hidden sm:block">Confirm</div></div>
+                    <div id="step-indicator-1" class="progress-step active">
+                        <div class="step-circle">1</div>
+                        <div class="step-name hidden sm:block">Upload</div>
+                    </div>
+                    <div id="step-indicator-2" class="progress-step">
+                        <div class="step-circle">2</div>
+                        <div class="step-name hidden sm:block">Details</div>
+                    </div>
+                    <div id="step-indicator-3" class="progress-step">
+                        <div class="step-circle">3</div>
+                        <div class="step-name hidden sm:block">Location</div>
+                    </div>
+                    <div id="step-indicator-4" class="progress-step">
+                        <div class="step-circle">4</div>
+                        <div class="step-name hidden sm:block">Confirm</div>
+                    </div>
                 </div>
 
                 <div>
@@ -421,25 +55,54 @@
                     <section id="step-1" class="wizard-step active p-6 sm:p-8">
                         <div class="text-center mb-8">
                             <h2 class="wizard-heading text-2xl sm:text-3xl">Add a Photo or Video</h2>
-                            <p class="text-[var(--text-muted)] mt-2">A visual helps the authorities understand the issue much faster.</p>
+                            <p class="text-[var(--text-muted)] mt-2">A visual helps the authorities understand the issue
+                                much faster.</p>
                         </div>
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                            <label for="camera-input" class="upload-option p-6 rounded-xl flex items-center justify-center sm:flex-col cursor-pointer">
-                                <svg class="w-10 h-10 text-[var(--accent-primary)] sm:mb-3 mr-4 sm:mr-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.776 48.776 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" /><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z" /></svg>
-                                <span class="font-semibold text-center text-lg sm:text-base text-[var(--text-primary)]">Take Picture</span>
+                            <label for="camera-input"
+                                class="upload-option p-6 rounded-xl flex items-center justify-center sm:flex-col cursor-pointer">
+                                <svg class="w-10 h-10 text-[var(--accent-primary)] sm:mb-3 mr-4 sm:mr-0"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.776 48.776 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z" />
+                                </svg>
+                                <span
+                                    class="font-semibold text-center text-lg sm:text-base text-[var(--text-primary)]">Take
+                                    Picture</span>
                             </label>
-                            <label for="gallery-input" class="upload-option p-6 rounded-xl flex items-center justify-center sm:flex-col cursor-pointer">
-                                <svg class="w-10 h-10 text-[var(--accent-primary)] sm:mb-3 mr-4 sm:mr-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" /></svg>
-                                <span class="font-semibold text-center text-lg sm:text-base text-[var(--text-primary)]">From Gallery</span>
+                            <label for="gallery-input"
+                                class="upload-option p-6 rounded-xl flex items-center justify-center sm:flex-col cursor-pointer">
+                                <svg class="w-10 h-10 text-[var(--accent-primary)] sm:mb-3 mr-4 sm:mr-0"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                                </svg>
+                                <span
+                                    class="font-semibold text-center text-lg sm:text-base text-[var(--text-primary)]">From
+                                    Gallery</span>
                             </label>
-                            <button id="record-video-btn" class="upload-option p-6 rounded-xl flex items-center justify-center sm:flex-col cursor-pointer">
-                                <svg class="w-10 h-10 text-[var(--accent-primary)] sm:mb-3 mr-4 sm:mr-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9A2.25 2.25 0 0013.5 5.25h-9A2.25 2.25 0 002.25 7.5v9A2.25 2.25 0 004.5 18.75z"></path></svg>
-                                <span class="font-semibold text-center text-lg sm:text-base text-[var(--text-primary)]">Record Video</span>
+                            <button id="record-video-btn"
+                                class="upload-option p-6 rounded-xl flex items-center justify-center sm:flex-col cursor-pointer">
+                                <svg class="w-10 h-10 text-[var(--accent-primary)] sm:mb-3 mr-4 sm:mr-0"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9A2.25 2.25 0 0013.5 5.25h-9A2.25 2.25 0 002.25 7.5v9A2.25 2.25 0 004.5 18.75z">
+                                    </path>
+                                </svg>
+                                <span
+                                    class="font-semibold text-center text-lg sm:text-base text-[var(--text-primary)]">Record
+                                    Video</span>
                             </button>
                         </div>
                         <input type="file" id="camera-input" class="hidden" accept="image/*" capture="environment">
                         <input type="file" id="gallery-input" class="hidden" accept="image/*">
-                        <div class="mt-6 text-center text-sm text-[var(--text-muted)]">Image upload is required to proceed.</div>
+                        <div class="mt-6 text-center text-sm text-[var(--text-muted)]">Image upload is required to
+                            proceed.</div>
                         <div id="upload-error-msg" class="text-red-500 text-sm text-center mt-4 hidden"></div>
                     </section>
 
@@ -451,124 +114,232 @@
                         </div>
                         <div id="issue-types-container" class="grid grid-cols-2 md:grid-cols-3 gap-4"></div>
                         <div class="mt-6">
-                            <label for="description-input" class="form-label">Any other details? <span class="text-sm font-normal text-[var(--text-muted)]">(Optional)</span></label>
+                            <label for="description-input" class="form-label">Any other details? <span
+                                    class="text-sm font-normal text-[var(--text-muted)]">(Optional)</span></label>
                             <div class="relative">
-                                <textarea id="description-input" rows="4" placeholder="Provide extra information..." class="form-input pr-12"></textarea>
+                                <textarea id="description-input" rows="4" placeholder="Provide extra information..."
+                                    class="form-input pr-12"></textarea>
                                 <!-- IMPROVEMENT: Redesigned mic button -->
-                                <button id="description-mic-btn" class="absolute top-2.5 right-2.5 flex items-center justify-center w-8 h-8 rounded-full bg-[var(--accent-primary)] text-white shadow-md hover:bg-[var(--accent-primary-hover)] transition-all duration-200 transform hover:scale-110" title="Add description via voice">
-                                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                        <path d="M12 14.25a3.75 3.75 0 003.75-3.75V5.25a3.75 3.75 0 00-7.5 0v5.25A3.75 3.75 0 0012 14.25z" />
-                                        <path d="M6 10.5a.75.75 0 01.75.75v.75a5.25 5.25 0 1010.5 0v-.75a.75.75 0 011.5 0v.75a6.75 6.75 0 11-13.5 0v-.75a.75.75 0 01.75-.75zM12 18.75a.75.75 0 00.75-.75V16.5a.75.75 0 00-1.5 0v1.5a.75.75 0 00.75.75zM8.25 21a.75.75 0 01.75-.75h6a.75.75 0 010 1.5h-6a.75.75 0 01-.75-.75z" />
+                                <button id="description-mic-btn"
+                                    class="absolute top-2.5 right-2.5 flex items-center justify-center w-8 h-8 rounded-full bg-[var(--accent-primary)] text-white shadow-md hover:bg-[var(--accent-primary-hover)] transition-all duration-200 transform hover:scale-110"
+                                    title="Add description via voice">
+                                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                        fill="currentColor">
+                                        <path
+                                            d="M12 14.25a3.75 3.75 0 003.75-3.75V5.25a3.75 3.75 0 00-7.5 0v5.25A3.75 3.75 0 0012 14.25z" />
+                                        <path
+                                            d="M6 10.5a.75.75 0 01.75.75v.75a5.25 5.25 0 1010.5 0v-.75a.75.75 0 011.5 0v.75a6.75 6.75 0 11-13.5 0v-.75a.75.75 0 01.75-.75zM12 18.75a.75.75 0 00.75-.75V16.5a.75.75 0 00-1.5 0v1.5a.75.75 0 00.75.75zM8.25 21a.75.75 0 01.75-.75h6a.75.75 0 010 1.5h-6a.75.75 0 01-.75-.75z" />
                                     </svg>
                                 </button>
                             </div>
                         </div>
                     </section>
-                    
+
                     <!-- Step 3: Location -->
                     <section id="step-3" class="wizard-step p-6 sm:p-8">
-                         <div class="text-center mb-8">
+                        <div class="text-center mb-8">
                             <h2 class="wizard-heading text-2xl sm:text-3xl">Where is the Issue?</h2>
                             <p class="text-[var(--text-muted)] mt-2">Provide the location for a faster response.</p>
                         </div>
                         <div id="location-btn-container" class="mb-2">
                             <button id="get-location-btn">
                                 <span id="location-btn-text">AUTO-DETECT LOCATION</span>
-                                <svg id="location-btn-success-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                                <svg id="location-btn-success-icon" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20 6L9 17l-5-5" />
+                                </svg>
                             </button>
                         </div>
                         <div id="location-error-msg" class="text-red-500 text-sm text-center mb-4 hidden"></div>
                         <div id="location-fields-container" class="space-y-4">
-                             <div>
-                                <label for="location-full" class="form-label">Complete Address <span class="required-marker">*</span></label>
+                            <div>
+                                <label for="location-full" class="form-label">Complete Address <span
+                                        class="required-marker">*</span></label>
                                 <div class="relative">
-                                    <input type="text" id="location-full" placeholder="e.g., House No, Street Name" class="form-input pr-12">
+                                    <input type="text" id="location-full" placeholder="e.g., House No, Street Name"
+                                        class="form-input pr-12">
                                     <!-- IMPROVEMENT: Redesigned mic button -->
-                                    <button id="address-mic-btn" class="absolute top-1/2 right-2.5 -translate-y-1/2 flex items-center justify-center w-8 h-8 rounded-full bg-[var(--accent-primary)] text-white shadow-md hover:bg-[var(--accent-primary-hover)] transition-all duration-200 transform hover:scale-110" title="Add address via voice">
-                                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                            <path d="M12 14.25a3.75 3.75 0 003.75-3.75V5.25a3.75 3.75 0 00-7.5 0v5.25A3.75 3.75 0 0012 14.25z" />
-                                            <path d="M6 10.5a.75.75 0 01.75.75v.75a5.25 5.25 0 1010.5 0v-.75a.75.75 0 011.5 0v.75a6.75 6.75 0 11-13.5 0v-.75a.75.75 0 01.75-.75zM12 18.75a.75.75 0 00.75-.75V16.5a.75.75 0 00-1.5 0v1.5a.75.75 0 00.75.75zM8.25 21a.75.75 0 01.75-.75h6a.75.75 0 010 1.5h-6a.75.75 0 01-.75-.75z" />
+                                    <button id="address-mic-btn"
+                                        class="absolute top-1/2 right-2.5 -translate-y-1/2 flex items-center justify-center w-8 h-8 rounded-full bg-[var(--accent-primary)] text-white shadow-md hover:bg-[var(--accent-primary-hover)] transition-all duration-200 transform hover:scale-110"
+                                        title="Add address via voice">
+                                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                            fill="currentColor">
+                                            <path
+                                                d="M12 14.25a3.75 3.75 0 003.75-3.75V5.25a3.75 3.75 0 00-7.5 0v5.25A3.75 3.75 0 0012 14.25z" />
+                                            <path
+                                                d="M6 10.5a.75.75 0 01.75.75v.75a5.25 5.25 0 1010.5 0v-.75a.75.75 0 011.5 0v.75a6.75 6.75 0 11-13.5 0v-.75a.75.75 0 01.75-.75zM12 18.75a.75.75 0 00.75-.75V16.5a.75.75 0 00-1.5 0v1.5a.75.75 0 00.75.75zM8.25 21a.75.75 0 01.75-.75h6a.75.75 0 010 1.5h-6a.75.75 0 01-.75-.75z" />
                                         </svg>
                                     </button>
                                 </div>
                             </div>
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
-                                    <label for="location-village" class="form-label">Village / Gram Panchayat<span class="required-marker">*</span></label>
-                                    <input type="text" id="location-village" placeholder="Enter village name" class="form-input">
+                                    <label for="location-village" class="form-label">Village / Gram Panchayat<span
+                                            class="required-marker">*</span></label>
+                                    <input type="text" id="location-village" placeholder="Enter village name"
+                                        class="form-input">
                                 </div>
                                 <div>
                                     <label for="location-postoffice" class="form-label">Post Office</label>
-                                    <input type="text" id="location-postoffice" placeholder="Enter post office" class="form-input">
+                                    <input type="text" id="location-postoffice" placeholder="Enter post office"
+                                        class="form-input">
                                 </div>
                             </div>
                             <div>
-                                <label for="location-subdistrict" class="form-label">Subdistrict / Tehsil / Taluka</label>
-                                <input type="text" id="location-subdistrict" placeholder="Enter subdistrict" class="form-input">
+                                <label for="location-subdistrict" class="form-label">Subdistrict / Tehsil /
+                                    Taluka</label>
+                                <input type="text" id="location-subdistrict" placeholder="Enter subdistrict"
+                                    class="form-input">
                             </div>
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
-                                    <label for="location-district" class="form-label">District<span class="required-marker">*</span></label>
-                                    <input type="text" id="location-district" placeholder="Enter district" class="form-input">
+                                    <label for="location-district" class="form-label">District<span
+                                            class="required-marker">*</span></label>
+                                    <input type="text" id="location-district" placeholder="Enter district"
+                                        class="form-input">
                                 </div>
                                 <div>
-                                    <label for="location-state" class="form-label">State<span class="required-marker">*</span></label>
+                                    <label for="location-state" class="form-label">State<span
+                                            class="required-marker">*</span></label>
                                     <input type="text" id="location-state" placeholder="Enter state" class="form-input">
                                 </div>
                             </div>
                             <div>
-                                <label for="location-pincode" class="form-label">PIN Code<span class="required-marker">*</span></label>
-                                <input type="text" id="location-pincode" placeholder="Enter PIN code" class="form-input">
+                                <label for="location-pincode" class="form-label">PIN Code<span
+                                        class="required-marker">*</span></label>
+                                <input type="text" id="location-pincode" placeholder="Enter PIN code"
+                                    class="form-input">
                             </div>
                         </div>
                     </section>
-                    
+
                     <!-- Step 4: Confirm & Submit -->
                     <section id="step-4" class="wizard-step p-6 sm:p-8">
                         <div class="text-center mb-8">
                             <h2 class="wizard-heading text-2xl sm:text-3xl">Review & Submit</h2>
-                            <p class="text-[var(--text-muted)] mt-2">Please confirm the details of your report below.</p>
+                            <p class="text-[var(--text-muted)] mt-2">Please confirm the details of your report below.
+                            </p>
                         </div>
                         <div class="space-y-6">
-                           <div class="rounded-lg overflow-hidden border border-[var(--border-light)]"><img id="summary-image" src="" alt="Report summary image" class="w-full h-48 object-cover"></div>
-                           <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
-                               <div class="bg-[var(--bg-accent)] p-4 rounded-lg"><label class="block font-semibold text-[var(--text-muted)] mb-1">Issue Type</label><p id="summary-issue" class="font-bold text-[var(--text-primary)] text-base"></p></div>
-                               <div class="bg-[var(--bg-accent)] p-4 rounded-lg"><label class="block font-semibold text-[var(--text-muted)] mb-1">Location</label><p id="summary-location" class="font-bold text-[var(--text-primary)] text-base"></p></div>
-                           </div>
-                           <div id="authority-info-section" class="opacity-0 transition-opacity duration-500">
-                                <div id="authority-details" class="hidden"><label class="block text-md font-semibold text-[var(--text-secondary)] mb-2">Assigned Authority</label><div class="bg-[var(--bg-primary)] border border-[var(--border-light)] p-4 rounded-lg space-y-1"><p class="text-sm font-semibold text-[var(--text-muted)]">Name: <span id="authority-name" class="font-bold text-[var(--text-secondary)]"></span></p><p class="text-sm font-semibold text-[var(--text-muted)] mt-2">Department: <span id="authority-department" class="font-bold text-[var(--text-secondary)]"></span></p></div></div>
-                                <div id="village-not-found-notice" class="hidden bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r-lg"><p class="text-sm text-yellow-700">Data for this village is not yet available. We'll add it soon!</p></div>
+                            <div class="rounded-lg overflow-hidden border border-[var(--border-light)]"><img
+                                    id="summary-image" src="" alt="Report summary image"
+                                    class="w-full h-48 object-cover"></div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+                                <div class="bg-[var(--bg-accent)] p-4 rounded-lg"><label
+                                        class="block font-semibold text-[var(--text-muted)] mb-1">Issue Type</label>
+                                    <p id="summary-issue" class="font-bold text-[var(--text-primary)] text-base"></p>
+                                </div>
+                                <div class="bg-[var(--bg-accent)] p-4 rounded-lg"><label
+                                        class="block font-semibold text-[var(--text-muted)] mb-1">Location</label>
+                                    <p id="summary-location" class="font-bold text-[var(--text-primary)] text-base"></p>
+                                </div>
+                            </div>
+                            <div id="authority-info-section" class="opacity-0 transition-opacity duration-500">
+                                <div id="authority-details" class="hidden"><label
+                                        class="block text-md font-semibold text-[var(--text-secondary)] mb-2">Assigned
+                                        Authority</label>
+                                    <div
+                                        class="bg-[var(--bg-primary)] border border-[var(--border-light)] p-4 rounded-lg space-y-1">
+                                        <p class="text-sm font-semibold text-[var(--text-muted)]">Name: <span
+                                                id="authority-name"
+                                                class="font-bold text-[var(--text-secondary)]"></span></p>
+                                        <p class="text-sm font-semibold text-[var(--text-muted)] mt-2">Department: <span
+                                                id="authority-department"
+                                                class="font-bold text-[var(--text-secondary)]"></span></p>
+                                    </div>
+                                </div>
+                                <div id="village-not-found-notice"
+                                    class="hidden bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r-lg">
+                                    <p class="text-sm text-yellow-700">Data for this village is not yet available. We'll
+                                        add it soon!</p>
+                                </div>
                             </div>
                         </div>
                     </section>
                 </div>
 
-                <div id="wizard-navigation" class="flex flex-col-reverse sm:flex-row sm:justify-between items-center gap-3 p-4 bg-gray-50 dark:bg-slate-800 border-t border-[var(--border-light)]">
+                <div id="wizard-navigation"
+                    class="flex flex-col-reverse sm:flex-row sm:justify-between items-center gap-3 p-4 bg-gray-50 dark:bg-slate-800 border-t border-[var(--border-light)]">
                     <button id="prev-btn" class="btn btn-secondary w-full sm:w-auto">Previous</button>
                     <button id="next-btn" class="btn btn-primary w-full sm:w-auto">Next</button>
                     <div id="submit-report-btn" class="submit-button w-full sm:w-auto hidden">
-                       <span class="submit-text">Submit Report</span>
-                       <div class="progress-bar-animated"></div>
-                       <svg class="check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                        <span class="submit-text">Submit Report</span>
+                        <div class="progress-bar-animated"></div>
+                        <svg class="check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 6L9 17l-5-5" />
+                        </svg>
                     </div>
                 </div>
             </div>
         </main>
     </div>
-    
+
     <!-- All Modals -->
-    <div id="private-location-modal" class="modal-overlay fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black bg-opacity-60 backdrop-blur-sm hidden opacity-0"><div class="modal-box bg-[var(--bg-secondary)] rounded-2xl p-8 max-w-sm w-full text-center shadow-2xl transform scale-95"><div class="w-20 h-20 rounded-full bg-yellow-100 flex items-center justify-center mx-auto mb-6"><svg class="w-12 h-12 text-yellow-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg></div><h2 class="text-2xl font-bold text-[var(--text-primary)]">Location Warning</h2><p id="private-location-text" class="text-[var(--text-muted)] mt-2 mb-6">Your detected location seems to be a private property. Do you want to proceed or enter manually?</p><div class="flex gap-4"><button id="manual-location-btn" class="btn btn-secondary w-full !py-3">Enter Manually</button><button id="proceed-anyway-btn" class="btn btn-primary w-full !py-3">Proceed Anyway</button></div></div></div>
-    <div id="success-modal" class="modal-overlay fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black bg-opacity-60 backdrop-blur-sm hidden opacity-0"><div class="modal-box bg-[var(--bg-secondary)] rounded-2xl p-8 max-w-sm w-full text-center shadow-2xl transform scale-95"><div class="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-6"><svg class="w-12 h-12 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg></div><h2 class="text-2xl font-bold text-[var(--text-primary)]">Report Submitted!</h2><p class="text-[var(--text-muted)] mt-2 mb-6">Thank you for helping improve our community. Your report has been sent.</p><button id="close-modal-btn" class="btn btn-primary w-full !py-3">Done</button></div></div>
+    <div id="private-location-modal"
+        class="modal-overlay fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black bg-opacity-60 backdrop-blur-sm hidden opacity-0">
+        <div
+            class="modal-box bg-[var(--bg-secondary)] rounded-2xl p-8 max-w-sm w-full text-center shadow-2xl transform scale-95">
+            <div class="w-20 h-20 rounded-full bg-yellow-100 flex items-center justify-center mx-auto mb-6"><svg
+                    class="w-12 h-12 text-yellow-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                </svg></div>
+            <h2 class="text-2xl font-bold text-[var(--text-primary)]">Location Warning</h2>
+            <p id="private-location-text" class="text-[var(--text-muted)] mt-2 mb-6">Your detected location seems to be
+                a private property. Do you want to proceed or enter manually?</p>
+            <div class="flex gap-4"><button id="manual-location-btn" class="btn btn-secondary w-full !py-3">Enter
+                    Manually</button><button id="proceed-anyway-btn" class="btn btn-primary w-full !py-3">Proceed
+                    Anyway</button></div>
+        </div>
+    </div>
+    <div id="success-modal"
+        class="modal-overlay fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black bg-opacity-60 backdrop-blur-sm hidden opacity-0">
+        <div
+            class="modal-box bg-[var(--bg-secondary)] rounded-2xl p-8 max-w-sm w-full text-center shadow-2xl transform scale-95">
+            <div class="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-6"><svg
+                    class="w-12 h-12 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                </svg></div>
+            <h2 class="text-2xl font-bold text-[var(--text-primary)]">Report Submitted!</h2>
+            <p class="text-[var(--text-muted)] mt-2 mb-6">Thank you for helping improve our community. Your report has
+                been sent.</p><button id="close-modal-btn" class="btn btn-primary w-full !py-3">Done</button>
+        </div>
+    </div>
     <!-- IMPROVEMENT: Updated "Coming Soon" modal -->
-    <div id="coming-soon-modal" class="modal-overlay fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black bg-opacity-60 backdrop-blur-sm hidden opacity-0"><div class="modal-box bg-[var(--bg-secondary)] rounded-2xl p-8 max-w-sm w-full text-center shadow-2xl transform scale-95"><div class="w-20 h-20 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-6"><svg class="w-12 h-12 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"></path></svg></div><h2 class="text-2xl font-bold text-[var(--text-primary)]">Feature Under Development</h2><p class="text-[var(--text-muted)] mt-2 mb-6">The ability to report issues with a video is currently under development. Please use an image for now.</p><button id="close-coming-soon-modal-btn" class="btn btn-primary w-full !py-3">Got it</button></div></div>
+    <div id="coming-soon-modal"
+        class="modal-overlay fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black bg-opacity-60 backdrop-blur-sm hidden opacity-0">
+        <div
+            class="modal-box bg-[var(--bg-secondary)] rounded-2xl p-8 max-w-sm w-full text-center shadow-2xl transform scale-95">
+            <div class="w-20 h-20 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-6"><svg
+                    class="w-12 h-12 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z">
+                    </path>
+                </svg></div>
+            <h2 class="text-2xl font-bold text-[var(--text-primary)]">Feature Under Development</h2>
+            <p class="text-[var(--text-muted)] mt-2 mb-6">The ability to report issues with a video is currently under
+                development. Please use an image for now.</p><button id="close-coming-soon-modal-btn"
+                class="btn btn-primary w-full !py-3">Got it</button>
+        </div>
+    </div>
     <!-- IMPROVEMENT: Updated "Coming Soon" modal for voice -->
-    <div id="voicemail-soon-modal" class="modal-overlay fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black bg-opacity-60 backdrop-blur-sm hidden opacity-0">
-        <div class="modal-box bg-[var(--bg-secondary)] rounded-2xl p-8 max-w-sm w-full text-center shadow-2xl transform scale-95">
+    <div id="voicemail-soon-modal"
+        class="modal-overlay fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black bg-opacity-60 backdrop-blur-sm hidden opacity-0">
+        <div
+            class="modal-box bg-[var(--bg-secondary)] rounded-2xl p-8 max-w-sm w-full text-center shadow-2xl transform scale-95">
             <div class="w-20 h-20 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-6">
                 <!-- IMPROVEMENT: Redesigned mic icon -->
-                <svg class="w-12 h-12 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                    <path d="M12 14.25a3.75 3.75 0 003.75-3.75V5.25a3.75 3.75 0 00-7.5 0v5.25A3.75 3.75 0 0012 14.25z" />
-                    <path d="M6 10.5a.75.75 0 01.75.75v.75a5.25 5.25 0 1010.5 0v-.75a.75.75 0 011.5 0v.75a6.75 6.75 0 11-13.5 0v-.75a.75.75 0 01.75-.75zM12 18.75a.75.75 0 00.75-.75V16.5a.75.75 0 00-1.5 0v1.5a.75.75 0 00.75.75zM8.25 21a.75.75 0 01.75-.75h6a.75.75 0 010 1.5h-6a.75.75 0 01-.75-.75z" />
+                <svg class="w-12 h-12 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke-width="1.5" stroke="currentColor">
+                    <path
+                        d="M12 14.25a3.75 3.75 0 003.75-3.75V5.25a3.75 3.75 0 00-7.5 0v5.25A3.75 3.75 0 0012 14.25z" />
+                    <path
+                        d="M6 10.5a.75.75 0 01.75.75v.75a5.25 5.25 0 1010.5 0v-.75a.75.75 0 011.5 0v.75a6.75 6.75 0 11-13.5 0v-.75a.75.75 0 01.75-.75zM12 18.75a.75.75 0 00.75-.75V16.5a.75.75 0 00-1.5 0v1.5a.75.75 0 00.75.75zM8.25 21a.75.75 0 01.75-.75h6a.75.75 0 010 1.5h-6a.75.75 0 01-.75-.75z" />
                 </svg>
             </div>
             <h2 class="text-2xl font-bold text-[var(--text-primary)]">Feature Under Development</h2>
@@ -580,7 +351,7 @@
 
     <script>
         function googleTranslateElementInit() { new google.translate.TranslateElement({ pageLanguage: 'en', includedLanguages: 'en,hi,bn,te,mr,ta,ur,gu,kn,ml,pa,or,as,ne', layout: google.translate.TranslateElement.InlineLayout.SIMPLE, autoDisplay: false }, 'google_translate_element'); }
-        
+
         document.addEventListener('DOMContentLoaded', () => {
             let currentStep = 1;
             const totalSteps = 4;
@@ -601,14 +372,14 @@
                 locationBtnText: document.getElementById('location-btn-text'),
                 locationBtnSuccessIcon: document.getElementById('location-btn-success-icon'),
                 locationErrorMsg: document.getElementById('location-error-msg'),
-                locationFields: { 
-                    full: document.getElementById('location-full'), 
-                    village: document.getElementById('location-village'), 
+                locationFields: {
+                    full: document.getElementById('location-full'),
+                    village: document.getElementById('location-village'),
                     postoffice: document.getElementById('location-postoffice'),
                     subdistrict: document.getElementById('location-subdistrict'),
-                    district: document.getElementById('location-district'), 
-                    state: document.getElementById('location-state'), 
-                    pincode: document.getElementById('location-pincode'), 
+                    district: document.getElementById('location-district'),
+                    state: document.getElementById('location-state'),
+                    pincode: document.getElementById('location-pincode'),
                 },
                 summaryImage: document.getElementById('summary-image'),
                 summaryIssue: document.getElementById('summary-issue'),
@@ -624,26 +395,26 @@
                 // NEW UI Elements
                 descriptionMicBtn: document.getElementById('description-mic-btn'),
                 addressMicBtn: document.getElementById('address-mic-btn'),
-                voicemailSoonModal: { 
+                voicemailSoonModal: {
                     overlay: document.getElementById('voicemail-soon-modal'),
                     text: document.getElementById('voicemail-modal-text'),
-                    closeBtn: document.getElementById('close-voicemail-soon-modal-btn') 
+                    closeBtn: document.getElementById('close-voicemail-soon-modal-btn')
                 }
             };
-            
-            const issueTypes = { 
-                "Garbage Dump": { icon: "images/icongarbagedump.png" }, 
-                "No Dustbins": { icon: "images/iconnobin.png" }, 
-                "Open Sewage": { icon: "images/iconopensewage.png" }, 
-                "Bad Roads": { icon: "images/iconbadroads.png" }, 
-                "Streetlight": { icon: "images/iconstreetlights.png" }, 
-                "Other": { icon: "images/iconother.png" } 
+
+            const issueTypes = {
+                "Garbage Dump": { icon: "images/icongarbagedump.png" },
+                "No Dustbins": { icon: "images/iconnobin.png" },
+                "Open Sewage": { icon: "images/iconopensewage.png" },
+                "Bad Roads": { icon: "images/iconbadroads.png" },
+                "Streetlight": { icon: "images/iconstreetlights.png" },
+                "Other": { icon: "images/iconother.png" }
             };
-            const villageDatabase = { 
-                "jurasi saraf khas": { name: "Mr. Ramesh Kumar", department: "Block Development Office, Indri" }, 
-                "indri": { name: "Mr. Ramesh Kumar", department: "Block Development Office, Indri" }, 
-                "kalsora": { name: "Mrs. Sunita Rani", department: "Panchayat Office, Kalsora" }, 
-                "garhi birbal": { name: "Mr. Vikram Singh", department: "Panchayat Office, Garhi Birbal" }, 
+            const villageDatabase = {
+                "jurasi saraf khas": { name: "Mr. Ramesh Kumar", department: "Block Development Office, Indri" },
+                "indri": { name: "Mr. Ramesh Kumar", department: "Block Development Office, Indri" },
+                "kalsora": { name: "Mrs. Sunita Rani", department: "Panchayat Office, Kalsora" },
+                "garhi birbal": { name: "Mr. Vikram Singh", department: "Panchayat Office, Garhi Birbal" },
                 "karnal": { name: "District Grievance Officer", department: "Mini Secretariat, Karnal" },
                 "atta": { name: "Kulbir (Sarpanch)", department: "Gram Panchayat, Atta" },
                 "pawti": { name: "Sharmila (Sarpanch)", department: "Gram Panchayat, Pawti" },
@@ -658,7 +429,7 @@
             const showStep = (stepNumber) => {
                 UI.wizardSteps.forEach(step => step.classList.remove('active'));
                 document.getElementById(`step-${stepNumber}`).classList.add('active');
-                UI.progressSteps.forEach((step, index) => { 
+                UI.progressSteps.forEach((step, index) => {
                     step.classList.remove('active', 'completed');
                     if (index < stepNumber - 1) step.classList.add('completed');
                     if (index === stepNumber - 1) step.classList.add('active');
@@ -681,10 +452,10 @@
                     default: return true;
                 }
             };
-            
-            const populateSummary = () => { 
-                UI.summaryImage.src = reportData.image; 
-                UI.summaryIssue.textContent = reportData.issue; 
+
+            const populateSummary = () => {
+                UI.summaryImage.src = reportData.image;
+                UI.summaryIssue.textContent = reportData.issue;
                 const loc = reportData.location;
                 const addressParts = [
                     loc.full,
@@ -694,16 +465,16 @@
                     `${loc.state} - ${loc.pincode}`
                 ].filter(part => part && part.trim() !== '');
                 UI.summaryLocation.textContent = addressParts.join(', ');
-                updateAuthorityInfo(reportData.location.village); 
+                updateAuthorityInfo(reportData.location.village);
             };
             const goToNextStep = () => { if (currentStep < totalSteps && validateStep(currentStep)) { currentStep++; if (currentStep === totalSteps) populateSummary(); showStep(currentStep); } };
             const goToPrevStep = () => { if (currentStep > 1) { currentStep--; showStep(currentStep); } };
-            
-             // MODIFIED: Added image compression logic
+
+            // MODIFIED: Added image compression logic
             const handleImageSelect = async (file) => {
                 UI.uploadErrorMsg.classList.add('hidden');
                 if (!file || !file.type.startsWith('image/')) return;
-                
+
                 const MAX_SIZE_MB = 3.5;
 
                 try {
@@ -723,12 +494,12 @@
                     updateNavButtons();
                 }
             };
-            
+
             // NEW: Image compression function
             function compressImage(file, maxSizeMB) {
                 return new Promise((resolve, reject) => {
                     const MAX_SIZE_BYTES = maxSizeMB * 1024 * 1024;
-                    
+
                     const reader = new FileReader();
                     reader.readAsDataURL(file);
                     reader.onload = (event) => {
@@ -737,7 +508,7 @@
                         img.onload = () => {
                             const canvas = document.createElement('canvas');
                             const ctx = canvas.getContext('2d');
-                            
+
                             let width = img.width;
                             let height = img.height;
                             let quality = 0.7; // Start with a reasonable quality for ~40% reduction
@@ -769,12 +540,12 @@
                     reader.onerror = () => reject(new Error("Could not read image file."));
                 });
             }
-            
+
             const updateAuthorityInfo = (villageName) => {
                 const authority = villageDatabase[villageName.trim().toLowerCase()];
                 UI.authorityDetails.classList.toggle('hidden', !authority);
                 UI.villageNotFoundNotice.classList.toggle('hidden', !!authority);
-                if(authority) { UI.authorityName.textContent = authority.name; UI.authorityDepartment.textContent = authority.department; }
+                if (authority) { UI.authorityName.textContent = authority.name; UI.authorityDepartment.textContent = authority.department; }
                 UI.authorityInfoSection.classList.add('opacity-100');
             };
 
@@ -782,7 +553,7 @@
                 const address = apiData.address || {};
                 const fieldsToUpdate = {
                     village: address.village || address.town || address.hamlet || '',
-                    postoffice: '', 
+                    postoffice: '',
                     subdistrict: address.county || address.suburb || '',
                     district: address.state_district || address.city_district || address.city || '',
                     state: address.state || '',
@@ -804,8 +575,8 @@
                         }
                     }
                 });
-                
-                UI.locationFields.full.value = ''; 
+
+                UI.locationFields.full.value = '';
                 reportData.location.full = '';
                 UI.locationFields.full.focus();
                 updateNavButtons();
@@ -834,28 +605,28 @@
                             const { latitude, longitude } = position.coords;
                             const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`);
                             if (!response.ok) throw new Error('Network response was not ok.');
-                            
+
                             populateLocationFields(await response.json());
-                            
+
                             // Success state
                             UI.getLocationBtn.classList.remove('loading');
                             UI.getLocationBtn.classList.add('success');
                             // Re-enable button to allow reverting it by clicking again.
-                            UI.getLocationBtn.disabled = false; 
-                        } catch (error) { 
-                            console.error('Error fetching address:', error); 
+                            UI.getLocationBtn.disabled = false;
+                        } catch (error) {
+                            console.error('Error fetching address:', error);
                             UI.locationErrorMsg.textContent = "Could not fetch address details. Please enter manually.";
                             UI.locationErrorMsg.classList.remove('hidden');
-                            
+
                             // Error state: revert button
-                            UI.getLocationBtn.disabled = false; 
-                            UI.getLocationBtn.classList.remove('loading'); 
+                            UI.getLocationBtn.disabled = false;
+                            UI.getLocationBtn.classList.remove('loading');
                         }
                     },
-                    (error) => { 
-                        console.error('Geolocation error:', error); 
+                    (error) => {
+                        console.error('Geolocation error:', error);
                         let message = "Could not detect location. Please enter it manually.";
-                        switch(error.code) {
+                        switch (error.code) {
                             case error.PERMISSION_DENIED:
                                 message = "Location access denied. Please enable it in your browser settings.";
                                 break;
@@ -868,47 +639,47 @@
                         }
                         UI.locationErrorMsg.textContent = message;
                         UI.locationErrorMsg.classList.remove('hidden');
-                        
+
                         // Error state: revert button
-                        UI.getLocationBtn.disabled = false; 
-                        UI.getLocationBtn.classList.remove('loading'); 
+                        UI.getLocationBtn.disabled = false;
+                        UI.getLocationBtn.classList.remove('loading');
                     },
                     { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
                 );
             };
-            
+
             const showModal = (modal) => { modal.classList.remove('hidden'); setTimeout(() => { modal.classList.remove('opacity-0'); modal.querySelector('.modal-box').classList.remove('scale-95'); }, 10); };
             const hideModal = (modal) => { modal.classList.add('opacity-0'); modal.querySelector('.modal-box').classList.add('scale-95'); setTimeout(() => modal.classList.add('hidden'), 300); };
-            
+
             const setupAnimatedSubmit = () => {
                 const submitTimeline = anime.timeline({
                     autoplay: false,
                     complete: () => {
                         try {
-                             // Haptic feedback on success
+                            // Haptic feedback on success
                             if (navigator.vibrate) {
                                 navigator.vibrate(200); // Vibrate for 200ms
                             }
                             const villageName = (reportData.location.village || '').trim().toLowerCase();
                             const authority = villageDatabase[villageName] || { name: "District Nodal Officer", department: "District Administration Office" };
                             const maxId = complaints.length > 0 ? Math.max(...complaints.map(c => c.id || 0)) : 0;
-                            const newComplaint = { 
-                                id: maxId + 1, 
-                                image: reportData.image, 
-                                location: `${reportData.location.full}, ${reportData.location.village}, ${reportData.location.district}`, 
-                                issue: reportData.issue, 
-                                status: 'Submitted', 
-                                timestamp: new Date().toISOString(), 
-                                ratings: [], 
-                                userRated: false, 
-                                reporter: userProfile.fullname || 'Community Reporter', 
-                                description: reportData.description || 'No additional details.', 
-                                authority: authority 
+                            const newComplaint = {
+                                id: maxId + 1,
+                                image: reportData.image,
+                                location: `${reportData.location.full}, ${reportData.location.village}, ${reportData.location.district}`,
+                                issue: reportData.issue,
+                                status: 'Submitted',
+                                timestamp: new Date().toISOString(),
+                                ratings: [],
+                                userRated: false,
+                                reporter: userProfile.fullname || 'Community Reporter',
+                                description: reportData.description || 'No additional details.',
+                                authority: authority
                             };
-                            
+
                             complaints.push(newComplaint);
                             localStorage.setItem('complaintsData', JSON.stringify(complaints));
-                            
+
                             showModal(UI.successModal.overlay);
                         } catch (e) {
                             console.error("Failed to save report to localStorage:", e);
@@ -925,17 +696,17 @@
                     submitTimeline.add({ targets: '.submit-button', duration: 1000, height: 10, backgroundColor: 'var(--bg-accent)', border: '0', borderRadius: 100 });
                 }
                 submitTimeline
-                    .add({ 
-                        targets: '.submit-text', 
-                        duration: 200, 
+                    .add({
+                        targets: '.submit-text',
+                        duration: 200,
                         opacity: 0,
                         easing: 'easeOutExpo'
                     })
-                    .add({ 
-                        targets: '.progress-bar-animated', 
-                        duration: 1200, 
-                        width: '100%', 
-                        easing: 'linear' 
+                    .add({
+                        targets: '.progress-bar-animated',
+                        duration: 1200,
+                        width: '100%',
+                        easing: 'linear'
                     })
                     .add({
                         targets: '.submit-button',
@@ -964,8 +735,8 @@
                 userProfile = JSON.parse(localStorage.getItem('userProfile') || '{ "fullname": "Community Reporter" }');
                 document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
                 const lang = localStorage.getItem('selectedLanguage') || 'en';
-                if (lang !== 'en') document.cookie=`googtrans=/en/${lang}; path=/`;
-                
+                if (lang !== 'en') document.cookie = `googtrans=/en/${lang}; path=/`;
+
                 UI.issueTypesContainer.innerHTML = Object.entries(issueTypes).map(([name, data]) => `
                     <button class="issue-type-option" data-issue="${name}">
                         <img src="${data.icon}" alt="${name}" class="issue-icon">
@@ -983,7 +754,7 @@
                 UI.nextBtn.addEventListener('click', goToNextStep);
                 UI.prevBtn.addEventListener('click', goToPrevStep);
                 [UI.cameraInput, UI.galleryInput].forEach(input => input.addEventListener('change', (e) => handleImageSelect(e.target.files[0])));
-                
+
                 UI.issueTypesContainer.addEventListener('click', (e) => {
                     const button = e.target.closest('.issue-type-option');
                     if (button) {
@@ -991,28 +762,28 @@
                         button.classList.add('selected'); reportData.issue = button.dataset.issue; updateNavButtons();
                     }
                 });
-                
+
                 UI.descriptionInput.addEventListener('input', (e) => { reportData.description = e.target.value; });
-                
+
                 // Add listeners for manual input to update data
                 Object.values(UI.locationFields).forEach(input => {
                     input.addEventListener('input', (e) => {
-                         reportData.location[input.id.replace('location-', '')] = e.target.value;
-                         updateNavButtons();
+                        reportData.location[input.id.replace('location-', '')] = e.target.value;
+                        updateNavButtons();
                     });
                 });
-                
+
                 UI.getLocationBtn.addEventListener('click', handleGetLocation);
-                
+
                 setupAnimatedSubmit();
-                
+
                 UI.successModal.closeBtn.addEventListener('click', () => {
-                     window.location.href = "index.html";
+                    window.location.href = "index.html";
                 });
-                
+
                 UI.recordVideoBtn.addEventListener('click', () => showModal(UI.comingSoonModal.overlay));
                 UI.comingSoonModal.closeBtn.addEventListener('click', () => hideModal(UI.comingSoonModal.overlay));
-                
+
                 // NEW Event Listeners for Mic Buttons
                 const handleMicClick = (featureName) => {
                     // IMPROVEMENT: Updated "Coming Soon" text
@@ -1030,4 +801,5 @@
     </script>
     <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async defer></script>
 </body>
+
 </html>

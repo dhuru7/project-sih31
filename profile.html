@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,20 +9,46 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
     <!-- Link to the new common stylesheet -->
     <link rel="stylesheet" href="set1_style.css">
-    
+    <script src="notifications.js" defer></script>
+    <script src="setu-ai.js" defer></script>
+
     <!-- Styles specific to profile.html -->
     <style>
         /* Language Dropdown & Settings Panel Styles */
-        .dropdown-item { display: block; padding: 0.75rem 1rem; color: var(--text-primary); text-decoration: none; cursor: pointer; transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1); }
-        .dropdown-item:hover { color: var(--accent-primary); transform: translateX(5px); background-color: var(--bg-accent); }
-        .language-indicator { font-size: 0.7rem; background-color: var(--accent-primary); color: #FFFFFF; font-weight: 600; padding: 2px 6px; border-radius: 0.375rem; margin-left: 0.5rem; transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1); }
-        
+        .dropdown-item {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+
+        .dropdown-item:hover {
+            color: var(--accent-primary);
+            transform: translateX(5px);
+            background-color: var(--bg-accent);
+        }
+
+        .language-indicator {
+            font-size: 0.7rem;
+            background-color: var(--accent-primary);
+            color: #FFFFFF;
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 0.375rem;
+            margin-left: 0.5rem;
+            transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+
         #theme-toggle-settings {
             transition: transform 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
         }
+
         #theme-toggle-settings:hover {
             transform: scale(1.15) rotate(12deg);
         }
+
         #language-list-settings {
             max-height: 0;
             overflow-y: auto;
@@ -29,83 +56,213 @@
         }
 
         /* Profile Card Styles */
-        .profile-card { background-color: var(--bg-secondary); border: 1px solid var(--border-light); box-shadow: 0 4px 16px var(--shadow-light); transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1); }
-        @media (min-width: 640px) { .profile-card:hover { transform: translateY(-6px); box-shadow: 0 10px 25px var(--shadow-medium); } }
-        .profile-avatar { border: 4px solid var(--bg-primary); box-shadow: 0 0 15px var(--shadow-medium); }
-        .profile-field { border-bottom: 1px solid var(--border-light); }
-        .profile-field:last-child { border-bottom: none; }
-        .profile-label { color: var(--text-muted); }
-        .profile-value { color: var(--text-primary); font-weight: 500;}
-        
-        .form-input { width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--border-medium); border-radius: 0.375rem; background-color: var(--bg-primary); color: var(--text-primary); transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1); outline: none; -webkit-appearance: none; }
-        .form-input:focus { border-color: var(--accent-primary); box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent-primary) 15%, transparent); }
-
-        .toast { position: fixed; bottom: 80px; left: 50%; transform: translate(-50%, 150%); background-color: var(--success-color); color: white; padding: 1rem 1.5rem; border-radius: 0.5rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 1000; opacity: 0; transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out; will-change: transform, opacity; }
-        .toast.show { transform: translate(-50%, 0); opacity: 1; }
-        
-        /* AI Info Modal (from index.html, but used in profile.html script) */
-        #ai-info-modal-overlay {
-            position: fixed; inset: 0; background-color: rgba(0,0,0,0.6); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
-            z-index: 130; display: none; align-items: center; justify-content: center; padding: 1rem;
-            opacity: 0; transition: opacity 0.3s ease-in-out;
-        }
-        #ai-info-modal {
-            background-color: var(--bg-secondary); border-radius: 1rem; box-shadow: 0 10px 25px var(--shadow-medium);
-            max-width: 24rem; width: 100%; padding: 1.5rem; text-align: center;
-            transform: scale(0.95); opacity: 0;
+        .profile-card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-light);
+            box-shadow: 0 4px 16px var(--shadow-light);
             transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
         }
-        #ai-info-modal-overlay.visible { display: flex; opacity: 1; }
-        #ai-info-modal-overlay.visible #ai-info-modal { transform: scale(1); opacity: 1; }
 
+        @media (min-width: 640px) {
+            .profile-card:hover {
+                transform: translateY(-6px);
+                box-shadow: 0 10px 25px var(--shadow-medium);
+            }
+        }
+
+        .profile-avatar {
+            border: 4px solid var(--bg-primary);
+            box-shadow: 0 0 15px var(--shadow-medium);
+        }
+
+        .profile-field {
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .profile-field:last-child {
+            border-bottom: none;
+        }
+
+        .profile-label {
+            color: var(--text-muted);
+        }
+
+        .profile-value {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid var(--border-medium);
+            border-radius: 0.375rem;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .form-input:focus {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent-primary) 15%, transparent);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translate(-50%, 150%);
+            background-color: var(--success-color);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            opacity: 0;
+            transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
+            will-change: transform, opacity;
+        }
+
+        .toast.show {
+            transform: translate(-50%, 0);
+            opacity: 1;
+        }
+
+        /* AI Info Modal (from index.html, but used in profile.html script) */
+        #ai-info-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            z-index: 130;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        #ai-info-modal {
+            background-color: var(--bg-secondary);
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px var(--shadow-medium);
+            max-width: 24rem;
+            width: 100%;
+            padding: 1.5rem;
+            text-align: center;
+            transform: scale(0.95);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+
+        #ai-info-modal-overlay.visible {
+            display: flex;
+            opacity: 1;
+        }
+
+        #ai-info-modal-overlay.visible #ai-info-modal {
+            transform: scale(1);
+            opacity: 1;
+        }
     </style>
 </head>
+
 <body class="antialiased pb-28 sm:pb-0">
 
     <!-- Desktop Vertical Navbar -->
-    <nav class="hidden sm:flex flex-col fixed top-0 left-0 h-full bg-[var(--bg-secondary)] border-r border-[var(--border-light)] w-56 shadow-lg z-50 p-2 desktop-sidebar">
+    <nav
+        class="hidden sm:flex flex-col fixed top-0 left-0 h-full bg-[var(--bg-secondary)] border-r border-[var(--border-light)] w-56 shadow-lg z-50 p-2 desktop-sidebar">
         <div class="flex-shrink-0 flex justify-center pt-2 pb-8">
             <!-- === MODIFIED: Added 'notranslate' class to logo === -->
-            <a href="index.html" class="logo !text-2xl notranslate"><span id="animated-name-desktop-sidebar">Setu</span></a>
+            <a href="index.html" class="logo !text-2xl notranslate"><span
+                    id="animated-name-desktop-sidebar">Setu</span></a>
         </div>
         <div class="flex-grow flex flex-col items-center justify-start space-y-2">
             <a href="index.html" title="Home" class="desktop-nav-link" id="desktop-home-link">
-                <svg class="w-7 h-7 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h7.5" /></svg>
+                <svg class="w-7 h-7 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h7.5" />
+                </svg>
                 <span class="desktop-nav-text">Home</span>
             </a>
             <a href="search.html" title="Search" class="desktop-nav-link" id="desktop-search-link">
-                 <svg class="w-7 h-7 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" /></svg>
-                 <span class="desktop-nav-text">Search</span>
+                <svg class="w-7 h-7 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                </svg>
+                <span class="desktop-nav-text">Search</span>
             </a>
-            <a href="report.html" title="Report Issue" class="desktop-nav-link btn-cta !text-white transform hover:!scale-105 my-2 !py-4" id="desktop-report-link">
-                <svg class="w-8 h-8 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+            <a href="report.html" title="Report Issue"
+                class="desktop-nav-link btn-cta !text-white transform hover:!scale-105 my-2 !py-4"
+                id="desktop-report-link">
+                <svg class="w-8 h-8 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                </svg>
                 <span class="desktop-nav-text">Report</span>
             </a>
             <a href="profile.html" title="Profile" class="desktop-nav-link active" id="desktop-profile-link">
-                 <svg class="w-7 h-7 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                 <span class="desktop-nav-text">Profile</span>
+                <svg class="w-7 h-7 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                <span class="desktop-nav-text">Profile</span>
             </a>
         </div>
         <div class="flex-shrink-0 w-full flex flex-col items-center space-y-2 pb-2 mt-auto">
+            <button id="notification-btn-desktop" title="Notifications" class="desktop-nav-link w-full relative">
+                <svg class="w-7 h-7 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+                </svg>
+                <span class="desktop-nav-text">Notifications</span>
+                <span id="notification-unread-dot-desktop"
+                    class="notification-unread-dot !top-2 !right-auto left-8 hidden"></span>
+            </button>
             <button id="settings-btn-desktop" class="desktop-nav-link w-full" title="Settings">
-                <svg class="w-7 h-7 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
+                <svg class="w-7 h-7 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
                 </svg>
                 <span class="desktop-nav-text">Settings</span>
             </button>
         </div>
     </nav>
-    
+
     <div id="app" class="min-h-screen sm:pl-56">
         <!-- Mobile Header -->
         <header id="mobile-header" class="sm:hidden sticky top-0 z-40 py-2 px-2">
-             <div class="nav-content-wrapper rounded-xl max-w-7xl mx-auto relative">
+            <div class="nav-content-wrapper rounded-xl max-w-7xl mx-auto relative">
                 <div class="flex justify-between items-center py-2 px-4">
                     <!-- === MODIFIED: Added 'notranslate' class to logo === -->
-                    <a href="index.html" class="logo w-24 transition-all duration-300 notranslate"><span id="animated-name-mobile">Setu</span></a>
+                    <a href="index.html" class="logo w-24 transition-all duration-300 notranslate"><span
+                            id="animated-name-mobile">Setu</span></a>
                     <div id="mobile-header-buttons" class="flex items-center space-x-1 transition-all duration-300">
-                        <button id="setu-ai-btn-mobile" title="Setu AI Assistant" class="btn btn-cta !p-2 !rounded-full ai-widget-container">
-                             <svg class="w-5 h-5 flex-shrink-0 text-white original-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12.0001 1.99219L3.45911 12.0002L12.0001 22.0082L20.5411 12.0002L12.0001 1.99219Z"/></svg>
+                        <button id="setu-ai-btn-mobile" title="Setu AI Assistant"
+                            class="btn btn-cta !p-2 !rounded-full ai-widget-container">
+                            <svg class="w-5 h-5 flex-shrink-0 text-white original-icon" viewBox="0 0 24 24"
+                                fill="currentColor">
+                                <path
+                                    d="M12.0001 1.99219L3.45911 12.0002L12.0001 22.0082L20.5411 12.0002L12.0001 1.99219Z" />
+                            </svg>
+                        </button>
+                        <button id="notification-btn-mobile" class="btn btn-secondary !p-2 relative"
+                            title="Notifications">
+                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+                            </svg>
+                            <span id="notification-unread-dot" class="notification-unread-dot hidden"></span>
                         </button>
                     </div>
                 </div>
@@ -117,55 +274,102 @@
                 <div class="lg:col-span-1">
                     <div class="profile-card rounded-2xl p-6 text-center flex flex-col items-center h-full">
                         <div id="avatar-container" class="relative group cursor-pointer mb-4">
-                            <img id="profile-avatar" src="https://placehold.co/128x128/E1E2E2/1D2228?text=User" alt="User Avatar" class="w-28 h-28 sm:w-32 sm:h-32 rounded-full profile-avatar object-cover">
-                            <div class="absolute inset-0 rounded-full bg-black bg-opacity-0 group-hover:bg-opacity-50 flex items-center justify-center transition-all duration-300">
-                                <svg class="w-8 h-8 text-white opacity-0 group-hover:opacity-100" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" />
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z" />
+                            <img id="profile-avatar" src="https://placehold.co/128x128/E1E2E2/1D2228?text=User"
+                                alt="User Avatar"
+                                class="w-28 h-28 sm:w-32 sm:h-32 rounded-full profile-avatar object-cover">
+                            <div
+                                class="absolute inset-0 rounded-full bg-black bg-opacity-0 group-hover:bg-opacity-50 flex items-center justify-center transition-all duration-300">
+                                <svg class="w-8 h-8 text-white opacity-0 group-hover:opacity-100"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z" />
                                 </svg>
                             </div>
                         </div>
                         <input type="file" id="avatar-input" class="hidden" accept="image/*">
-                        <div id="profile-fullname" class="text-xl sm:text-2xl font-bold text-[var(--text-primary)] w-full"></div>
+                        <div id="profile-fullname"
+                            class="text-xl sm:text-2xl font-bold text-[var(--text-primary)] w-full"></div>
                         <div id="profile-city" class="text-base sm:text-lg text-[var(--text-muted)] mb-6 w-full"></div>
                         <div class="mt-auto w-full">
-                            <div id="button-container" class="space-y-2 sm:space-y-0 sm:space-x-3 flex flex-col sm:flex-row">
+                            <div id="button-container"
+                                class="space-y-2 sm:space-y-0 sm:space-x-3 flex flex-col sm:flex-row">
                                 <button id="edit-btn" class="btn btn-primary w-full sm:w-auto">Edit Profile</button>
                                 <button id="save-btn" class="btn btn-primary hidden w-full sm:w-auto">Save</button>
-                                <button id="cancel-btn" class="btn btn-secondary hidden w-full sm:w-auto">Cancel</button>
+                                <button id="cancel-btn"
+                                    class="btn btn-secondary hidden w-full sm:w-auto">Cancel</button>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="lg:col-span-2">
                     <div class="profile-card rounded-2xl p-6 md:p-8 h-full">
-                        <h2 class="text-lg sm:text-xl font-bold text-[var(--text-primary)] mb-4 border-b border-[var(--border-light)] pb-4">Profile Details</h2>
+                        <h2
+                            class="text-lg sm:text-xl font-bold text-[var(--text-primary)] mb-4 border-b border-[var(--border-light)] pb-4">
+                            Profile Details</h2>
                         <div id="profile-details" class="space-y-2">
                             <div class="profile-field py-3 sm:py-4 flex items-center">
-                                <svg class="w-5 h-5 sm:w-6 sm:h-6 mr-4 text-[var(--text-muted)]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm-2.25-2.25v-1.125c0-.621.504-1.125 1.125-1.125H3.375v-1.5H2.25a1.125 1.125 0 00-1.125 1.125v1.125c0 .621.504 1.125 1.125 1.125h1.125v-1.5h-1.125a.375.375 0 01-.375-.375z" /></svg>
-                                <span class="profile-label w-2/5 md:w-1/3 font-semibold text-sm sm:text-base">Aadhaar</span>
-                                <span id="aadhaar-value" class="profile-value w-3/5 md:w-2/3 text-sm sm:text-base"></span>
+                                <svg class="w-5 h-5 sm:w-6 sm:h-6 mr-4 text-[var(--text-muted)]"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm-2.25-2.25v-1.125c0-.621.504-1.125 1.125-1.125H3.375v-1.5H2.25a1.125 1.125 0 00-1.125 1.125v1.125c0 .621.504 1.125 1.125 1.125h1.125v-1.5h-1.125a.375.375 0 01-.375-.375z" />
+                                </svg>
+                                <span
+                                    class="profile-label w-2/5 md:w-1/3 font-semibold text-sm sm:text-base">Aadhaar</span>
+                                <span id="aadhaar-value"
+                                    class="profile-value w-3/5 md:w-2/3 text-sm sm:text-base"></span>
                             </div>
                             <div class="profile-field py-3 sm:py-4 flex items-center">
-                                <svg class="w-5 h-5 sm:w-6 sm:h-6 mr-4 text-[var(--text-muted)]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0h18M12 12.75h.008v.008H12v-.008z" /></svg>
-                                <span class="profile-label w-2/5 md:w-1/3 font-semibold text-sm sm:text-base">DOB / Age</span>
+                                <svg class="w-5 h-5 sm:w-6 sm:h-6 mr-4 text-[var(--text-muted)]"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0h18M12 12.75h.008v.008H12v-.008z" />
+                                </svg>
+                                <span class="profile-label w-2/5 md:w-1/3 font-semibold text-sm sm:text-base">DOB /
+                                    Age</span>
                                 <span id="dob-value" class="profile-value w-3/5 md:w-2/3 text-sm sm:text-base"></span>
                             </div>
                             <div class="profile-field py-3 sm:py-4 flex items-center">
-                                 <svg class="w-5 h-5 sm:w-6 sm:h-6 mr-4 text-[var(--text-muted)]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" /></svg>
-                                <span class="profile-label w-2/5 md:w-1/3 font-semibold text-sm sm:text-base">Mobile</span>
-                                <span id="mobile-value" class="profile-value w-3/5 md:w-2/3 text-sm sm:text-base"></span>
+                                <svg class="w-5 h-5 sm:w-6 sm:h-6 mr-4 text-[var(--text-muted)]"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" />
+                                </svg>
+                                <span
+                                    class="profile-label w-2/5 md:w-1/3 font-semibold text-sm sm:text-base">Mobile</span>
+                                <span id="mobile-value"
+                                    class="profile-value w-3/5 md:w-2/3 text-sm sm:text-base"></span>
                             </div>
                             <div class="profile-field py-3 sm:py-4 flex items-center">
-                                <svg class="w-5 h-5 sm:w-6 sm:h-6 mr-4 text-[var(--text-muted)]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 12a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zm0 0c0 1.657 1.007 3 2.25 3S21 13.657 21 12a9 9 0 10-2.636 6.364M16.5 12V8.25" /></svg>
-                                <span class="profile-label w-2/5 md:w-1/3 font-semibold text-sm sm:text-base">Email</span>
+                                <svg class="w-5 h-5 sm:w-6 sm:h-6 mr-4 text-[var(--text-muted)]"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M16.5 12a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zm0 0c0 1.657 1.007 3 2.25 3S21 13.657 21 12a9 9 0 10-2.636 6.364M16.5 12V8.25" />
+                                </svg>
+                                <span
+                                    class="profile-label w-2/5 md:w-1/3 font-semibold text-sm sm:text-base">Email</span>
                                 <span id="email-value" class="profile-value w-3/5 md:w-2/3 text-sm sm:text-base"></span>
                             </div>
                             <div class="profile-field py-3 sm:py-4 flex items-start">
-                                <svg class="w-5 h-5 sm:w-6 sm:h-6 mr-4 text-[var(--text-muted)] mt-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>
+                                <svg class="w-5 h-5 sm:w-6 sm:h-6 mr-4 text-[var(--text-muted)] mt-1"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                                </svg>
                                 <div class="flex flex-col md:flex-row w-full">
-                                    <span class="profile-label w-full md:w-1/3 font-semibold text-sm sm:text-base mb-1 md:mb-0">Address</span>
-                                    <span id="address-value" class="profile-value w-full md:w-2/3 text-sm sm:text-base"></span>
+                                    <span
+                                        class="profile-label w-full md:w-1/3 font-semibold text-sm sm:text-base mb-1 md:mb-0">Address</span>
+                                    <span id="address-value"
+                                        class="profile-value w-full md:w-2/3 text-sm sm:text-base"></span>
                                 </div>
                             </div>
                         </div>
@@ -173,41 +377,80 @@
                 </div>
             </div>
             <div id="departments-section" class="mt-10 sm:mt-12">
-                 <div class="rounded-2xl p-6 sm:p-8 text-center" style="background-color: var(--bg-accent);">
-                    <svg class="w-12 h-12 sm:w-16 sm:h-16 mx-auto text-[var(--accent-primary)] mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
+                <div class="rounded-2xl p-6 sm:p-8 text-center" style="background-color: var(--bg-accent);">
+                    <svg class="w-12 h-12 sm:w-16 sm:h-16 mx-auto text-[var(--accent-primary)] mb-4"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
                     </svg>
-                    <h2 class="text-xl sm:text-2xl font-bold mb-2 text-[var(--text-primary)]">Our Database is Expanding</h2>
-                    <p class="text-sm sm:text-base text-[var(--text-secondary)] max-w-2xl mx-auto">We'll add information about the respective departments of your locality soon. Stay tuned!</p>
+                    <h2 class="text-xl sm:text-2xl font-bold mb-2 text-[var(--text-primary)]">Our Database is Expanding
+                    </h2>
+                    <p class="text-sm sm:text-base text-[var(--text-secondary)] max-w-2xl mx-auto">We'll add information
+                        about the respective departments of your locality soon. Stay tuned!</p>
                 </div>
             </div>
         </main>
-        
+
         <!-- Bottom Navigation -->
         <div class="fixed bottom-0 left-0 right-0 z-30 p-2 sm:hidden">
             <nav class="bottom-nav-content max-w-md mx-auto flex justify-around py-2">
-                 <a href="index.html" id="bottom-nav-home" class="nav-link flex flex-col items-center text-[var(--text-muted)] p-2 w-1/5"><svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h7.5" /></svg><span class="text-xs font-semibold">Home</span></a>
-                 <a href="search.html" id="bottom-nav-search" class="nav-link flex flex-col items-center text-[var(--text-muted)] hover:text-[var(--text-primary)] transition p-2 w-1/5"><svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" /></svg><span class="text-xs">Search</span></a>
-                 <a href="report.html" id="bottom-nav-report" class="flex flex-col items-center justify-center p-2 w-1/5"><div class="btn-cta text-white p-3.5 rounded-full transition duration-300 ease-in-out transform hover:scale-110 flex items-center justify-center shadow-lg -mt-6 border-4 border-[var(--bg-primary)]"><svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg></div></a>
-                 <button id="settings-btn-mobile" class="nav-link flex flex-col items-center text-[var(--text-muted)] hover:text-[var(--text-primary)] transition p-2 w-1/5">
-                    <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
+                <a href="index.html" id="bottom-nav-home"
+                    class="nav-link flex flex-col items-center text-[var(--text-muted)] p-2 w-1/5"><svg class="w-6 h-6"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h7.5" />
+                    </svg><span class="text-xs font-semibold">Home</span></a>
+                <a href="search.html" id="bottom-nav-search"
+                    class="nav-link flex flex-col items-center text-[var(--text-muted)] hover:text-[var(--text-primary)] transition p-2 w-1/5"><svg
+                        class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                    </svg><span class="text-xs">Search</span></a>
+                <a href="report.html" id="bottom-nav-report"
+                    class="flex flex-col items-center justify-center p-2 w-1/5">
+                    <div
+                        class="btn-cta text-white p-3.5 rounded-full transition duration-300 ease-in-out transform hover:scale-110 flex items-center justify-center shadow-lg -mt-6 border-4 border-[var(--bg-primary)]">
+                        <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke-width="2" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                        </svg>
+                    </div>
+                </a>
+                <button id="settings-btn-mobile"
+                    class="nav-link flex flex-col items-center text-[var(--text-muted)] hover:text-[var(--text-primary)] transition p-2 w-1/5">
+                    <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
                     </svg>
                     <span class="text-xs">Settings</span>
-                 </button>
-                 <a href="profile.html" id="bottom-nav-profile" class="nav-link active flex flex-col items-center text-[var(--text-muted)] hover:text-[var(--text-primary)] transition p-2 w-1/5"><svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" /></svg><span class="text-xs">Profile</span></a>
+                </button>
+                <a href="profile.html" id="bottom-nav-profile"
+                    class="nav-link active flex flex-col items-center text-[var(--text-muted)] hover:text-[var(--text-primary)] transition p-2 w-1/5"><svg
+                        class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg><span class="text-xs">Profile</span></a>
             </nav>
         </div>
     </div>
-    
+
     <!-- Settings Side Panel -->
-    <div id="settings-panel" class="fixed top-0 right-0 h-full bg-[var(--bg-secondary)] border-l border-[var(--border-light)] w-80 max-w-full shadow-lg z-[120] transform translate-x-full transition-transform duration-300 ease-in-out">
+    <div id="settings-panel"
+        class="fixed top-0 right-0 h-full bg-[var(--bg-secondary)] border-l border-[var(--border-light)] w-80 max-w-full shadow-lg z-[120] transform translate-x-full transition-transform duration-300 ease-in-out">
         <div class="flex flex-col h-full">
             <div class="p-4 border-b border-[var(--border-light)] flex-shrink-0">
                 <div class="flex justify-between items-center">
                     <h2 class="text-xl font-bold text-[var(--text-primary)]">Settings</h2>
                     <button id="close-settings-btn" class="p-1 rounded-full hover:bg-[var(--bg-accent)]">
-                        <svg class="w-6 h-6 text-[var(--text-muted)]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                        <svg class="w-6 h-6 text-[var(--text-muted)]" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
                     </button>
                 </div>
             </div>
@@ -217,9 +460,21 @@
                         <label class="text-sm font-semibold text-[var(--text-muted)] px-1">Appearance</label>
                         <div class="mt-2 flex items-center justify-between p-3 bg-[var(--bg-primary)] rounded-lg">
                             <span class="font-medium text-[var(--text-primary)]">Theme</span>
-                            <button id="theme-toggle-settings" class="p-2 rounded-md bg-[var(--bg-secondary)] border border-[var(--border-light)]" aria-label="Toggle theme">
-                                <svg class="w-5 h-5 sun-icon text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                                <svg class="w-5 h-5 hidden moon-icon text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                            <button id="theme-toggle-settings"
+                                class="p-2 rounded-md bg-[var(--bg-secondary)] border border-[var(--border-light)]"
+                                aria-label="Toggle theme">
+                                <svg class="w-5 h-5 sun-icon text-yellow-500" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
+                                    </path>
+                                </svg>
+                                <svg class="w-5 h-5 hidden moon-icon text-blue-300" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z">
+                                    </path>
+                                </svg>
                             </button>
                         </div>
                     </div>
@@ -229,17 +484,26 @@
                             <span class="font-medium text-[var(--text-primary)]">Dynamic Animation</span>
                             <label for="animation-toggle" class="relative inline-flex items-center cursor-pointer">
                                 <input type="checkbox" value="" id="animation-toggle" class="sr-only peer">
-                                <div class="w-11 h-6 bg-[var(--border-medium)] rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-[var(--accent-primary)]"></div>
+                                <div
+                                    class="w-11 h-6 bg-[var(--border-medium)] rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-[var(--accent-primary)]">
+                                </div>
                             </label>
                         </div>
                     </div>
                     <div>
                         <label class="text-sm font-semibold text-[var(--text-muted)] px-1">Content</label>
                         <div class="mt-2">
-                            <button id="language-btn-settings" class="w-full flex items-center justify-between text-left p-3 bg-[var(--bg-primary)] rounded-lg">
+                            <button id="language-btn-settings"
+                                class="w-full flex items-center justify-between text-left p-3 bg-[var(--bg-primary)] rounded-lg">
                                 <!-- === MODIFIED: Added 'notranslate' class === -->
-                                <span id="current-lang-text-settings" class="font-medium text-[var(--text-primary)] notranslate">English</span>
-                                <svg id="language-arrow" class="w-5 h-5 text-[var(--text-muted)] transition-transform duration-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                                <span id="current-lang-text-settings"
+                                    class="font-medium text-[var(--text-primary)] notranslate">English</span>
+                                <svg id="language-arrow"
+                                    class="w-5 h-5 text-[var(--text-muted)] transition-transform duration-300"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                                </svg>
                             </button>
                             <div id="language-list-settings" class="mt-2 space-y-1">
                                 <!-- Language items will be populated by JS here -->
@@ -251,21 +515,30 @@
         </div>
     </div>
     <div id="settings-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-[115] hidden"></div>
-    
+
     <div id="setu-ai-container-desktop" class="hidden sm:block">
-        <button id="setu-ai-btn" title="Setu AI Assistant" class="btn btn-cta !p-4 !rounded-full shadow-lg transform hover:scale-110 transition-transform duration-200 ai-widget-container">
-             <svg class="w-8 h-8 flex-shrink-0 text-white original-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12.0001 1.99219L3.45911 12.0002L12.0001 22.0082L20.5411 12.0002L12.0001 1.99219Z"/></svg>
+        <button id="setu-ai-btn" title="Setu AI Assistant"
+            class="btn btn-cta !p-4 !rounded-full shadow-lg transform hover:scale-110 transition-transform duration-200 ai-widget-container">
+            <svg class="w-8 h-8 flex-shrink-0 text-white original-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12.0001 1.99219L3.45911 12.0002L12.0001 22.0082L20.5411 12.0002L12.0001 1.99219Z" />
+            </svg>
         </button>
     </div>
-    
-    <div id="ai-info-modal-overlay" class="fixed inset-0 bg-black bg-opacity-60 backdrop-filter backdrop-blur-sm z-[130] hidden items-center justify-center p-4">
-        <div id="ai-info-modal" class="bg-[var(--bg-secondary)] rounded-2xl shadow-xl max-w-sm w-full p-6 text-center transform scale-95 opacity-0 transition-all duration-300 ease-out">
+
+    <div id="ai-info-modal-overlay"
+        class="fixed inset-0 bg-black bg-opacity-60 backdrop-filter backdrop-blur-sm z-[130] hidden items-center justify-center p-4">
+        <div id="ai-info-modal"
+            class="bg-[var(--bg-secondary)] rounded-2xl shadow-xl max-w-sm w-full p-6 text-center transform scale-95 opacity-0 transition-all duration-300 ease-out">
             <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-[var(--bg-accent)] mb-4">
-                 <svg class="w-8 h-8 text-[var(--accent-primary)]" viewBox="0 0 24 24" fill="currentColor"><path d="M12.0001 1.99219L3.45911 12.0002L12.0001 22.0082L20.5411 12.0002L12.0001 1.99219Z"/></svg>
+                <svg class="w-8 h-8 text-[var(--accent-primary)]" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12.0001 1.99219L3.45911 12.0002L12.0001 22.0082L20.5411 12.0002L12.0001 1.99219Z" />
+                </svg>
             </div>
             <h3 class="text-xl font-bold text-[var(--text-primary)] mb-2">Setu AI is Evolving!</h3>
             <p class="text-sm text-[var(--text-muted)] mb-6">
-                Thank you for trying our new AI assistant! This feature is currently under active development. While it can perform some basic tasks, we're working hard to unlock its full potential. Stay tuned for exciting updates!
+                Thank you for trying our new AI assistant! This feature is currently under active development. While it
+                can perform some basic tasks, we're working hard to unlock its full potential. Stay tuned for exciting
+                updates!
             </p>
             <button id="ai-info-got-it-btn" class="btn btn-primary w-full">Got it</button>
         </div>
@@ -278,7 +551,7 @@
     <script>
         function googleTranslateElementInit() { new google.translate.TranslateElement({ pageLanguage: 'en', includedLanguages: 'en,hi,bn,te,mr,ta,ur,gu,kn,ml,pa,or,as,ne', layout: google.translate.TranslateElement.InlineLayout.SIMPLE, autoDisplay: false }, 'google_translate_element'); }
         function getCookie(name) { let value = "; " + document.cookie; let parts = value.split("; " + name + "="); if (parts.length === 2) return parts.pop().split(';').shift(); return null; }
-        function setCookie(name, value, days = 365) { let expires = ""; if (days) { const date = new Date(); date.setTime(date.getTime() + (days*24*60*60*1000)); expires = "; expires=" + date.toUTCString(); } document.cookie = name + "=" + (value || "") + expires + "; path=/; SameSite=Lax"; }
+        function setCookie(name, value, days = 365) { let expires = ""; if (days) { const date = new Date(); date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000)); expires = "; expires=" + date.toUTCString(); } document.cookie = name + "=" + (value || "") + expires + "; path=/; SameSite=Lax"; }
 
         window.addEventListener('load', () => {
             const savedLang = localStorage.getItem('selectedLanguage') || 'en';
@@ -288,7 +561,7 @@
         });
 
         document.addEventListener('DOMContentLoaded', () => {
-            
+
             const UI = {
                 animatedNameDesktopSidebar: document.getElementById('animated-name-desktop-sidebar'),
                 animatedNameMobile: document.getElementById('animated-name-mobile'),
@@ -315,13 +588,13 @@
                 aiInfoModal: document.getElementById('ai-info-modal'),
                 aiInfoGotItBtn: document.getElementById('ai-info-got-it-btn'),
             };
-            
+
             let currentUserData = {}; let isEditMode = false;
-            const LANGUAGES = {'en':{name:'English',short:'EN'},'hi':{name:'हिन्दी',short:'HI'},'bn':{name:'বাংলা',short:'BN'},'te':{name:'తెలుగు',short:'TE'},'mr':{name:'मराठी',short:'MR'},'ta':{name:'தமிழ்',short:'TA'},'ur':{name:'اردو',short:'UR'},'gu':{name:'ગુજરાતી',short:'GU'},'kn':{name:'ಕನ್ನಡ',short:'KN'},'ml':{name:'മലയാളം',short:'ML'},'pa':{name:'ਪੰਜਾਬੀ',short:'PA'},'or':{name:'ଓଡ଼ିଆ',short:'OR'},'as':{name:'অসমীয়া',short:'AS'},'ne':{name:'नेपाली',short:'NE'}};
-            
-            const applyTheme = t => { const isDark=t==='dark';document.documentElement.setAttribute('data-theme',isDark?'dark':'light');UI.sunIcons.forEach(i=>i.classList.toggle('hidden',isDark));UI.moonIcons.forEach(i=>i.classList.toggle('hidden',!isDark));};
-            const setupTheme = () => { const i=localStorage.getItem('theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');applyTheme(i);UI.themeToggle.addEventListener('click',()=>{const n=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';localStorage.setItem('theme',n);applyTheme(n);});};
-            
+            const LANGUAGES = { 'en': { name: 'English', short: 'EN' }, 'hi': { name: 'हिन्दी', short: 'HI' }, 'bn': { name: 'বাংলা', short: 'BN' }, 'te': { name: 'తెలుగు', short: 'TE' }, 'mr': { name: 'मराठी', short: 'MR' }, 'ta': { name: 'தமிழ்', short: 'TA' }, 'ur': { name: 'اردو', short: 'UR' }, 'gu': { name: 'ગુજરાતી', short: 'GU' }, 'kn': { name: 'ಕನ್ನಡ', short: 'KN' }, 'ml': { name: 'മലയാളം', short: 'ML' }, 'pa': { name: 'ਪੰਜਾਬੀ', short: 'PA' }, 'or': { name: 'ଓଡ଼ିଆ', short: 'OR' }, 'as': { name: 'অসমীয়া', short: 'AS' }, 'ne': { name: 'नेपाली', short: 'NE' } };
+
+            const applyTheme = t => { const isDark = t === 'dark'; document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light'); UI.sunIcons.forEach(i => i.classList.toggle('hidden', isDark)); UI.moonIcons.forEach(i => i.classList.toggle('hidden', !isDark)); };
+            const setupTheme = () => { const i = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'); applyTheme(i); UI.themeToggle.addEventListener('click', () => { const n = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'; localStorage.setItem('theme', n); applyTheme(n); }); };
+
             // NEW: Setup for Animation Preference
             const setupAnimationPreference = () => {
                 const savedPref = localStorage.getItem('animationPreference') || 'solid'; // Default to solid
@@ -333,12 +606,12 @@
                 });
             };
 
-            const setupLogoAnimation = () => { const names = ['Setu', 'सेतु', 'সেতু', 'सेतू', 'સેતુ', 'ಸೇತು']; let currentIndex = 0; const logoElements = [UI.animatedNameDesktopSidebar, UI.animatedNameMobile].filter(el => el); if(logoElements.length === 0) return; setInterval(() => { logoElements.forEach(el => el.classList.add('fade-out')); setTimeout(() => { currentIndex = (currentIndex + 1) % names.length; logoElements.forEach(el => { el.textContent = names[currentIndex]; el.classList.remove('fade-out'); }); }, 400); }, 4000); };
+            const setupLogoAnimation = () => { const names = ['Setu', 'सेतु', 'সেতু', 'सेतू', 'સેતુ', 'ಸೇತು']; let currentIndex = 0; const logoElements = [UI.animatedNameDesktopSidebar, UI.animatedNameMobile].filter(el => el); if (logoElements.length === 0) return; setInterval(() => { logoElements.forEach(el => el.classList.add('fade-out')); setTimeout(() => { currentIndex = (currentIndex + 1) % names.length; logoElements.forEach(el => { el.textContent = names[currentIndex]; el.classList.remove('fade-out'); }); }, 400); }, 4000); };
 
             // === MODIFIED: Added 'notranslate' class to dropdown items ===
-            const populateLanguageList = () => { const html=Object.entries(LANGUAGES).map(([c,{name,short}])=>`<a href="#" class="dropdown-item notranslate flex justify-between items-center !p-2 !rounded-md" data-lang="${c}" data-name="${name}"><span class="notranslate">${name}</span><span class="language-indicator notranslate !bg-[var(--bg-accent)] !text-[var(--text-primary)]">${short}</span></a>`).join('');UI.languageList.innerHTML=html;};
-            const restoreLanguageDisplay = () => { const l=localStorage.getItem('selectedLanguage')||'en'; const n=localStorage.getItem('selectedLanguageName')||'English'; UI.currentLangText.textContent=n;};
-            
+            const populateLanguageList = () => { const html = Object.entries(LANGUAGES).map(([c, { name, short }]) => `<a href="#" class="dropdown-item notranslate flex justify-between items-center !p-2 !rounded-md" data-lang="${c}" data-name="${name}"><span class="notranslate">${name}</span><span class="language-indicator notranslate !bg-[var(--bg-accent)] !text-[var(--text-primary)]">${short}</span></a>`).join(''); UI.languageList.innerHTML = html; };
+            const restoreLanguageDisplay = () => { const l = localStorage.getItem('selectedLanguage') || 'en'; const n = localStorage.getItem('selectedLanguageName') || 'English'; UI.currentLangText.textContent = n; };
+
             const setupLanguageSwitcher = () => {
                 const langBtn = UI.languageBtn;
                 const langList = UI.languageList;
@@ -376,14 +649,44 @@
 
             const openSettingsPanel = () => { UI.settingsPanel.classList.remove('translate-x-full'); UI.settingsOverlay.classList.remove('hidden'); };
             const closeSettingsPanel = () => { UI.settingsPanel.classList.add('translate-x-full'); UI.settingsOverlay.classList.add('hidden'); };
-            
+
             function loadUserProfile() { const storedData = localStorage.getItem('userProfile'); const parsedData = storedData ? JSON.parse(storedData) : {}; currentUserData = { fullname: parsedData.fullname || 'Guest User', city: parsedData.city || 'Your City', aadhaar: parsedData.idCard || '000000000000', dob: parsedData.dob || '1990-01-01', mobile: parsedData.mobile || '9876543210', email: parsedData.email || 'guest@example.com', address: parsedData.address || "Please add your address.", avatar: parsedData.avatar || 'https://placehold.co/128x128/E1E2E2/1D2228?text=User' }; UI.profile.avatar.src = currentUserData.avatar; displayProfileData(); }
-            function displayProfileData() { UI.profile.fullName.textContent = currentUserData.fullname || 'N/A'; UI.profile.city.textContent = currentUserData.city || 'Your City'; const aadhaar = currentUserData.aadhaar || ''; if (aadhaar.toUpperCase().startsWith('ID')) { UI.profile.aadhaar.textContent = `********${aadhaar.slice(-4)}`; } else { UI.profile.aadhaar.textContent = aadhaar ? `•••• •••• ${aadhaar.slice(-4)}` : 'N/A'; } const dob = currentUserData.dob; if(dob) { const birthDate = new Date(dob); const age = new Date().getFullYear() - birthDate.getFullYear(); UI.profile.dob.textContent = `${dob} (${age} years old)`; } else { UI.profile.dob.textContent = 'N/A'; } UI.profile.mobile.textContent = currentUserData.mobile || 'N/A'; UI.profile.email.textContent = currentUserData.email || 'N/A'; UI.profile.address.textContent = currentUserData.address || "Click 'Edit Profile' to add your address."; }
-            function toggleEditMode(enable) { isEditMode = enable; UI.buttons.edit.classList.toggle('hidden', enable); UI.buttons.save.classList.toggle('hidden', !enable); UI.buttons.cancel.classList.toggle('hidden', !enable); if(enable) { UI.profile.fullName.innerHTML = `<input type="text" id="fullname-input" class="form-input text-center" value="${currentUserData.fullname}">`; UI.profile.city.innerHTML = `<input type="text" id="city-input" class="form-input text-center" value="${currentUserData.city}">`; UI.profile.dob.innerHTML = `<input type="date" id="dob-input" class="form-input" value="${currentUserData.dob}">`; UI.profile.mobile.innerHTML = `<input type="tel" id="mobile-input" class="form-input" value="${currentUserData.mobile}">`; UI.profile.email.innerHTML = `<input type="email" id="email-input" class="form-input" value="${currentUserData.email}">`; UI.profile.address.innerHTML = `<textarea id="address-input" class="form-input" rows="2">${currentUserData.address || ''}</textarea>`; } else { displayProfileData(); } }
+            function displayProfileData() { UI.profile.fullName.textContent = currentUserData.fullname || 'N/A'; UI.profile.city.textContent = currentUserData.city || 'Your City'; const aadhaar = currentUserData.aadhaar || ''; if (aadhaar.toUpperCase().startsWith('ID')) { UI.profile.aadhaar.textContent = `********${aadhaar.slice(-4)}`; } else { UI.profile.aadhaar.textContent = aadhaar ? `•••• •••• ${aadhaar.slice(-4)}` : 'N/A'; } const dob = currentUserData.dob; if (dob) { const birthDate = new Date(dob); const age = new Date().getFullYear() - birthDate.getFullYear(); UI.profile.dob.textContent = `${dob} (${age} years old)`; } else { UI.profile.dob.textContent = 'N/A'; } UI.profile.mobile.textContent = currentUserData.mobile || 'N/A'; UI.profile.email.textContent = currentUserData.email || 'N/A'; UI.profile.address.textContent = currentUserData.address || "Click 'Edit Profile' to add your address."; }
+            function toggleEditMode(enable) { isEditMode = enable; UI.buttons.edit.classList.toggle('hidden', enable); UI.buttons.save.classList.toggle('hidden', !enable); UI.buttons.cancel.classList.toggle('hidden', !enable); if (enable) { UI.profile.fullName.innerHTML = `<input type="text" id="fullname-input" class="form-input text-center" value="${currentUserData.fullname}">`; UI.profile.city.innerHTML = `<input type="text" id="city-input" class="form-input text-center" value="${currentUserData.city}">`; UI.profile.dob.innerHTML = `<input type="date" id="dob-input" class="form-input" value="${currentUserData.dob}">`; UI.profile.mobile.innerHTML = `<input type="tel" id="mobile-input" class="form-input" value="${currentUserData.mobile}">`; UI.profile.email.innerHTML = `<input type="email" id="email-input" class="form-input" value="${currentUserData.email}">`; UI.profile.address.innerHTML = `<textarea id="address-input" class="form-input" rows="2">${currentUserData.address || ''}</textarea>`; } else { displayProfileData(); } }
             function saveProfileChanges() { currentUserData = { ...currentUserData, fullname: document.getElementById('fullname-input').value, city: document.getElementById('city-input').value, dob: document.getElementById('dob-input').value, mobile: document.getElementById('mobile-input').value, email: document.getElementById('email-input').value, address: document.getElementById('address-input').value }; localStorage.setItem('userProfile', JSON.stringify(currentUserData)); toggleEditMode(false); showToast('Profile updated successfully!'); }
             function showToast(message) { UI.toast.textContent = message; UI.toast.classList.add('show'); setTimeout(() => UI.toast.classList.remove('show'), 3000); }
 
             // --- Setu AI Logic ---
+            const isDesktop = () => window.innerWidth >= 640;
+
+            function generatePageSummary() {
+                const summaryPoints = [];
+                if (!currentUserData || Object.keys(currentUserData).length === 0) { return ["No user profile data is available to summarize."]; }
+                summaryPoints.push(`The user's name is ${currentUserData.fullname}.`);
+                summaryPoints.push(`They live in ${currentUserData.city}.`);
+                if (currentUserData.email) { summaryPoints.push(`Their email is available for contact.`); }
+                if (currentUserData.mobile) { summaryPoints.push(`Their mobile number is registered.`); }
+                return summaryPoints;
+            }
+
+            SetuAI.init({
+                onSummarize: generatePageSummary,
+                onNavigate: (targetId) => {
+                    if (targetId === 'settings') openSettingsPanel();
+                    else {
+                        const el = document.getElementById(targetId);
+                        if (el && el.href) window.location.href = el.href;
+                        else if (el) el.click();
+                    }
+                }
+            });
+
+            Notifications.init();
+
+            // Expose for AI
+            window.openSettingsPanel = openSettingsPanel;
+
+            /* Old AI Logic
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             let recognition; let currentHighlight = null; let isAiActive = false; let aiTimeout; let aiWidgetDesktop, aiWidgetMobile;
             const isDesktop = () => window.innerWidth >= 640;
@@ -418,8 +721,8 @@
             function setupAiWidgets() { aiWidgetDesktop = new AiWidget(document.querySelector('#setu-ai-btn')); aiWidgetMobile = new AiWidget(document.querySelector('#setu-ai-btn-mobile'), true); if (!sessionStorage.getItem('setuAiButtonClicked')) { document.querySelectorAll('.ai-widget-container').forEach(el => el.classList.add('setu-btn-animated')); } setupAiButtonSpin(); }
             function setupAiButtonSpin() { setInterval(() => { document.querySelectorAll('.ai-widget-container:not(.active) .original-icon').forEach(icon => { if (icon) { icon.classList.add('spin'); icon.addEventListener('animationend', () => icon.classList.remove('spin'), { once: true }); } }); }, 7000); }
             function getCurrentLanguage() { const c = document.cookie.split('; ').find(r => r.startsWith('googtrans=')); if (c) { const l = c.split('/')[2]; const m = { 'hi': 'hi-IN', 'bn': 'bn-IN', 'te': 'te-IN', 'mr': 'mr-IN', 'ta': 'ta-IN', 'ur': 'ur-IN', 'gu': 'gu-IN', 'kn': 'kn-IN', 'ml': 'ml-IN' }; return m[l] || 'en-US'; } return 'en-US'; }
-            if (SpeechRecognition) { recognition = new SpeechRecognition(); recognition.continuous = false; recognition.interimResults = true; recognition.maxAlternatives = 1; recognition.onresult = (e) => { const t = Array.from(e.results).map(r => r[0].transcript).join(''); [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setStatus(`"${t}"`)); if (e.results[0].isFinal) { [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setState('idle')); querySarvamAI(t); } }; recognition.onerror = (e) => { const m = e.error === 'no-speech' ? "I didn't hear that." : "Mic error."; [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setStatus(m, true)); }; recognition.onend = () => { [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setState('idle')); }; }
-            function startListening(e) { if(e) e.stopPropagation(); if (!isAiActive || !SpeechRecognition) return; recognition.lang = getCurrentLanguage(); recognition.start(); [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setState('listening')); }
+            if (SpeechRecognition) { recognition = new SpeechRecognition(); recognition.continuous = false; recognition.interimResults = true; recognition.maxAlternatives = 1; recognition.onresult = (e) => { const t = Array.from(e.results).map(r => r[0].transcript).join('');[aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setStatus(`"${t}"`)); if (e.results[0].isFinal) { [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setState('idle')); querySarvamAI(t); } }; recognition.onerror = (e) => { const m = e.error === 'no-speech' ? "I didn't hear that." : "Mic error.";[aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setStatus(m, true)); }; recognition.onend = () => { [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setState('idle')); }; }
+            function startListening(e) { if (e) e.stopPropagation(); if (!isAiActive || !SpeechRecognition) return; recognition.lang = getCurrentLanguage(); recognition.start();[aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setState('listening')); }
             async function querySarvamAI(text) {
                 [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setStatus('Thinking...'));
                 try {
@@ -431,7 +734,7 @@
                         };
                         const responses = r[l] || r['en-US'];
                         const isGo = q.includes('go to') || q.includes('navigate') || q.includes('open') || q.includes('जाओ') || q.includes('खोलें');
-                        
+
                         if (q.includes('home') || q.includes('मुख पृष्ठ')) { return { action: 'navigate', targetId: 'desktop-home-link', responseText: responses.goToHome }; }
                         if (q.includes('report') || q.includes('रिपोर्ट')) { return { action: 'navigate', targetId: isDesktop() ? 'desktop-report-link' : 'bottom-nav-report', responseText: 'Taking you to the report page.' }; }
                         if (q.includes('search') || q.includes('खोज')) { return { action: 'navigate', targetId: isDesktop() ? 'desktop-search-link' : 'bottom-nav-search', responseText: 'Taking you to the search page.' }; }
@@ -447,7 +750,7 @@
             }
             function processAIResponse(response) {
                 clearTimeout(aiTimeout);
-                if (response.responseText) { speak(response.responseText); [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setStatus(response.responseText)); }
+                if (response.responseText) { speak(response.responseText);[aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setStatus(response.responseText)); }
                 if (currentHighlight) currentHighlight.classList.remove('ai-highlight');
                 if (response.action === 'highlight' && response.targetId) { const el = document.getElementById(response.targetId); if (el) { if (isAiActive) [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.deactivate()); el.scrollIntoView({ behavior: 'smooth', block: 'center' }); el.classList.add('ai-highlight'); currentHighlight = el; setTimeout(() => { if (currentHighlight) currentHighlight.classList.remove('ai-highlight'); }, 5000); } }
                 else if (response.action === 'navigate' && response.targetId) { const el = document.getElementById(response.targetId); if (el && el.href) window.location.href = el.href; }
@@ -458,7 +761,8 @@
                 else { aiTimeout = setTimeout(() => { if (isAiActive) [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.deactivate()); }, 5000); }
             }
             function speak(text) { if (!('speechSynthesis' in window)) return; const u = new SpeechSynthesisUtterance(text); u.lang = getCurrentLanguage(); u.onstart = () => { [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setState('speaking')); }; u.onend = () => { [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setState('idle')); clearTimeout(aiTimeout); aiTimeout = setTimeout(() => { if (isAiActive) [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.deactivate()); }, 5000); }; window.speechSynthesis.speak(u); }
-            class AiWidget { constructor(el, isM = false) { this.element = el; this.isMobile = isM; this.isActive = false; this.originalIcon = this.element.querySelector('.original-icon'); if(this.originalIcon) this.originalIcon.style.transition = 'transform 0.3s ease, opacity 0.3s ease'; this.element.insertAdjacentHTML('beforeend', this.createHTML()); this.widgetInner = this.element.querySelector('.ai-widget-inner'); this.statusEl = this.element.querySelector('.ai-status'); this.logoIcon = this.element.querySelector('.ai-logo-icon'); this.micIcon = this.element.querySelector('.ai-mic-icon'); this.element.addEventListener('click', (e) => this.handleMainClick(e)); this.widgetInner.querySelector('.ai-icon-container').addEventListener('click', (e) => this.handleMicClick(e)); } createHTML() { const lS = this.isMobile ? 'w-5 h-5' : 'w-8 h-8'; const mS = this.isMobile ? 'w-6 h-6' : 'w-8 h-8'; return ` <div class="ai-widget-inner"> <div class="ai-icon-container"> <svg class="${lS} text-white ai-logo-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12.0001 1.99219L3.45911 12.0002L12.0001 22.0082L20.5411 12.0002L12.0001 1.99219Z"/></svg> <svg class="${mS} text-white ai-mic-icon" viewBox="0 0 24 24" fill="none"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" fill="currentColor"/><path d="M19 10v2a7 7 0 0 1-14 0v-2H3v2a9 9 0 0 0 8 8.94V24h2v-3.06A9 9 0 0 0 21 12v-2h-2z" fill="currentColor"/></svg> </div> <div class="ai-content"> <p class="ai-status text-sm text-white w-full text-left font-semibold"></p> </div> </div> `; } handleMainClick(e) { if (e.target.closest('.ai-icon-container')) return; this.toggle(e); } handleMicClick(e) { e.stopPropagation(); if (this.isActive) { startListening(e); } else { const showInfo = !localStorage.getItem('setuAiInfoShown'); if (showInfo) { this.showAiInfoModal(); } else { this.activate(); } } } toggle(e) { e.stopPropagation(); const showInfo = !this.isActive && !localStorage.getItem('setuAiInfoShown'); if (showInfo) { this.showAiInfoModal(); return; } this.isActive ? this.deactivate() : this.activate(); } showAiInfoModal() { UI.aiInfoModalOverlay.classList.remove('hidden'); UI.aiInfoModalOverlay.classList.add('visible'); UI.aiInfoModal.classList.remove('scale-95', 'opacity-0'); const gotItHandler = () => { localStorage.setItem('setuAiInfoShown', 'true'); UI.aiInfoModal.classList.add('scale-95', 'opacity-0'); UI.aiInfoModalOverlay.classList.remove('visible'); setTimeout(() => { UI.aiInfoModalOverlay.classList.add('hidden'); this.activate(); }, 300); UI.aiInfoGotItBtn.removeEventListener('click', gotItHandler); }; UI.aiInfoGotItBtn.addEventListener('click', gotItHandler); }
+            class AiWidget {
+                constructor(el, isM = false) { this.element = el; this.isMobile = isM; this.isActive = false; this.originalIcon = this.element.querySelector('.original-icon'); if (this.originalIcon) this.originalIcon.style.transition = 'transform 0.3s ease, opacity 0.3s ease'; this.element.insertAdjacentHTML('beforeend', this.createHTML()); this.widgetInner = this.element.querySelector('.ai-widget-inner'); this.statusEl = this.element.querySelector('.ai-status'); this.logoIcon = this.element.querySelector('.ai-logo-icon'); this.micIcon = this.element.querySelector('.ai-mic-icon'); this.element.addEventListener('click', (e) => this.handleMainClick(e)); this.widgetInner.querySelector('.ai-icon-container').addEventListener('click', (e) => this.handleMicClick(e)); } createHTML() { const lS = this.isMobile ? 'w-5 h-5' : 'w-8 h-8'; const mS = this.isMobile ? 'w-6 h-6' : 'w-8 h-8'; return ` <div class="ai-widget-inner"> <div class="ai-icon-container"> <svg class="${lS} text-white ai-logo-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12.0001 1.99219L3.45911 12.0002L12.0001 22.0082L20.5411 12.0002L12.0001 1.99219Z"/></svg> <svg class="${mS} text-white ai-mic-icon" viewBox="0 0 24 24" fill="none"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" fill="currentColor"/><path d="M19 10v2a7 7 0 0 1-14 0v-2H3v2a9 9 0 0 0 8 8.94V24h2v-3.06A9 9 0 0 0 21 12v-2h-2z" fill="currentColor"/></svg> </div> <div class="ai-content"> <p class="ai-status text-sm text-white w-full text-left font-semibold"></p> </div> </div> `; } handleMainClick(e) { if (e.target.closest('.ai-icon-container')) return; this.toggle(e); } handleMicClick(e) { e.stopPropagation(); if (this.isActive) { startListening(e); } else { const showInfo = !localStorage.getItem('setuAiInfoShown'); if (showInfo) { this.showAiInfoModal(); } else { this.activate(); } } } toggle(e) { e.stopPropagation(); const showInfo = !this.isActive && !localStorage.getItem('setuAiInfoShown'); if (showInfo) { this.showAiInfoModal(); return; } this.isActive ? this.deactivate() : this.activate(); } showAiInfoModal() { UI.aiInfoModalOverlay.classList.remove('hidden'); UI.aiInfoModalOverlay.classList.add('visible'); UI.aiInfoModal.classList.remove('scale-95', 'opacity-0'); const gotItHandler = () => { localStorage.setItem('setuAiInfoShown', 'true'); UI.aiInfoModal.classList.add('scale-95', 'opacity-0'); UI.aiInfoModalOverlay.classList.remove('visible'); setTimeout(() => { UI.aiInfoModalOverlay.classList.add('hidden'); this.activate(); }, 300); UI.aiInfoGotItBtn.removeEventListener('click', gotItHandler); }; UI.aiInfoGotItBtn.addEventListener('click', gotItHandler); }
                 activate() {
                     if (navigator.vibrate) navigator.vibrate(50);
                     const animationPreference = localStorage.getItem('animationPreference');
@@ -470,7 +774,7 @@
                     if (this.isMobile) UI.mobileHeader.classList.add('ai-active');
                     this.setStatus('Tap the icon to speak.');
                     if (!sessionStorage.getItem('setuAiButtonClicked')) { document.querySelectorAll('.ai-widget-container').forEach(el => el.classList.remove('setu-btn-animated')); sessionStorage.setItem('setuAiButtonClicked', 'true'); }
-                    setTimeout(() => startListening({ stopPropagation: () => {} }), 500);
+                    setTimeout(() => startListening({ stopPropagation: () => { } }), 500);
                 }
                 deactivate() {
                     this.isActive = false; isAiActive = false;
@@ -480,17 +784,19 @@
                     const summaryBox = this.element.querySelector('#ai-summary-box');
                     if (summaryBox) { summaryBox.classList.remove('visible'); setTimeout(() => summaryBox.remove(), 300); }
                 }
-                setStatus(t, isE = false) { this.statusEl.textContent = t; this.statusEl.style.color = isE ? '#fee2e2' : '#ffffff'; const charLimit = 45; if (this.isActive && t.length > charLimit) { this.element.classList.add('expanded-vertically'); } else { this.element.classList.remove('expanded-vertically'); } } setState(s) { this.element.classList.remove('listening', 'speaking'); this.logoIcon.classList.remove('spin'); this.micIcon.classList.remove('spin'); if (s === 'listening') { this.element.classList.add('listening'); this.logoIcon.classList.add('spin'); } else if (s === 'speaking') { this.element.classList.add('speaking'); this.micIcon.classList.add('spin'); } } }
+                setStatus(t, isE = false) { this.statusEl.textContent = t; this.statusEl.style.color = isE ? '#fee2e2' : '#ffffff'; const charLimit = 45; if (this.isActive && t.length > charLimit) { this.element.classList.add('expanded-vertically'); } else { this.element.classList.remove('expanded-vertically'); } } setState(s) { this.element.classList.remove('listening', 'speaking'); this.logoIcon.classList.remove('spin'); this.micIcon.classList.remove('spin'); if (s === 'listening') { this.element.classList.add('listening'); this.logoIcon.classList.add('spin'); } else if (s === 'speaking') { this.element.classList.add('speaking'); this.micIcon.classList.add('spin'); } }
+            } */
 
             // --- Initial Load & Event Listeners ---
-            setupTheme(); setupAnimationPreference(); setupLogoAnimation(); populateLanguageList(); restoreLanguageDisplay(); setupLanguageSwitcher(); loadUserProfile(); setupAiWidgets();
+            setupTheme(); setupAnimationPreference(); setupLogoAnimation(); populateLanguageList(); restoreLanguageDisplay(); setupLanguageSwitcher(); loadUserProfile();
             UI.buttons.edit.addEventListener('click', () => toggleEditMode(true)); UI.buttons.cancel.addEventListener('click', () => toggleEditMode(false)); UI.buttons.save.addEventListener('click', saveProfileChanges);
             UI.settingsBtnDesktop.addEventListener('click', openSettingsPanel); UI.settingsBtnMobile.addEventListener('click', openSettingsPanel); UI.closeSettingsBtn.addEventListener('click', closeSettingsPanel); UI.settingsOverlay.addEventListener('click', closeSettingsPanel);
             UI.avatarContainer.addEventListener('click', () => UI.avatarInput.click());
             UI.avatarInput.addEventListener('change', (e) => { const f = e.target.files[0]; if (f) { const r = new FileReader(); r.onload = (ev) => { const d = ev.target.result; UI.profile.avatar.src = d; currentUserData.avatar = d; localStorage.setItem('userProfile', JSON.stringify(currentUserData)); showToast('Profile image updated!'); }; r.readAsDataURL(f); } });
-            document.addEventListener('click', (e) => { if(isAiActive && !e.target.closest('.ai-widget-container')) { [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.deactivate()); } });
+            document.addEventListener('click', (e) => { if (isAiActive && !e.target.closest('.ai-widget-container')) { [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.deactivate()); } });
         });
     </script>
     <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async defer></script>
 </body>
+
 </html>
