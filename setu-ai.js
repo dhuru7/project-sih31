@@ -293,15 +293,33 @@ const SetuAI = {
         // (Simplified for now, can be expanded)
 
         // Page specific navigation (can be handled via config or here if generic)
+        const navKeywords = ['go', 'take', 'open', 'navigate', 'move', 'show me'];
+        const isNavigationRequest = navKeywords.some(k => query.includes(k));
+
         if (query.includes('report') || query.includes('complaint')) {
-            responseText = { 'en-US': 'Here is the report button.', 'hi-IN': 'यह रिपोर्ट बटन है।' };
-            result = { action: 'navigate', targetId: isDesktop ? 'desktop-report-link' : 'report-nav-link', responseText: responseText[lang] || responseText['en-US'] };
+            if (isNavigationRequest) {
+                responseText = { 'en-US': "Sure, taking you to the report page now.", 'hi-IN': "ज़रूर, आपको रिपोर्ट पेज पर ले जा रहा हूँ।" };
+                result = { action: 'navigate', targetId: isDesktop ? 'desktop-report-link' : 'bottom-nav-report', responseText: responseText[lang] || responseText['en-US'] };
+            } else {
+                responseText = { 'en-US': "I can help with that. The report button is right here.", 'hi-IN': "मैं इसमें मदद कर सकता हूँ। रिपोर्ट बटन यहाँ है।" };
+                result = { action: 'highlight', targetId: isDesktop ? 'desktop-report-link' : 'bottom-nav-report', responseText: responseText[lang] || responseText['en-US'] };
+            }
         } else if (query.includes('profile')) {
-            responseText = { 'en-US': 'Here is your profile.', 'hi-IN': 'यह आपकी प्रोफ़ाइल है।' };
-            result = { action: 'navigate', targetId: isDesktop ? 'desktop-profile-link' : 'profile-nav-link', responseText: responseText[lang] || responseText['en-US'] };
+            if (isNavigationRequest) {
+                responseText = { 'en-US': "Opening your profile.", 'hi-IN': "आपकी प्रोफ़ाइल खोल रहा हूँ।" };
+                result = { action: 'navigate', targetId: isDesktop ? 'desktop-profile-link' : 'bottom-nav-profile', responseText: responseText[lang] || responseText['en-US'] };
+            } else {
+                responseText = { 'en-US': "Here is your profile section.", 'hi-IN': "यह आपका प्रोफ़ाइल अनुभाग है।" };
+                result = { action: 'highlight', targetId: isDesktop ? 'desktop-profile-link' : 'bottom-nav-profile', responseText: responseText[lang] || responseText['en-US'] };
+            }
         } else if (query.includes('home')) {
-            responseText = { 'en-US': 'Going to home.', 'hi-IN': 'घर जा रहे हैं।' };
-            result = { action: 'navigate', targetId: isDesktop ? 'desktop-home-link' : 'home-nav-link', responseText: responseText[lang] || responseText['en-US'] };
+            if (isNavigationRequest) {
+                responseText = { 'en-US': "Heading back home.", 'hi-IN': "घर वापस जा रहे हैं।" };
+                result = { action: 'navigate', targetId: isDesktop ? 'desktop-home-link' : 'bottom-nav-home', responseText: responseText[lang] || responseText['en-US'] };
+            } else {
+                responseText = { 'en-US': "This is the home button.", 'hi-IN': "यह होम बटन है।" };
+                result = { action: 'highlight', targetId: isDesktop ? 'desktop-home-link' : 'bottom-nav-home', responseText: responseText[lang] || responseText['en-US'] };
+            }
         }
 
         return result;
@@ -319,10 +337,24 @@ const SetuAI = {
             const element = document.getElementById(response.targetId);
             if (element) {
                 if (this.isAiActive) this.widgets.forEach(w => w.deactivate());
+
+                // Scroll first
                 element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                element.classList.add('ai-highlight');
+
+                // Add highlight after a short delay to allow scroll to start
+                setTimeout(() => {
+                    element.classList.add('ai-highlight');
+                }, 300);
+
                 this.currentHighlight = element;
-                setTimeout(() => { if (this.currentHighlight) this.currentHighlight.classList.remove('ai-highlight'); }, 5000);
+
+                // Remove after 4 seconds
+                setTimeout(() => {
+                    if (this.currentHighlight === element) {
+                        element.classList.remove('ai-highlight');
+                        this.currentHighlight = null;
+                    }
+                }, 4000);
             }
         } else if (response.action === 'navigate' && response.targetId) {
             this.config.onNavigate(response.targetId);
