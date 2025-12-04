@@ -788,484 +788,81 @@
                 }
             };
 
-            Notifications.init(); /* const openNotificationPanel = () => {
-                UI.notificationBackdrop.classList.remove('hidden');
-                UI.notificationPanel.classList.remove('translate-x-full');
-                if (!welcomeNotification.read) {
-                    welcomeNotification.read = true;
-                    localStorage.setItem('welcomeNotificationRead', 'true');
-                    renderNotifications();
-                }
-            };
-            const closeNotificationPanel = () => { UI.notificationBackdrop.classList.add('hidden'); UI.notificationPanel.classList.add('translate-x-full'); };
-
-            const renderNotifications = () => {
-                const hasUnread = notifications.some(n => !n.read);
-                UI.notificationUnreadDot.classList.toggle('hidden', !hasUnread);
-                if (UI.notificationUnreadDotDesktop) UI.notificationUnreadDotDesktop.classList.toggle('hidden', !hasUnread);
-                if (notifications.length === 0) {
-                    UI.notificationContent.innerHTML = `<p class="text-center text-[var(--text-muted)] p-8">You have no new notifications.</p>`;
-                    return;
-                }
-                UI.notificationContent.innerHTML = notifications.map(n => `<div class="p-4 border-b border-[var(--border-light)] flex items-start space-x-3 ${!n.read ? '' : 'opacity-70'}">${!n.read ? '<div class="w-2 h-2 rounded-full bg-[#f41f4e] mt-2 flex-shrink-0"></div>' : '<div class="w-2 h-2 flex-shrink-0"></div>'}<div class="flex-grow"><p class="font-semibold text-[var(--text-primary)]">${n.title}</p><p class="text-sm text-[var(--text-secondary)]">${n.message}</p><p class="text-xs text-[var(--text-muted)] mt-1">${formatTimeAgo(n.timestamp)}</p></div></div>`).join('');
-            }; */
-            /*          UI.notificationBackdrop.classList.remove('hidden');
-                        UI.notificationPanel.classList.remove('translate-x-full');
-                        if (!welcomeNotification.read) {
-                            welcomeNotification.read = true;
-                            localStorage.setItem('welcomeNotificationRead', 'true');
-                            renderNotifications();
-                        }
-                    }; */
-
-
-            /*      const renderNotifications = () => {
-                        const hasUnread = notifications.some(n => !n.read);
-                        UI.notificationUnreadDot.classList.toggle('hidden', !hasUnread);
-                        if (UI.notificationUnreadDotDesktop) UI.notificationUnreadDotDesktop.classList.toggle('hidden', !hasUnread);
-                        if (notifications.length === 0) {
-                            UI.notificationContent.innerHTML = `<p class="text-center text-[var(--text-muted)] p-8">You have no new notifications.</p>`;
-                            return;
-                        }
-                        UI.notificationContent.innerHTML = notifications.map(n => `<div class="p-4 border-b border-[var(--border-light)] flex items-start space-x-3 ${!n.read ? '' : 'opacity-70'}">${!n.read ? '<div class="w-2 h-2 rounded-full bg-[#f41f4e] mt-2 flex-shrink-0"></div>' : '<div class="w-2 h-2 flex-shrink-0"></div>'}<div class="flex-grow"><p class="font-semibold text-[var(--text-primary)]">${n.title}</p><p class="text-sm text-[var(--text-secondary)]">${n.message}</p><p class="text-xs text-[var(--text-muted)] mt-1">${formatTimeAgo(n.timestamp)}</p></div></div>`).join('');
-                    }; */
-
+            Notifications.init();
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             let recognition;
             let currentHighlight = null;
             let isAiActive = false;
-            let aiTimeout;
-            let aiWidgetDesktop, aiWidgetMobile;
+                        let aiTimeout;
+                        let aiWidgetDesktop, aiWidgetMobile;
 
-            // --- Setu AI Logic ---
+                        // --- Setu AI Logic ---
 
 
-            function generatePageSummary() {
-                const summaryPoints = [];
-                const cards = document.querySelectorAll('#feed-container .complaint-card');
-                if (cards.length === 0) { return ["There are no issues on the page to summarize."]; }
-                cards.forEach(card => {
-                    const issueEl = card.querySelector('.flex.items-center.justify-between span:first-child');
-                    const statusEl = card.querySelector('.flex.items-center.justify-between span:last-child');
-                    const locationEl = card.querySelector('.text-\\[var\\(--text-primary\\)\\].text-2xl.font-bold span');
-                    if (issueEl && locationEl && statusEl) {
-                        summaryPoints.push(`'${issueEl.textContent.trim()}' at '${locationEl.textContent.trim()}' is marked as '${statusEl.textContent.trim()}'.`);
-                    }
-                });
-                return summaryPoints.length > 0 ? summaryPoints : ["Could not find any issues to summarize on the page."];
-            }
+                        function generatePageSummary() {
+                            const summaryPoints = [];
+                            const cards = document.querySelectorAll('#feed-container .complaint-card');
+                            if (cards.length === 0) { return ["There are no issues on the page to summarize."]; }
+                            cards.forEach(card => {
+                                const issueEl = card.querySelector('.flex.items-center.justify-between span:first-child');
+                                const statusEl = card.querySelector('.flex.items-center.justify-between span:last-child');
+                                const locationEl = card.querySelector('.text-\\[var\\(--text-primary\\)\\].text-2xl.font-bold span');
+                                if (issueEl && locationEl && statusEl) {
+                                    summaryPoints.push(`'${issueEl.textContent.trim()}' at '${locationEl.textContent.trim()}' is marked as '${statusEl.textContent.trim()}'.`);
+                                }
+                            });
+                            return summaryPoints.length > 0 ? summaryPoints : ["Could not find any issues to summarize on the page."];
+                        }
 
-            SetuAI.init({
-                onSummarize: generatePageSummary,
-                onNavigate: (targetId) => {
-                    if (targetId === 'filter') openFilter();
-                    else {
-                        const el = document.getElementById(targetId);
-                        if (el && el.href) window.location.href = el.href;
-                        else if (el) el.click();
-                    }
-                }
-            });
+                        SetuAI.init({
+                            onSummarize: generatePageSummary,
+                            onNavigate: (targetId) => {
+                                if (targetId === 'filter') openFilter();
+                                else {
+                                    const el = document.getElementById(targetId);
+                                    if (el && el.href) window.location.href = el.href;
+                                    else if (el) el.click();
+                                }
+                            }
+                        });
 
-            // Expose for AI
-            window.openFilter = openFilter;
+                        // Expose for AI
+                        window.openFilter = openFilter;
 
-            /* Old AI Logic
-            function generatePageSummary() {
-                const summaryPoints = [];
-                const cards = document.querySelectorAll('#feed-container .complaint-card');
-                if (cards.length === 0) {
-                    return ["There are no issues on the page to summarize."];
-                }
-                cards.forEach(card => {
-                    const issueEl = card.querySelector('.flex.items-center.justify-between span:first-child');
-                    const statusEl = card.querySelector('.flex.items-center.justify-between span:last-child');
-                    const locationEl = card.querySelector('.text-\\[var\\(--text-primary\\)\\].text-2xl.font-bold span');
-    
-                    if (issueEl && locationEl && statusEl) {
-                        const issue = issueEl.textContent.trim();
-                        const location = locationEl.textContent.trim();
-                        const status = statusEl.textContent.trim();
-                        summaryPoints.push(`'${issue}' at '${location}' is marked as '${status}'.`);
-                    }
-                });
-                return summaryPoints.length > 0 ? summaryPoints : ["Could not find any issues to summarize on the page."];
-            }
-    
-            function displaySummary(summaryPoints) {
-                // Remove existing summary box if any to prevent duplicates
-                const existingBox = document.querySelector('#ai-summary-box');
-                if (existingBox) existingBox.remove();
-    
-                const summaryBox = document.createElement('div');
-                summaryBox.id = 'ai-summary-box';
-                summaryBox.className = 'ai-summary-box';
-    
-                const title = document.createElement('h4');
-                title.className = 'summary-title';
-                title.textContent = 'Page Summary';
-                summaryBox.appendChild(title);
-    
-                const list = document.createElement('ul');
-                summaryPoints.forEach(point => {
-                    const li = document.createElement('li');
-                    li.textContent = point;
-                    list.appendChild(li);
-                });
-                summaryBox.appendChild(list);
-    
-                const activeWidget = document.querySelector('.ai-widget-container.active');
-                if (activeWidget) {
-                    activeWidget.appendChild(summaryBox);
-                    requestAnimationFrame(() => {
-                        summaryBox.classList.add('visible');
+                        // Initial setup
+                        setupTheme();
+
+                        if (!sessionStorage.getItem('setuIntroShown')) {
+                            // This is a placeholder for your intro animation logic if you bring it back
+                        }
+                        loadComplaints();
+                        setupTheme();
+                        setupLogoAnimation();
+                        restoreLanguageDisplay();
+                        setupScrollAnimations();
+                        renderFeed(complaints);
+
+
+                        // Event Listeners
+                        UI.homeNavLink.addEventListener('click', (e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
+                        UI.feedContainer.addEventListener('click', handleCardClick);
+                        document.body.addEventListener('click', handleInteractiveElements);
+                        UI.openFilterBtn.addEventListener('click', openFilter);
+                        if (UI.openFilterBtnDesktop) UI.openFilterBtnDesktop.addEventListener('click', openFilter);
+                        UI.closeFilterBtn.addEventListener('click', closeFilter);
+                        UI.filterBackdrop.addEventListener('click', closeFilter);
+                        UI.imageViewerClose.addEventListener('click', closeImageViewer);
+                        UI.imageViewerOverlay.addEventListener('click', (e) => { if (e.target === UI.imageViewerOverlay) closeImageViewer(); });
+                        UI.fullscreenImage.addEventListener('wheel', handleWheel, { passive: false });
+                        UI.fullscreenImage.addEventListener('pointerdown', handlePointerDown);
+                        window.addEventListener('pointermove', handlePointerMove);
+                        window.addEventListener('pointerup', handlePointerUp);
+                        document.addEventListener('click', (e) => {
+                            if (isAiActive && !e.target.closest('.ai-widget-container')) {
+                                [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.deactivate());
+                            }
+                        });
                     });
-                }
-            }
-            // --- END: AI Summary Functions ---
-    
-            function setupAiWidgets() {
-                aiWidgetDesktop = new AiWidget(document.querySelector('#setu-ai-btn'));
-                aiWidgetMobile = new AiWidget(document.querySelector('#setu-ai-btn-mobile'), true);
-                if (!sessionStorage.getItem('setuAiButtonClicked')) {
-                    document.querySelectorAll('.ai-widget-container').forEach(el => el.classList.add('setu-btn-animated'));
-                }
-                setupAiButtonSpin();
-            }
-    
-            function setupAiButtonSpin() {
-                setInterval(() => {
-                    document.querySelectorAll('.ai-widget-container:not(.active) .original-icon').forEach(icon => {
-                        if (icon) {
-                            icon.classList.add('spin');
-                            icon.addEventListener('animationend', () => {
-                                icon.classList.remove('spin');
-                            }, { once: true });
-                        }
-                    });
-                }, 7000);
-            }
-    
-            function getCurrentLanguage() {
-                const cookieValue = document.cookie.split('; ').find(row => row.startsWith('googtrans='));
-                if (cookieValue) {
-                    const langCode = cookieValue.split('/')[2];
-                    const langMap = { 'hi': 'hi-IN', 'bn': 'bn-IN', 'te': 'te-IN', 'mr': 'mr-IN', 'ta': 'ta-IN', 'ur': 'ur-IN', 'gu': 'gu-IN', 'kn': 'kn-IN', 'ml': 'ml-IN' };
-                    return langMap[langCode] || 'en-US';
-                }
-                return 'en-US';
-            }
-    
-            if (SpeechRecognition) {
-                recognition = new SpeechRecognition();
-                recognition.continuous = false;
-                recognition.interimResults = true;
-                recognition.maxAlternatives = 1;
-                recognition.onresult = (event) => {
-                    const transcript = Array.from(event.results).map(r => r[0].transcript).join('');
-                    [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setStatus(`"${transcript}"`));
-                    if (event.results[0].isFinal) {
-                        [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setState('idle'));
-                        querySarvamAI(transcript);
-                    }
-                };
-                recognition.onerror = (event) => {
-                    const errorMsg = event.error === 'no-speech' ? "I didn't hear that." : "Mic error.";
-                    [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setStatus(errorMsg, true));
-                };
-                recognition.onend = () => { [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setState('idle')); };
-            }
-    
-            function startListening(event) {
-                if (event) event.stopPropagation();
-                if (!isAiActive || !SpeechRecognition) return;
-                recognition.lang = getCurrentLanguage();
-                recognition.start();
-                [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setState('listening'));
-            }
-    
-            async function querySarvamAI(text) {
-                [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setStatus('Thinking...'));
-                try {
-                    const mockAI = (query, lang) => {
-                        query = query.toLowerCase();
-                        let responseText = { 'en-US': "Sorry, I'm not sure how to help.", 'hi-IN': "क्षमा करें, मुझे यकीन नहीं है कि इसमें कैसे मदद की जाए।" };
-                        let result = { action: 'answer', targetId: null, responseText: responseText[lang] || responseText['en-US'] };
-    
-                        // IMPROVEMENT: Added new AI responses
-                        if (query.includes('hello') || query.includes('hi') || query.includes('hey') || query.includes('नमस्ते') || query.includes('हाय')) {
-                            responseText = { 'en-US': 'Hello! How can I help you today?', 'hi-IN': 'नमस्ते! मैं आपकी कैसे मदद कर सकता हूँ?' };
-                            result = { action: 'answer', targetId: null, responseText: responseText[lang] || responseText['en-US'] };
-                        } else if (query.includes('who are you') || query.includes('what are you') || query.includes('what is setu') || query.includes('आप कौन हैं')) {
-                            responseText = { 'en-US': 'I am Setu AI, your smart assistant to make reporting civic issues seamless and effective. How can I assist?', 'hi-IN': 'मैं सेतु एआई हूं, नागरिक मुद्दों की रिपोर्टिंग को सहज और प्रभावी बनाने के लिए आपका स्मार्ट सहायक। मैं कैसे सहायता कर सकता हूं?' };
-                            result = { action: 'answer', targetId: null, responseText: responseText[lang] || responseText['en-US'] };
-                        } else if (query.includes('language') || query.includes('theme') || query.includes('setting') || query.includes('profile') || query.includes('भाषा') || query.includes('थीम')) {
-                            responseText = { 'en-US': 'Sure, heading to your profile and settings page.', 'hi-IN': 'ज़रूर, आपके प्रोफ़ाइल और सेटिंग्स पृष्ठ पर जा रहे हैं।' };
-                            result = { action: 'redirect', targetId: 'profile.html', responseText: responseText[lang] || responseText['en-US'] };
-                        } else if (query.includes('how to report') || query.includes('कैसे रिपोर्ट')) {
-                            responseText = { 'en-US': 'To report an issue, please click the big red "Report" button.', 'hi-IN': 'समस्या की रिपोर्ट करने के लिए, कृपया बड़े लाल "रिपोर्ट" बटन पर क्लिक करें।' };
-                            result = { action: 'answer', targetId: null, responseText: responseText[lang] || responseText['en-US'] };
-                        } else if (query.includes('report') || query.includes('complaint') || query.includes('रिपोर्ट') || query.includes('शिकायत')) {
-                            responseText = { 'en-US': 'Here is the report button.', 'hi-IN': 'यह रिपोर्ट बटन है।' };
-                            result = { action: 'highlight', targetId: isDesktop() ? 'desktop-report-link' : 'report-nav-link', responseText: responseText[lang] || responseText['en-US'] };
-                        } else if (query.includes('summarise') || query.includes('summarize') || query.includes('summary')) {
-                            responseText = { 'en-US': 'Certainly. Here is a summary of the issues on this page.', 'hi-IN': 'ज़रूर। इस पृष्ठ पर मौजूद समस्याओं का सारांश यहां दिया गया है।' };
-                            result = { action: 'summarize', targetId: null, responseText: responseText[lang] || responseText['en-US'] };
-                        } else if (query.includes('profile') || query.includes('प्रोफ़ाइल')) {
-                            responseText = { 'en-US': 'You can view your profile here.', 'hi-IN': 'आप अपनी प्रोफ़ाइल यहां देख सकते हैं।' };
-                            result = { action: 'highlight', targetId: isDesktop() ? 'desktop-profile-link' : 'profile-nav-link', responseText: responseText[lang] || responseText['en-US'] };
-                        } else if (query.includes('search') || query.includes('खोज')) {
-                            responseText = { 'en-US': 'Taking you to the search page.', 'hi-IN': 'आपको खोज पृष्ठ पर ले जा रहा हूँ।' };
-                            result = { action: 'navigate', targetId: isDesktop() ? 'desktop-search-link' : 'search-nav-link', responseText: responseText[lang] || responseText['en-US'] };
-                        } else if (query.includes('filter') || query.includes('फ़िल्टर')) {
-                            responseText = { 'en-US': 'Opening the filter panel.', 'hi-IN': 'फ़िल्टर पैनल खोल रहा हूँ।' };
-                            result = { action: 'open_panel', targetId: 'filter', responseText: responseText[lang] || responseText['en-US'] };
-                        } else if (query.includes('notification') || query.includes('अधिसूचना') || query.includes('नोटिफिकेशन')) {
-                            responseText = { 'en-US': 'Showing your notifications.', 'hi-IN': 'आपकी सूचनाएं दिखा रहा हूँ।' };
-                            result = { action: 'open_panel', targetId: 'notification', responseText: responseText[lang] || responseText['en-US'] };
-                        }
-                        return result;
-                    };
-                    const result = mockAI(text, recognition.lang);
-                    processAIResponse(result);
-                } catch (error) {
-                    [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setStatus("Sorry, I had an issue.", true));
-                    speak("Sorry, I am having trouble connecting right now.");
-                }
-            }
-    
-            function processAIResponse(response) {
-                clearTimeout(aiTimeout);
-                if (response.responseText) {
-                    speak(response.responseText);
-                    [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setStatus(response.responseText));
-                }
-                if (currentHighlight) currentHighlight.classList.remove('ai-highlight');
-    
-                if (response.action === 'highlight' && response.targetId) {
-                    const element = document.getElementById(response.targetId);
-                    if (element) {
-                        if (isAiActive) [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.deactivate());
-                        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        element.classList.add('ai-highlight');
-                        currentHighlight = element;
-                        setTimeout(() => { if (currentHighlight) currentHighlight.classList.remove('ai-highlight'); }, 5000);
-                    }
-                } else if (response.action === 'navigate' && response.targetId) {
-                    const element = document.getElementById(response.targetId);
-                    if (element && element.href) window.location.href = element.href;
-                } else if (response.action === 'redirect' && response.targetId) { // IMPROVEMENT: Added redirect action
-                    setTimeout(() => { window.location.href = response.targetId; }, 1200); // Delay for user to hear response
-                } else if (response.action === 'open_panel' && response.targetId) {
-                    if (isAiActive) [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.deactivate());
-                    if (response.targetId === 'filter') openFilter();
-                    else if (response.targetId === 'notification') openNotificationPanel();
-                } else if (response.action === 'summarize') {
-                    const summaryPoints = generatePageSummary();
-                    displaySummary(summaryPoints);
-                    aiTimeout = setTimeout(() => { if (isAiActive) [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.deactivate()); }, 15000);
-                } else {
-                    aiTimeout = setTimeout(() => { if (isAiActive) [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.deactivate()); }, 5000);
-                }
-            }
-    
-            function speak(text) {
-                if (!('speechSynthesis' in window)) return;
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = getCurrentLanguage();
-                utterance.onstart = () => { [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setState('speaking')); };
-                utterance.onend = () => {
-                    [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.setState('idle'));
-                    clearTimeout(aiTimeout);
-                    aiTimeout = setTimeout(() => { if (isAiActive) [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.deactivate()); }, 5000);
-                };
-                window.speechSynthesis.speak(utterance);
-            }
-    
-            class AiWidget {
-                constructor(element, isMobile = false) {
-                    this.element = element;
-                    this.isMobile = isMobile;
-                    this.isActive = false;
-    
-                    this.originalIcon = this.element.querySelector('.original-icon');
-                    if (this.originalIcon) this.originalIcon.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
-    
-                    this.element.insertAdjacentHTML('beforeend', this.createHTML());
-    
-                    this.widgetInner = this.element.querySelector('.ai-widget-inner');
-                    this.statusEl = this.element.querySelector('.ai-status');
-                    this.logoIcon = this.element.querySelector('.ai-logo-icon');
-                    this.micIcon = this.element.querySelector('.ai-mic-icon');
-    
-                    this.element.addEventListener('click', (e) => this.handleMainClick(e));
-                    this.widgetInner.querySelector('.ai-icon-container').addEventListener('click', (e) => this.handleMicClick(e));
-                }
-    
-                createHTML() {
-                    const logoSize = this.isMobile ? 'w-5 h-5' : 'w-8 h-8';
-                    const micSize = this.isMobile ? 'w-6 h-6' : 'w-8 h-8';
-                    return `
-                        <div class="ai-widget-inner">
-                            <div class="ai-icon-container">
-                                <svg class="${logoSize} text-white ai-logo-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12.0001 1.99219L3.45911 12.0002L12.0001 22.0082L20.5411 12.0002L12.0001 1.99219Z"/></svg>
-                                <svg class="${micSize} text-white ai-mic-icon" viewBox="0 0 24 24" fill="none"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" fill="currentColor"/><path d="M19 10v2a7 7 0 0 1-14 0v-2H3v2a9 9 0 0 0 8 8.94V24h2v-3.06A9 9 0 0 0 21 12v-2h-2z" fill="currentColor"/></svg>
-                            </div>
-                            <div class="ai-content">
-                                <p class="ai-status text-sm text-white w-full text-left font-semibold"></p>
-                            </div>
-                        </div>
-                    `;
-                }
-    
-                handleMainClick(event) {
-                    if (event.target.closest('.ai-icon-container')) {
-                        return; // Let the mic click handler manage it
-                    }
-                    this.toggle(event);
-                }
-    
-                handleMicClick(event) {
-                    event.stopPropagation();
-                    if (this.isActive) {
-                        startListening(event);
-                    } else {
-                        const showInfo = !localStorage.getItem('setuAiInfoShown');
-                        if (showInfo) {
-                            this.showAiInfoModal();
-                        } else {
-                            this.activate();
-                        }
-                    }
-                }
-    
-                toggle(event) {
-                    event.stopPropagation();
-                    const showInfo = !this.isActive && !localStorage.getItem('setuAiInfoShown');
-                    if (showInfo) {
-                        this.showAiInfoModal();
-                        return;
-                    }
-                    this.isActive ? this.deactivate() : this.activate();
-                }
-    
-                showAiInfoModal() {
-                    UI.aiInfoModalOverlay.classList.remove('hidden');
-                    setTimeout(() => {
-                        UI.aiInfoModalOverlay.style.opacity = '1';
-                        UI.aiInfoModal.classList.remove('scale-95', 'opacity-0');
-                    }, 10);
-    
-                    const gotItHandler = () => {
-                        localStorage.setItem('setuAiInfoShown', 'true');
-                        UI.aiInfoModalOverlay.style.opacity = '0';
-                        UI.aiInfoModal.classList.add('scale-95', 'opacity-0');
-                        setTimeout(() => {
-                            UI.aiInfoModalOverlay.classList.add('hidden');
-                            this.activate();
-                        }, 300);
-                        UI.aiInfoGotItBtn.removeEventListener('click', gotItHandler);
-                    };
-                    UI.aiInfoGotItBtn.addEventListener('click', gotItHandler);
-                }
-    
-                activate() {
-                    if (navigator.vibrate) navigator.vibrate(50);
-                    const animationPreference = localStorage.getItem('animationPreference');
-                    this.element.classList.remove('modern-animation'); // Clear old animation class
-                    if (animationPreference === 'modern') {
-                        this.element.classList.add('modern-animation');
-                    }
-                    this.isActive = true; isAiActive = true;
-                    this.element.classList.add('active');
-                    if (this.isMobile) UI.mobileHeader.classList.add('ai-active');
-                    this.setStatus('Tap the icon to speak.');
-    
-                    if (!sessionStorage.getItem('setuAiButtonClicked')) {
-                        document.querySelectorAll('.ai-widget-container').forEach(el => el.classList.remove('setu-btn-animated'));
-                        sessionStorage.setItem('setuAiButtonClicked', 'true');
-                    }
-                    setTimeout(() => startListening({ stopPropagation: () => { } }), 500);
-                }
-    
-                deactivate() {
-                    this.isActive = false; isAiActive = false;
-                    this.element.classList.remove('active', 'expanded-vertically', 'modern-animation');
-                    if (this.isMobile) UI.mobileHeader.classList.remove('ai-active');
-                    if (recognition) recognition.stop();
-    
-                    const summaryBox = this.element.querySelector('#ai-summary-box');
-                    if (summaryBox) {
-                        summaryBox.classList.remove('visible');
-                        setTimeout(() => summaryBox.remove(), 300);
-                    }
-                }
-    
-                setStatus(text, isError = false) {
-                    this.statusEl.textContent = text;
-                    this.statusEl.style.color = isError ? '#fee2e2' : '#ffffff';
-    
-                    // Add/remove class based on text length to expand the container
-                    const characterLimit = 45; // Characters before expanding
-                    if (this.isActive && text.length > characterLimit) {
-                        this.element.classList.add('expanded-vertically');
-                    } else {
-                        this.element.classList.remove('expanded-vertically');
-                    }
-                }
-    
-                setState(state) {
-                    this.element.classList.remove('listening', 'speaking');
-                    this.logoIcon.classList.remove('spin');
-                    this.micIcon.classList.remove('spin');
-                    if (state === 'listening') {
-                        this.element.classList.add('listening');
-                        this.logoIcon.classList.add('spin');
-                    } else if (state === 'speaking') {
-                        this.element.classList.add('speaking');
-                        this.micIcon.classList.add('spin');
-                    }
-                }
-            } */
-
-            // Initial setup
-            setupTheme();
-
-            if (!sessionStorage.getItem('setuIntroShown')) {
-                // This is a placeholder for your intro animation logic if you bring it back
-            }
-            loadComplaints();
-            setupTheme();
-            setupLogoAnimation();
-            restoreLanguageDisplay();
-            setupScrollAnimations();
-            renderFeed(complaints);
-
-
-            // Event Listeners
-            UI.homeNavLink.addEventListener('click', (e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
-            UI.feedContainer.addEventListener('click', handleCardClick);
-            document.body.addEventListener('click', handleInteractiveElements);
-            UI.openFilterBtn.addEventListener('click', openFilter);
-            if (UI.openFilterBtnDesktop) UI.openFilterBtnDesktop.addEventListener('click', openFilter);
-            UI.closeFilterBtn.addEventListener('click', closeFilter);
-            UI.filterBackdrop.addEventListener('click', closeFilter);
-            UI.imageViewerClose.addEventListener('click', closeImageViewer);
-            UI.imageViewerOverlay.addEventListener('click', (e) => { if (e.target === UI.imageViewerOverlay) closeImageViewer(); });
-            UI.fullscreenImage.addEventListener('wheel', handleWheel, { passive: false });
-            UI.fullscreenImage.addEventListener('pointerdown', handlePointerDown);
-            window.addEventListener('pointermove', handlePointerMove);
-            window.addEventListener('pointerup', handlePointerUp);
-            document.addEventListener('click', (e) => {
-                if (isAiActive && !e.target.closest('.ai-widget-container')) {
-                    [aiWidgetDesktop, aiWidgetMobile].forEach(w => w.deactivate());
-                }
-            });
-            /*          UI.notificationBtnMobile.addEventListener('click', openNotificationPanel);
-                        if (UI.notificationBtnDesktop) UI.notificationBtnDesktop.addEventListener('click', openNotificationPanel);
-                        UI.closeNotificationBtn.addEventListener('click', closeNotificationPanel);
-                        UI.notificationBackdrop.addEventListener('click', closeNotificationPanel); */
-        });
     </script>
     <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async defer></script>
 </body>

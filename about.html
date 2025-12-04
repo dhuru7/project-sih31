@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- All styles moved to set3_style.css -->
-    <link rel="stylesheet" href="set3_style.css">
+    <link rel="stylesheet" href="set1_style.css">
 </head>
 
 <body class="antialiased">
@@ -29,7 +30,10 @@
                         <button id="language-btn" class="btn btn-ghost flex items-center">
                             <span class="language-text notranslate">English</span>
                             <span id="current-lang" class="language-indicator notranslate">EN</span>
-                            <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
                         </button>
                         <div id="language-dropdown" class="dropdown-content">
                             <!-- Language options will be dynamically populated by JS -->
@@ -37,8 +41,16 @@
                     </div>
 
                     <button id="theme-toggle" class="theme-toggle theme-toggle-btn" aria-label="Toggle theme">
-                        <svg class="w-5 h-5 sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                        <svg class="w-5 h-5 hidden moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                        <svg class="w-5 h-5 sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
+                            </path>
+                        </svg>
+                        <svg class="w-5 h-5 hidden moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z">
+                            </path>
+                        </svg>
                     </button>
 
                     <!-- Guest View -->
@@ -68,28 +80,43 @@
                 <div class="space-y-3">
                     <div class="language-dropdown w-full">
                         <!-- === MODIFIED: Added 'notranslate' class to mobile language button spans === -->
-                        <button id="mobile-language-btn" class="btn btn-ghost text-left w-full flex justify-between items-center">
+                        <button id="mobile-language-btn"
+                            class="btn btn-ghost text-left w-full flex justify-between items-center">
                             <span class="mobile-language-text notranslate">English</span>
                             <span id="mobile-current-lang" class="language-indicator notranslate">EN</span>
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
                         </button>
                         <div id="mobile-language-dropdown" class="dropdown-content w-full">
-                             <!-- Language options will be dynamically populated by JS -->
+                            <!-- Language options will be dynamically populated by JS -->
                         </div>
                     </div>
 
                     <div class="flex justify-between items-center pt-3">
                         <span class="text-sm font-medium text-[var(--text-secondary)]">Switch Theme</span>
-                        <button id="mobile-theme-toggle" class="theme-toggle theme-toggle-btn" aria-label="Toggle theme">
-                            <svg class="w-5 h-5 sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                            <svg class="w-5 h-5 hidden moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                        <button id="mobile-theme-toggle" class="theme-toggle theme-toggle-btn"
+                            aria-label="Toggle theme">
+                            <svg class="w-5 h-5 sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
+                                </path>
+                            </svg>
+                            <svg class="w-5 h-5 hidden moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z">
+                                </path>
+                            </svg>
                         </button>
                     </div>
 
                     <!-- Guest View Mobile -->
                     <div id="guest-view-mobile" class="flex gap-3 pt-4 border-t border-[var(--border-light)]">
-                        <a href="login.html" rel="noopener noreferrer" class="btn btn-secondary flex-1 text-center">Login</a>
-                        <a href="signup.html" rel="noopener noreferrer" class="btn btn-primary flex-1 text-center">Sign Up</a>
+                        <a href="login.html" rel="noopener noreferrer"
+                            class="btn btn-secondary flex-1 text-center">Login</a>
+                        <a href="signup.html" rel="noopener noreferrer" class="btn btn-primary flex-1 text-center">Sign
+                            Up</a>
                     </div>
                     <!-- User View Mobile -->
                     <div id="user-view-mobile" class="hidden flex gap-3 pt-4 border-t border-[var(--border-light)]">
@@ -109,8 +136,10 @@
                         <a href="signup.html" target="_blank" rel="noopener noreferrer">
                             <img src="images/potholes.png" alt="Pothole on a road" loading="eager">
                             <div class="slide-overlay p-6 sm:p-8 md:p-10">
-                                <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">See a Pothole? Report It.</h1>
-                                <p class="text-base sm:text-lg md:text-xl opacity-90">Help make our roads safer for everyone. One report at a time.</p>
+                                <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">See a Pothole? Report It.
+                                </h1>
+                                <p class="text-base sm:text-lg md:text-xl opacity-90">Help make our roads safer for
+                                    everyone. One report at a time.</p>
                             </div>
                         </a>
                     </div>
@@ -118,17 +147,21 @@
                         <a href="signup.html" target="_blank" rel="noopener noreferrer">
                             <img src="images/nightview.png" alt="Glowing street light at night" loading="lazy">
                             <div class="slide-overlay p-6 sm:p-8 md:p-10">
-                                <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">Light Up Your Neighborhood.</h1>
-                                <p class="text-base sm:text-lg md:text-xl opacity-90">A well-lit street is a safe street. Report outages in seconds.</p>
+                                <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">Light Up Your Neighborhood.
+                                </h1>
+                                <p class="text-base sm:text-lg md:text-xl opacity-90">A well-lit street is a safe
+                                    street. Report outages in seconds.</p>
                             </div>
                         </a>
                     </div>
                     <div class="slide">
                         <a href="signup.html" target="_blank" rel="noopener noreferrer">
-                            <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=1200&h=700&fit=crop" alt="Person holding a plant in front of a clean city" loading="lazy">
+                            <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=1200&h=700&fit=crop"
+                                alt="Person holding a plant in front of a clean city" loading="lazy">
                             <div class="slide-overlay p-6 sm:p-8 md:p-10">
                                 <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">Keep Our City Clean.</h1>
-                                <p class="text-base sm:text-lg md:text-xl opacity-90">Report overflowing bins or illegal dumping to maintain community hygiene.</p>
+                                <p class="text-base sm:text-lg md:text-xl opacity-90">Report overflowing bins or illegal
+                                    dumping to maintain community hygiene.</p>
                             </div>
                         </a>
                     </div>
@@ -140,10 +173,15 @@
         <section id="about" class="section-bg py-16 sm:py-20 px-4 sm:px-6 lg:px-8 fade-in">
             <div class="max-w-4xl mx-auto text-center">
                 <h2 class="text-3xl sm:text-4xl font-bold mb-6 text-[var(--text-primary)]">Setu</h2>
-                <p class="text-lg sm:text-xl mb-8 font-semibold text-[var(--accent-primary)]">Bridging the Gap Between Citizens and Authorities</p>
+                <p class="text-lg sm:text-xl mb-8 font-semibold text-[var(--accent-primary)]">Bridging the Gap Between
+                    Citizens and Authorities</p>
                 <div class="space-y-6 text-base sm:text-lg text-[var(--text-secondary)]">
-                    <p>In every community, small issues can become major frustrations. From damaged roads to faulty public utilities, these problems often persist because the process of reporting them is complicated and lacks transparency.</p>
-                    <p>Setu streamlines this process. We provide a simple, direct line of communication between you and your local authorities, ensuring that your concerns are heard, tracked, and resolved efficiently.</p>
+                    <p>In every community, small issues can become major frustrations. From damaged roads to faulty
+                        public utilities, these problems often persist because the process of reporting them is
+                        complicated and lacks transparency.</p>
+                    <p>Setu streamlines this process. We provide a simple, direct line of communication between you and
+                        your local authorities, ensuring that your concerns are heard, tracked, and resolved
+                        efficiently.</p>
                 </div>
             </div>
         </section>
@@ -152,59 +190,81 @@
         <section class="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 fade-in">
             <div class="max-w-7xl mx-auto">
                 <div class="text-center mb-12 sm:mb-16">
-                    <h2 class="text-3xl sm:text-4xl font-bold mb-4 text-[var(--text-primary)]">A Simple Path to Better Cities</h2>
-                    <p class="text-lg sm:text-xl text-[var(--text-secondary)]">Empowering citizens and enabling authorities in three simple steps.</p>
+                    <h2 class="text-3xl sm:text-4xl font-bold mb-4 text-[var(--text-primary)]">A Simple Path to Better
+                        Cities</h2>
+                    <p class="text-lg sm:text-xl text-[var(--text-secondary)]">Empowering citizens and enabling
+                        authorities in three simple steps.</p>
                 </div>
-                
+
                 <div class="grid lg:grid-cols-2 gap-12 lg:gap-16">
                     <!-- For Citizens -->
                     <div class="space-y-8">
-                        <h3 class="text-2xl sm:text-3xl font-bold mb-8 text-center lg:text-left text-[var(--text-primary)]">For Citizens</h3>
+                        <h3
+                            class="text-2xl sm:text-3xl font-bold mb-8 text-center lg:text-left text-[var(--text-primary)]">
+                            For Citizens</h3>
                         <div class="flex items-start gap-4 sm:gap-6">
                             <div class="step-number">1</div>
                             <div>
-                                <h4 class="text-lg sm:text-xl font-bold mb-2 text-[var(--text-primary)]">Snap & Send</h4>
-                                <p class="text-sm sm:text-base text-[var(--text-secondary)]">Quickly report an issue with a photo and location. Our app makes it effortless to document and submit problems on the go.</p>
+                                <h4 class="text-lg sm:text-xl font-bold mb-2 text-[var(--text-primary)]">Snap & Send
+                                </h4>
+                                <p class="text-sm sm:text-base text-[var(--text-secondary)]">Quickly report an issue
+                                    with a photo and location. Our app makes it effortless to document and submit
+                                    problems on the go.</p>
                             </div>
                         </div>
-                         <div class="flex items-start gap-4 sm:gap-6">
+                        <div class="flex items-start gap-4 sm:gap-6">
                             <div class="step-number">2</div>
                             <div>
-                                <h4 class="text-lg sm:text-xl font-bold mb-2 text-[var(--text-primary)]">Track Progress</h4>
-                                <p class="text-sm sm:text-base text-[var(--text-secondary)]">No more guessing. Receive real-time status updates on your report from "Submitted" to "Resolved."</p>
+                                <h4 class="text-lg sm:text-xl font-bold mb-2 text-[var(--text-primary)]">Track Progress
+                                </h4>
+                                <p class="text-sm sm:text-base text-[var(--text-secondary)]">No more guessing. Receive
+                                    real-time status updates on your report from "Submitted" to "Resolved."</p>
                             </div>
                         </div>
                         <div class="flex items-start gap-4 sm:gap-6">
                             <div class="step-number">3</div>
                             <div>
-                                <h4 class="text-lg sm:text-xl font-bold mb-2 text-[var(--text-primary)]">Stay Informed</h4>
-                                <p class="text-sm sm:text-base text-[var(--text-secondary)]">See other reported issues in your area on a live map. Be an active part of your community's improvement.</p>
+                                <h4 class="text-lg sm:text-xl font-bold mb-2 text-[var(--text-primary)]">Stay Informed
+                                </h4>
+                                <p class="text-sm sm:text-base text-[var(--text-secondary)]">See other reported issues
+                                    in your area on a live map. Be an active part of your community's improvement.</p>
                             </div>
                         </div>
                     </div>
 
                     <!-- For Authorities -->
                     <div class="space-y-8">
-                        <h3 class="text-2xl sm:text-3xl font-bold mb-8 text-center lg:text-left text-[var(--text-primary)]">For Municipal Authorities</h3>
+                        <h3
+                            class="text-2xl sm:text-3xl font-bold mb-8 text-center lg:text-left text-[var(--text-primary)]">
+                            For Municipal Authorities</h3>
                         <div class="flex items-start gap-4 sm:gap-6">
                             <div class="step-number authority">1</div>
                             <div>
-                                <h4 class="text-lg sm:text-xl font-bold mb-2 text-[var(--text-primary)]">Unified Dashboard</h4>
-                                <p class="text-sm sm:text-base text-[var(--text-secondary)]">View, sort, and manage all citizen reports in one intuitive dashboard. Stop juggling emails and phone calls.</p>
+                                <h4 class="text-lg sm:text-xl font-bold mb-2 text-[var(--text-primary)]">Unified
+                                    Dashboard</h4>
+                                <p class="text-sm sm:text-base text-[var(--text-secondary)]">View, sort, and manage all
+                                    citizen reports in one intuitive dashboard. Stop juggling emails and phone calls.
+                                </p>
                             </div>
                         </div>
                         <div class="flex items-start gap-4 sm:gap-6">
                             <div class="step-number authority">2</div>
                             <div>
-                                <h4 class="text-lg sm:text-xl font-bold mb-2 text-[var(--text-primary)]">Assign & Act</h4>
-                                <p class="text-sm sm:text-base text-[var(--text-secondary)]">Automatically route issues to the correct department. Add internal notes and track resolution times efficiently.</p>
+                                <h4 class="text-lg sm:text-xl font-bold mb-2 text-[var(--text-primary)]">Assign & Act
+                                </h4>
+                                <p class="text-sm sm:text-base text-[var(--text-secondary)]">Automatically route issues
+                                    to the correct department. Add internal notes and track resolution times
+                                    efficiently.</p>
                             </div>
                         </div>
-                         <div class="flex items-start gap-4 sm:gap-6">
+                        <div class="flex items-start gap-4 sm:gap-6">
                             <div class="step-number authority">3</div>
                             <div>
-                                <h4 class="text-lg sm:text-xl font-bold mb-2 text-[var(--text-primary)]">Analyze Data</h4>
-                                <p class="text-sm sm:text-base text-[var(--text-secondary)]">Gain powerful insights on issue hotspots, department performance, and recurring problems to improve city services.</p>
+                                <h4 class="text-lg sm:text-xl font-bold mb-2 text-[var(--text-primary)]">Analyze Data
+                                </h4>
+                                <p class="text-sm sm:text-base text-[var(--text-secondary)]">Gain powerful insights on
+                                    issue hotspots, department performance, and recurring problems to improve city
+                                    services.</p>
                             </div>
                         </div>
                     </div>
@@ -217,34 +277,75 @@
             <div class="max-w-7xl mx-auto">
                 <div class="text-center mb-12 sm:mb-16">
                     <h2 class="text-3xl sm:text-4xl font-bold mb-4 text-[var(--text-primary)]">Core Pillars of Setu</h2>
-                    <p class="text-lg sm:text-xl text-[var(--text-secondary)]">Designed for reliability, inclusivity, and impact.</p>
+                    <p class="text-lg sm:text-xl text-[var(--text-secondary)]">Designed for reliability, inclusivity,
+                        and impact.</p>
                 </div>
-                
+
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                     <!-- Feature Cards -->
                     <div class="feature-card text-center">
-                        <div class="mb-6 flex justify-center"><svg class="w-12 h-12 sm:w-16 sm:h-16 text-[var(--accent-primary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg></div>
+                        <div class="mb-6 flex justify-center"><svg
+                                class="w-12 h-12 sm:w-16 sm:h-16 text-[var(--accent-primary)]" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg></div>
                         <h4 class="text-lg sm:text-xl font-bold mb-3 text-[var(--text-primary)]">Intuitive Design</h4>
-                        <p class="text-sm sm:text-base text-[var(--text-secondary)]">Easy for all ages and technical abilities to use effectively.</p>
-                        <p class="text-[var(--text-muted)] feature-details">Our platform is crafted for clarity, ensuring that anyone can report an issue in just a few taps, without needing any technical expertise.</p>
+                        <p class="text-sm sm:text-base text-[var(--text-secondary)]">Easy for all ages and technical
+                            abilities to use effectively.</p>
+                        <p class="text-[var(--text-muted)] feature-details">Our platform is crafted for clarity,
+                            ensuring that anyone can report an issue in just a few taps, without needing any technical
+                            expertise.</p>
                     </div>
                     <div class="feature-card text-center">
-                        <div class="mb-6 flex justify-center"><svg class="w-12 h-12 sm:w-16 sm:h-16 text-[var(--accent-primary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path></svg></div>
-                        <h4 class="text-lg sm:text-xl font-bold mb-3 text-[var(--text-primary)]">Multilingual Support</h4>
-                        <p class="text-sm sm:text-base text-[var(--text-secondary)]">Breaking language barriers for wider community reach.</p>
-                        <p class="text-[var(--text-muted)] feature-details">By supporting numerous regional languages, we empower every citizen to voice their concerns in the language they are most comfortable with.</p>
+                        <div class="mb-6 flex justify-center"><svg
+                                class="w-12 h-12 sm:w-16 sm:h-16 text-[var(--accent-primary)]" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129">
+                                </path>
+                            </svg></div>
+                        <h4 class="text-lg sm:text-xl font-bold mb-3 text-[var(--text-primary)]">Multilingual Support
+                        </h4>
+                        <p class="text-sm sm:text-base text-[var(--text-secondary)]">Breaking language barriers for
+                            wider community reach.</p>
+                        <p class="text-[var(--text-muted)] feature-details">By supporting numerous regional languages,
+                            we empower every citizen to voice their concerns in the language they are most comfortable
+                            with.</p>
                     </div>
                     <div class="feature-card text-center">
-                        <div class="mb-6 flex justify-center"><svg class="w-12 h-12 sm:w-16 sm:h-16 text-[var(--accent-primary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg></div>
-                        <h4 class="text-lg sm:text-xl font-bold mb-3 text-[var(--text-primary)]">Complete Transparency</h4>
-                        <p class="text-sm sm:text-base text-[var(--text-secondary)]">Citizens and authorities share the same view on an issue's status.</p>
-                        <p class="text-[var(--text-muted)] feature-details">This shared perspective builds trust and accountability, as everyone can track the journey of a report from submission to resolution.</p>
+                        <div class="mb-6 flex justify-center"><svg
+                                class="w-12 h-12 sm:w-16 sm:h-16 text-[var(--accent-primary)]" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+                                </path>
+                            </svg></div>
+                        <h4 class="text-lg sm:text-xl font-bold mb-3 text-[var(--text-primary)]">Complete Transparency
+                        </h4>
+                        <p class="text-sm sm:text-base text-[var(--text-secondary)]">Citizens and authorities share the
+                            same view on an issue's status.</p>
+                        <p class="text-[var(--text-muted)] feature-details">This shared perspective builds trust and
+                            accountability, as everyone can track the journey of a report from submission to resolution.
+                        </p>
                     </div>
                     <div class="feature-card text-center">
-                        <div class="mb-6 flex justify-center"><svg class="w-12 h-12 sm:w-16 sm:h-16 text-[var(--accent-primary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg></div>
-                        <h4 class="text-lg sm:text-xl font-bold mb-3 text-[var(--text-primary)]">Data-Driven Insights</h4>
-                        <p class="text-sm sm:text-base text-[var(--text-secondary)]">Helping authorities make smarter decisions for city planning.</p>
-                        <p class="text-[var(--text-muted)] feature-details">Analytics on report types and locations help municipal bodies identify trends, allocate resources efficiently, and proactively address systemic problems.</p>
+                        <div class="mb-6 flex justify-center"><svg
+                                class="w-12 h-12 sm:w-16 sm:h-16 text-[var(--accent-primary)]" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z">
+                                </path>
+                            </svg></div>
+                        <h4 class="text-lg sm:text-xl font-bold mb-3 text-[var(--text-primary)]">Data-Driven Insights
+                        </h4>
+                        <p class="text-sm sm:text-base text-[var(--text-secondary)]">Helping authorities make smarter
+                            decisions for city planning.</p>
+                        <p class="text-[var(--text-muted)] feature-details">Analytics on report types and locations help
+                            municipal bodies identify trends, allocate resources efficiently, and proactively address
+                            systemic problems.</p>
                     </div>
                 </div>
             </div>
@@ -257,38 +358,66 @@
                     <h2 class="text-3xl sm:text-4xl font-bold mb-4 text-[var(--text-primary)] text-center">
                         Meet Setu AI: Your Smart Assistant
                     </h2>
-                    <p class="text-lg sm:text-xl text-[var(--text-secondary)] max-w-4xl mx-auto">The future of civic engagement is intelligent. Setu AI is our smart assistant, designed to make your experience on Setu even more seamless and effective.</p>
+                    <p class="text-lg sm:text-xl text-[var(--text-secondary)] max-w-4xl mx-auto">The future of civic
+                        engagement is intelligent. Setu AI is our smart assistant, designed to make your experience on
+                        Setu even more seamless and effective.</p>
                 </div>
-                
+
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <!-- Feature 1: Personalized Guidance -->
                     <div class="feature-card text-center">
-                         <div class="mb-6 flex justify-center">
-                            <svg class="w-12 h-12 sm:w-16 sm:h-16 text-[var(--accent-primary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                         </div>
-                         <h4 class="text-lg sm:text-xl font-bold mb-3 text-[var(--text-primary)]">Personalized Guidance</h4>
-                         <p class="text-sm sm:text-base text-[var(--text-secondary)]">Acts as your personal guide to navigate the app's features seamlessly.</p>
-                         <p class="text-[var(--text-muted)] feature-details">Setu AI proactively offers tips and shortcuts based on your actions, making your experience faster and more efficient.</p>
+                        <div class="mb-6 flex justify-center">
+                            <svg class="w-12 h-12 sm:w-16 sm:h-16 text-[var(--accent-primary)]" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
+                                </path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                        </div>
+                        <h4 class="text-lg sm:text-xl font-bold mb-3 text-[var(--text-primary)]">Personalized Guidance
+                        </h4>
+                        <p class="text-sm sm:text-base text-[var(--text-secondary)]">Acts as your personal guide to
+                            navigate the app's features seamlessly.</p>
+                        <p class="text-[var(--text-muted)] feature-details">Setu AI proactively offers tips and
+                            shortcuts based on your actions, making your experience faster and more efficient.</p>
                     </div>
 
                     <!-- Feature 2: Effortless Reporting -->
                     <div class="feature-card text-center">
-                         <div class="mb-6 flex justify-center">
-                            <svg class="w-12 h-12 sm:w-16 sm:h-16 text-[var(--accent-primary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
-                         </div>
-                         <h4 class="text-lg sm:text-xl font-bold mb-3 text-[var(--text-primary)]">Effortless Reporting</h4>
-                         <p class="text-sm sm:text-base text-[var(--text-secondary)]">Assists you in filling out reports, suggesting categories, and ensuring all necessary information is included.</p>
-                         <p class="text-[var(--text-muted)] feature-details">By analyzing your input, the AI can auto-complete fields and validate information, reducing errors and speeding up submissions.</p>
+                        <div class="mb-6 flex justify-center">
+                            <svg class="w-12 h-12 sm:w-16 sm:h-16 text-[var(--accent-primary)]" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
+                                </path>
+                            </svg>
+                        </div>
+                        <h4 class="text-lg sm:text-xl font-bold mb-3 text-[var(--text-primary)]">Effortless Reporting
+                        </h4>
+                        <p class="text-sm sm:text-base text-[var(--text-secondary)]">Assists you in filling out reports,
+                            suggesting categories, and ensuring all necessary information is included.</p>
+                        <p class="text-[var(--text-muted)] feature-details">By analyzing your input, the AI can
+                            auto-complete fields and validate information, reducing errors and speeding up submissions.
+                        </p>
                     </div>
 
                     <!-- Feature 3: Instant Support -->
                     <div class="feature-card text-center">
-                         <div class="mb-6 flex justify-center">
-                             <svg class="w-12 h-12 sm:w-16 sm:h-16 text-[var(--accent-primary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                         </div>
-                         <h4 class="text-lg sm:text-xl font-bold mb-3 text-[var(--text-primary)]">Instant Support</h4>
-                         <p class="text-sm sm:text-base text-[var(--text-secondary)]">Have a question? Setu AI provides instant, accurate answers to your queries 24/7.</p>
-                         <p class="text-[var(--text-muted)] feature-details">Get immediate help regarding your report's status, app functionality, or general civic questions without waiting for a human agent.</p>
+                        <div class="mb-6 flex justify-center">
+                            <svg class="w-12 h-12 sm:w-16 sm:h-16 text-[var(--accent-primary)]" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+                                </path>
+                            </svg>
+                        </div>
+                        <h4 class="text-lg sm:text-xl font-bold mb-3 text-[var(--text-primary)]">Instant Support</h4>
+                        <p class="text-sm sm:text-base text-[var(--text-secondary)]">Have a question? Setu AI provides
+                            instant, accurate answers to your queries 24/7.</p>
+                        <p class="text-[var(--text-muted)] feature-details">Get immediate help regarding your report's
+                            status, app functionality, or general civic questions without waiting for a human agent.</p>
                     </div>
                 </div>
             </div>
@@ -297,8 +426,10 @@
         <!-- CTA Section -->
         <section class="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 fade-in">
             <div class="max-w-4xl mx-auto text-center">
-                <h2 class="text-3xl sm:text-4xl font-bold mb-6 text-[var(--text-primary)]">Start Building a Better City Today</h2>
-                <p class="text-lg sm:text-xl mb-10 sm:mb-12 text-[var(--text-secondary)]">Join thousands of citizens and hundreds of officials working together to create positive change.</p>
+                <h2 class="text-3xl sm:text-4xl font-bold mb-6 text-[var(--text-primary)]">Start Building a Better City
+                    Today</h2>
+                <p class="text-lg sm:text-xl mb-10 sm:mb-12 text-[var(--text-secondary)]">Join thousands of citizens and
+                    hundreds of officials working together to create positive change.</p>
                 <div class="flex justify-center items-center">
                     <!-- --- MODIFIED BUTTON (Phase 2) --- -->
                     <a href="login.html" target="_blank" rel="noopener noreferrer" class="blob-btn w-full sm:w-auto">
@@ -319,7 +450,8 @@
     </main>
 
     <!-- Logout Confirmation Modal -->
-    <div id="logout-confirm-modal" class="fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-50 hidden">
+    <div id="logout-confirm-modal"
+        class="fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-50 hidden">
         <div class="bg-[var(--bg-secondary)] rounded-lg shadow-xl p-6 sm:p-8 max-w-sm w-full mx-4">
             <h3 class="text-xl font-bold text-[var(--text-primary)] mb-4">Confirm Logout</h3>
             <p class="text-[var(--text-secondary)] mb-6">Are you sure you want to log out?</p>
@@ -329,60 +461,83 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Update Note Modal -->
-    <div id="update-note-modal" class="fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-60 backdrop-blur-sm hidden">
-        <div id="update-note-content" class="bg-[var(--bg-secondary)] rounded-2xl shadow-xl p-6 sm:p-8 max-w-md w-full mx-4 transform scale-95 opacity-0 transition-all duration-300 border border-[var(--border-light)]">
+    <div id="update-note-modal"
+        class="fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-60 backdrop-blur-sm hidden">
+        <div id="update-note-content"
+            class="bg-[var(--bg-secondary)] rounded-2xl shadow-xl p-6 sm:p-8 max-w-md w-full mx-4 transform scale-95 opacity-0 transition-all duration-300 border border-[var(--border-light)]">
             <div class="flex justify-between items-center mb-4">
-                 <h3 class="text-xl font-bold text-[var(--text-primary)] flex items-center gap-3">
-                    <svg class="w-6 h-6 text-[var(--accent-primary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                <h3 class="text-xl font-bold text-[var(--text-primary)] flex items-center gap-3">
+                    <svg class="w-6 h-6 text-[var(--accent-primary)]" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
                     <span>What's New at Setu</span>
                 </h3>
-                <button id="close-update-note-btn" class="text-3xl leading-none text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors">&times;</button>
+                <button id="close-update-note-btn"
+                    class="text-3xl leading-none text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors">&times;</button>
             </div>
             <div class="space-y-5 text-[var(--text-secondary)]">
                 <!-- Item 1 -->
                 <div class="flex items-start gap-4">
-                    <div class="flex-shrink-0 w-8 h-8 rounded-full bg-red-100 dark:bg-[#4f1824] flex items-center justify-center">
+                    <div
+                        class="flex-shrink-0 w-8 h-8 rounded-full bg-red-100 dark:bg-[#4f1824] flex items-center justify-center">
                         <!-- IMPROVEMENT: Replaced icon with an arrow -->
-                        <svg class="w-5 h-5 text-[#f41f4e] dark:text-[#f64c71]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+                        <svg class="w-5 h-5 text-[#f41f4e] dark:text-[#f64c71]" xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+                                clip-rule="evenodd" />
                         </svg>
                     </div>
                     <div>
                         <h4 class="font-semibold text-[var(--text-primary)]">Modern Aesthetics</h4>
-                        <p class="text-sm">The color palette and theme have been revamped for a more intuitive and visually appealing user experience.</p>
+                        <p class="text-sm">The color palette and theme have been revamped for a more intuitive and
+                            visually appealing user experience.</p>
                     </div>
                 </div>
 
                 <!-- Item 2 -->
                 <div class="flex items-start gap-4">
-                     <div class="flex-shrink-0 w-8 h-8 rounded-full bg-sky-100 dark:bg-sky-900/50 flex items-center justify-center">
+                    <div
+                        class="flex-shrink-0 w-8 h-8 rounded-full bg-sky-100 dark:bg-sky-900/50 flex items-center justify-center">
                         <!-- IMPROVEMENT: Replaced icon with an arrow -->
-                        <svg class="w-5 h-5 text-sky-500 dark:text-sky-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+                        <svg class="w-5 h-5 text-sky-500 dark:text-sky-400" xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+                                clip-rule="evenodd" />
                         </svg>
-                     </div>
-                     <div>
+                    </div>
+                    <div>
                         <h4 class="font-semibold text-[var(--text-primary)]">Prototype Progress</h4>
-                        <p class="text-sm">We have advanced to 13% completion of the final prototype, a significant milestone in our development journey.</p>
+                        <p class="text-sm">We have advanced to 13% completion of the final prototype, a significant
+                            milestone in our development journey.</p>
                     </div>
                 </div>
 
                 <!-- Item 3 -->
                 <div class="flex items-start gap-4">
-                     <div class="flex-shrink-0 w-8 h-8 rounded-full bg-violet-100 dark:bg-violet-900/50 flex items-center justify-center">
+                    <div
+                        class="flex-shrink-0 w-8 h-8 rounded-full bg-violet-100 dark:bg-violet-900/50 flex items-center justify-center">
                         <!-- IMPROVEMENT: Replaced icon with an arrow -->
-                        <svg class="w-5 h-5 text-violet-500 dark:text-violet-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+                        <svg class="w-5 h-5 text-violet-500 dark:text-violet-400" xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+                                clip-rule="evenodd" />
                         </svg>
-                     </div>
-                     <div>
+                    </div>
+                    <div>
                         <h4 class="font-semibold text-[var(--text-primary)]">New Desktop UI</h4>
-                        <p class="text-sm">A fresh user interface has been rolled out for desktop devices to enhance usability and streamline your workflow.</p>
+                        <p class="text-sm">A fresh user interface has been rolled out for desktop devices to enhance
+                            usability and streamline your workflow.</p>
                     </div>
                 </div>
-                 <p class="font-semibold text-[var(--text-primary)] pt-3 text-center text-sm">Stay tuned for more updates!</p>
+                <p class="font-semibold text-[var(--text-primary)] pt-3 text-center text-sm">Stay tuned for more
+                    updates!</p>
             </div>
         </div>
     </div>
@@ -402,11 +557,12 @@
     <!-- --- SVG Gooey Filter (Required for Blob Button) --- -->
     <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="display: none;">
         <defs>
-          <filter id="goo">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
-            <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="goo" />
-            <feBlend in="SourceGraphic" in2="goo" />
-          </filter>
+            <filter id="goo">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+                <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7"
+                    result="goo" />
+                <feBlend in="SourceGraphic" in2="goo" />
+            </filter>
         </defs>
     </svg>
     <!-- --- END SVG FILTER --- -->
@@ -424,7 +580,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            
+
             // --- CONFIGURATION ---
             const LANGUAGES = {
                 'en': { name: 'English', short: 'EN' }, 'hi': { name: 'हिन्दी', short: 'HI' },
@@ -454,7 +610,7 @@
             };
 
             // --- INITIALIZATION ---
-            
+
             setupTheme();
             setupMobileMenu();
             populateLanguageDropdowns();
@@ -463,7 +619,7 @@
             setupHeroSlider();
             setupScrollAnimations();
             setupLogoAnimation();
-            setupAuthUI(); 
+            setupAuthUI();
             setupUpdateNote();
 
             // --- UPDATE NOTE MODAL ---
@@ -495,7 +651,7 @@
             }
 
             // --- THEME MANAGEMENT ---
-            
+
             function applyTheme(theme) {
                 if (theme === 'dark') {
                     document.documentElement.setAttribute('data-theme', 'dark');
@@ -524,7 +680,7 @@
                         applyTheme(newTheme);
                     });
                 });
-                
+
                 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
                     if (!localStorage.getItem('theme')) {
                         applyTheme(e.matches ? 'dark' : 'light');
@@ -533,7 +689,7 @@
             }
 
             // --- AUTH MANAGEMENT (WITH LOGOUT CONFIRMATION) ---
-            
+
             function setupAuthUI() {
                 const guestViewDesktop = document.getElementById('guest-view-desktop');
                 const userViewDesktop = document.getElementById('user-view-desktop');
@@ -546,7 +702,7 @@
                 const logoutConfirmModal = document.getElementById('logout-confirm-modal');
                 const confirmLogoutBtn = document.getElementById('confirm-logout-btn');
                 const cancelLogoutBtn = document.getElementById('cancel-logout-btn');
-                
+
                 const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
 
                 if (isLoggedIn) {
@@ -582,7 +738,7 @@
                     if (e.target === logoutConfirmModal) hideLogoutModal();
                 });
             }
-            
+
 
             // --- UI & ANIMATIONS ---
 
@@ -596,33 +752,33 @@
                 });
             }
             // === END MODIFIED FUNCTION ===
-            
+
             // === MODIFIED: Added 'notranslate' class to dropdown items ===
             function populateLanguageDropdowns() {
                 const dropdownHTML = Object.entries(LANGUAGES)
                     .map(([code, { name }]) => `<a href="#" class="dropdown-item notranslate" data-lang="${code}" data-name="${name}">${name}</a>`)
                     .join('');
-                if(UI_ELEMENTS.desktopDropdown) UI_ELEMENTS.desktopDropdown.innerHTML = dropdownHTML;
-                if(UI_ELEMENTS.mobileDropdown) UI_ELEMENTS.mobileDropdown.innerHTML = dropdownHTML;
+                if (UI_ELEMENTS.desktopDropdown) UI_ELEMENTS.desktopDropdown.innerHTML = dropdownHTML;
+                if (UI_ELEMENTS.mobileDropdown) UI_ELEMENTS.mobileDropdown.innerHTML = dropdownHTML;
             }
 
             function setupLanguageSwitcher() {
                 const closeDropdowns = () => {
-                    if(UI_ELEMENTS.desktopDropdown) UI_ELEMENTS.desktopDropdown.classList.remove('show');
-                    if(UI_ELEMENTS.mobileDropdown) UI_ELEMENTS.mobileDropdown.classList.remove('show');
+                    if (UI_ELEMENTS.desktopDropdown) UI_ELEMENTS.desktopDropdown.classList.remove('show');
+                    if (UI_ELEMENTS.mobileDropdown) UI_ELEMENTS.mobileDropdown.classList.remove('show');
 
                 };
 
-                if(UI_ELEMENTS.desktopDropdownBtn) UI_ELEMENTS.desktopDropdownBtn.addEventListener('click', (e) => {
+                if (UI_ELEMENTS.desktopDropdownBtn) UI_ELEMENTS.desktopDropdownBtn.addEventListener('click', (e) => {
                     e.stopPropagation();
                     UI_ELEMENTS.desktopDropdown.classList.toggle('show');
-                    if(UI_ELEMENTS.mobileDropdown) UI_ELEMENTS.mobileDropdown.classList.remove('show');
+                    if (UI_ELEMENTS.mobileDropdown) UI_ELEMENTS.mobileDropdown.classList.remove('show');
                 });
-                
-                if(UI_ELEMENTS.mobileDropdownBtn) UI_ELEMENTS.mobileDropdownBtn.addEventListener('click', (e) => {
+
+                if (UI_ELEMENTS.mobileDropdownBtn) UI_ELEMENTS.mobileDropdownBtn.addEventListener('click', (e) => {
                     e.stopPropagation();
                     UI_ELEMENTS.mobileDropdown.classList.toggle('show');
-                    if(UI_ELEMENTS.desktopDropdown) UI_ELEMENTS.desktopDropdown.classList.remove('show');
+                    if (UI_ELEMENTS.desktopDropdown) UI_ELEMENTS.desktopDropdown.classList.remove('show');
                 });
 
                 document.addEventListener('click', closeDropdowns);
@@ -643,7 +799,7 @@
             function changeLanguage(lang, name) {
                 localStorage.setItem('selectedLanguage', lang);
                 localStorage.setItem('selectedLanguageName', name);
-                
+
                 if (lang === 'en') {
                     document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
                 } else {
@@ -651,12 +807,12 @@
                 }
                 location.reload();
             }
-            
+
             function restoreLanguageDisplay() {
                 const savedLang = localStorage.getItem('selectedLanguage') || 'en';
                 const savedName = localStorage.getItem('selectedLanguageName') || 'English';
                 const shortCode = LANGUAGES[savedLang]?.short || savedLang.toUpperCase();
-                
+
                 const desktopText = document.querySelector('.language-text');
                 const desktopLang = document.getElementById('current-lang');
                 const mobileText = document.querySelector('.mobile-language-text');
@@ -669,7 +825,7 @@
             }
 
             function setupHeroSlider() {
-                if(UI_ELEMENTS.slides.length === 0) return;
+                if (UI_ELEMENTS.slides.length === 0) return;
                 let currentSlide = 0;
                 setInterval(() => {
                     UI_ELEMENTS.slides[currentSlide].classList.remove('active');
@@ -692,7 +848,7 @@
             }
 
             function setupLogoAnimation() {
-                if(!UI_ELEMENTS.animatedName) return;
+                if (!UI_ELEMENTS.animatedName) return;
                 const names = ['Setu', 'सेतु', 'সেতু', 'सेतू', 'સેતુ', 'ಸೇతు'];
                 let nameIndex = 0;
                 setInterval(() => {
@@ -706,8 +862,9 @@
             }
         });
     </script>
-    
+
     <!-- This script is necessary for the translation to work -->
     <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async defer></script>
 </body>
+
 </html>

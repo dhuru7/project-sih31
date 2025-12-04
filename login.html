@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,13 +10,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Link to the new common stylesheet -->
-    <link rel="stylesheet" href="set2_style.css">
-    
+    <link rel="stylesheet" href="set1_style.css">
+
     <!-- Styles specific to login.html -->
     <style>
         /* Login Form Styles */
         .login-container {
-            min-height: calc(100vh - 70px); /* Adjusted for header height */
+            min-height: calc(100vh - 70px);
+            /* Adjusted for header height */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -44,9 +46,9 @@
         .form-input.success {
             border-color: var(--success-color);
         }
-        
+
         /* Error messages are block by default in set2_style.css */
-        
+
         /* Mobile Optimizations */
         @media (max-width: 768px) {
             .login-card {
@@ -55,7 +57,8 @@
                 border-radius: 1rem;
                 box-shadow: 0 4px 16px var(--shadow-light);
             }
-             .login-card:hover {
+
+            .login-card:hover {
                 transform: none;
                 box-shadow: 0 4px 16px var(--shadow-light);
             }
@@ -67,7 +70,7 @@
     <!-- Toast Notification Container -->
     <div id="toast-container" class="fixed top-4 right-4 z-[100] w-full max-w-sm space-y-3"></div>
 
-    
+
     <!-- Navigation Header -->
     <header class="nav-header sticky top-0 z-50">
         <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
@@ -80,13 +83,16 @@
                 <!-- Desktop Navigation -->
                 <div class="hidden md:flex items-center space-x-2">
                     <a href="about.html" class="btn btn-ghost">About</a>
-                    
+
                     <div class="language-dropdown">
                         <!-- === MODIFIED: Added 'notranslate' class to language button spans === -->
                         <button id="language-btn" class="btn btn-ghost flex items-center">
                             <span class="language-text notranslate">English</span>
                             <span id="current-lang" class="language-indicator notranslate">EN</span>
-                            <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
                         </button>
                         <div id="language-dropdown" class="dropdown-content">
                             <!-- Language options will be dynamically populated by JS -->
@@ -94,8 +100,16 @@
                     </div>
 
                     <button id="theme-toggle" class="theme-toggle theme-toggle-btn" aria-label="Toggle theme">
-                        <svg class="w-5 h-5 sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                        <svg class="w-5 h-5 hidden moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                        <svg class="w-5 h-5 sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
+                            </path>
+                        </svg>
+                        <svg class="w-5 h-5 hidden moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z">
+                            </path>
+                        </svg>
                     </button>
                 </div>
 
@@ -111,27 +125,41 @@
             </div>
 
             <!-- Mobile Menu -->
-            <div id="mobile-menu" class="hidden md:hidden mt-4 bg-[var(--bg-secondary)] border-t border-[var(--border-light)] rounded-lg p-4">
+            <div id="mobile-menu"
+                class="hidden md:hidden mt-4 bg-[var(--bg-secondary)] border-t border-[var(--border-light)] rounded-lg p-4">
                 <div class="space-y-3">
                     <a href="about.html" class="block btn btn-ghost text-left w-full">About</a>
-                    
+
                     <div class="language-dropdown w-full">
                         <!-- === MODIFIED: Added 'notranslate' class to mobile language button spans === -->
-                        <button id="mobile-language-btn" class="btn btn-ghost text-left w-full flex justify-between items-center">
+                        <button id="mobile-language-btn"
+                            class="btn btn-ghost text-left w-full flex justify-between items-center">
                             <span class="mobile-language-text notranslate">English</span>
                             <span id="mobile-current-lang" class="language-indicator notranslate">EN</span>
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
                         </button>
                         <div id="mobile-language-dropdown" class="dropdown-content w-full">
-                             <!-- Language options will be dynamically populated by JS -->
+                            <!-- Language options will be dynamically populated by JS -->
                         </div>
                     </div>
 
                     <div class="flex justify-between items-center pt-3">
                         <span class="text-sm font-medium text-[var(--text-secondary)]">Switch Theme</span>
-                        <button id="mobile-theme-toggle" class="theme-toggle theme-toggle-btn" aria-label="Toggle theme">
-                            <svg class="w-5 h-5 sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                            <svg class="w-5 h-5 hidden moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                        <button id="mobile-theme-toggle" class="theme-toggle theme-toggle-btn"
+                            aria-label="Toggle theme">
+                            <svg class="w-5 h-5 sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
+                                </path>
+                            </svg>
+                            <svg class="w-5 h-5 hidden moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z">
+                                </path>
+                            </svg>
                         </button>
                     </div>
                 </div>
@@ -145,10 +173,13 @@
             <div class="text-center mb-8">
                 <div class="flex items-center justify-center">
                     <h1 class="text-2xl sm:text-3xl font-bold text-[var(--text-primary)]">Welcome Back</h1>
-                     <!-- Redesigned and more noticeable info button -->
-                     <button type="button" id="info-btn" title="How this works" class="ml-3 p-1.5 rounded-full text-[var(--accent-primary)] bg-[#f41f4e]/10 dark:bg-[#f41f4e]/20 transition-all duration-200">
-                        <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+                    <!-- Redesigned and more noticeable info button -->
+                    <button type="button" id="info-btn" title="How this works"
+                        class="ml-3 p-1.5 rounded-full text-[var(--accent-primary)] bg-[#f41f4e]/10 dark:bg-[#f41f4e]/20 transition-all duration-200">
+                        <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke-width="2" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
                         </svg>
                     </button>
                 </div>
@@ -159,7 +190,8 @@
                 <!-- Aadhaar / ID Card Field -->
                 <div class="form-group">
                     <label for="id-card" class="form-label">Aadhaar / ID Card Number</label>
-                    <input type="text" id="id-card" name="id-card" class="form-input" placeholder="Enter your registered ID" required>
+                    <input type="text" id="id-card" name="id-card" class="form-input"
+                        placeholder="Enter your registered ID" required>
                     <span id="id-error" class="error-message" style="display: none;"></span>
                 </div>
 
@@ -171,7 +203,7 @@
                 <!-- OTP Section (Hidden Initially) -->
                 <div id="otp-section" class="otp-section">
                     <div class="form-group">
-                         <label for="otp" class="form-label text-center">Enter 6-digit OTP</label>
+                        <label for="otp" class="form-label text-center">Enter 6-digit OTP</label>
                         <div class="otp-input-container mt-2">
                             <input type="number" class="otp-input" maxlength="1">
                             <input type="number" class="otp-input" maxlength="1">
@@ -194,11 +226,13 @@
             </form>
 
             <div class="text-center text-sm text-[var(--text-secondary)] mt-6">
-                 New to Setu? <a href="signup.html" class="font-semibold text-[var(--accent-primary)] hover:text-[var(--accent-primary-hover)] hover:underline">Create an account</a>
+                New to Setu? <a href="signup.html"
+                    class="font-semibold text-[var(--accent-primary)] hover:text-[var(--accent-primary-hover)] hover:underline">Create
+                    an account</a>
             </div>
         </div>
     </main>
-    
+
     <!-- Info Modal -->
     <div id="info-modal-overlay"></div>
     <div id="info-modal">
@@ -208,29 +242,41 @@
                 <p class="text-sm text-[var(--text-muted)]">A quick guide for this prototype.</p>
             </div>
             <button id="close-info-modal-btn" class="p-1 rounded-full hover:bg-[var(--bg-accent)] transition-colors">
-                <svg class="w-5 h-5 text-[var(--text-muted)]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                <svg class="w-5 h-5 text-[var(--text-muted)]" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
             </button>
         </div>
         <div class="text-[var(--text-secondary)] space-y-5 text-sm mt-6">
             <div class="flex items-start gap-4">
-                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-[var(--bg-accent)] text-[var(--accent-primary)] flex items-center justify-center font-bold text-base">1</div>
+                <div
+                    class="flex-shrink-0 w-8 h-8 rounded-full bg-[var(--bg-accent)] text-[var(--accent-primary)] flex items-center justify-center font-bold text-base">
+                    1</div>
                 <div>
                     <h3 class="font-semibold text-[var(--text-primary)] mb-1">Enter a Test ID</h3>
-                    <p>This is a front-end only demo. Use a <strong>12-digit number</strong> (for citizens) or an ID like <strong>ID12345678</strong> (for authorities).</p>
+                    <p>This is a front-end only demo. Use a <strong>12-digit number</strong> (for citizens) or an ID
+                        like <strong>ID12345678</strong> (for authorities).</p>
                 </div>
             </div>
             <div class="flex items-start gap-4">
-                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-[var(--bg-accent)] text-[var(--accent-primary)] flex items-center justify-center font-bold text-base">2</div>
+                <div
+                    class="flex-shrink-0 w-8 h-8 rounded-full bg-[var(--bg-accent)] text-[var(--accent-primary)] flex items-center justify-center font-bold text-base">
+                    2</div>
                 <div>
                     <h3 class="font-semibold text-[var(--text-primary)] mb-1">Get Your OTP</h3>
-                    <p>Click "Send OTP". A notification will appear on the top-right with your <strong>simulated 6-digit OTP</strong>.</p>
+                    <p>Click "Send OTP". A notification will appear on the top-right with your <strong>simulated 6-digit
+                            OTP</strong>.</p>
                 </div>
             </div>
-             <div class="flex items-start gap-4">
-                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-[var(--bg-accent)] text-[var(--accent-primary)] flex items-center justify-center font-bold text-base">3</div>
+            <div class="flex items-start gap-4">
+                <div
+                    class="flex-shrink-0 w-8 h-8 rounded-full bg-[var(--bg-accent)] text-[var(--accent-primary)] flex items-center justify-center font-bold text-base">
+                    3</div>
                 <div>
                     <h3 class="font-semibold text-[var(--text-primary)] mb-1">Log In</h3>
-                    <p>Enter the OTP from the notification, or simply <strong>click the notification</strong> to auto-fill it.</p>
+                    <p>Enter the OTP from the notification, or simply <strong>click the notification</strong> to
+                        auto-fill it.</p>
                 </div>
             </div>
         </div>
@@ -261,7 +307,7 @@
             let expires = "";
             if (days) {
                 const date = new Date();
-                date.setTime(date.getTime() + (days*24*60*60*1000));
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
                 expires = "; expires=" + date.toUTCString();
             }
             document.cookie = name + "=" + (value || "") + expires + "; path=/; SameSite=Lax";
@@ -282,7 +328,7 @@
                 window.location.href = userType === 'authority' ? 'authority-dashboard.html' : 'index.html';
                 return;
             }
-            
+
             const savedLang = localStorage.getItem('selectedLanguage') || 'en';
             const googCookie = getCookie('googtrans') || '';
             const expectedCookie = savedLang === 'en' ? '' : '/en/' + savedLang;
@@ -335,7 +381,7 @@
                 modal.classList.remove('show');
                 overlay.classList.remove('show');
             };
-            
+
             setTimeout(openModal, 700);
             infoBtn.classList.add('animated');
 
@@ -348,7 +394,7 @@
         function showOtpNotification(otp) {
             const container = document.getElementById('toast-container');
             const toastId = `toast-${Date.now()}`;
-            
+
             const toastHTML = `
                 <div id="${toastId}" class="toast" onclick="autoFillOtp('${otp}', '${toastId}')">
                     <div class="toast-icon-wrapper">
@@ -383,14 +429,14 @@
                     otpInputs[index].value = digit;
                 }
             });
-            
+
             // Trigger validation after filling
             const event = new Event('input', { bubbles: true });
             otpInputs[otpInputs.length - 1].dispatchEvent(event);
-            
+
             // Close the toast
             const toastElement = document.getElementById(toastId);
-            if(toastElement) toastElement.remove();
+            if (toastElement) toastElement.remove();
         }
 
         function initLoginProcess() {
@@ -406,7 +452,7 @@
 
             let generatedOtp = '';
             let isOtpSent = false;
-            
+
             const citizenRegex = /^[0-9]{12}$/;
             const authorityRegex = /^ID[0-9]{8}$/i;
 
@@ -421,7 +467,7 @@
                 }
             }
 
-            idInput.addEventListener('input', function() {
+            idInput.addEventListener('input', function () {
                 let value = this.value;
 
                 if (value.toLowerCase().startsWith('id')) {
@@ -431,11 +477,11 @@
                     this.maxLength = 12;
                     if (value.length > 12) this.value = value.substring(0, 12);
                 }
-                
+
                 value = this.value;
                 const isCitizen = citizenRegex.test(value);
                 const isAuthority = authorityRegex.test(value);
-                
+
                 if (value.length === 0) {
                     this.classList.remove('error', 'success');
                     idError.style.display = 'none';
@@ -469,9 +515,9 @@
                     }
                 });
             });
-            
+
             // Make handleOtpValidation globally accessible for auto-fill
-            window.handleOtpValidation = function() {
+            window.handleOtpValidation = function () {
                 const enteredOtp = Array.from(otpInputs).map(input => input.value).join('');
                 otpError.style.display = 'none';
                 otpSuccess.style.display = 'none';
@@ -489,26 +535,26 @@
                 }
             }
 
-            sendOtpBtn.addEventListener('click', function() {
+            sendOtpBtn.addEventListener('click', function () {
                 toggleButtonSpinner(this, true, 'Sending...');
 
                 setTimeout(() => {
                     generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
-                    
+
                     showOtpNotification(generatedOtp);
 
                     otpSection.classList.add('show');
-                    
+
                     toggleButtonSpinner(this, false, 'Resend OTP');
-                    
+
                     isOtpSent = true;
                     otpInputs[0].focus();
                 }, 1500);
             });
 
-            loginForm.addEventListener('submit', function(e) {
+            loginForm.addEventListener('submit', function (e) {
                 e.preventDefault();
-                
+
                 if (!isOtpSent || loginBtn.disabled) return;
 
                 const idValue = idInput.value.trim();
@@ -517,11 +563,11 @@
                 setTimeout(() => {
                     const isAuthority = authorityRegex.test(idValue);
                     const userType = isAuthority ? 'authority' : 'citizen';
-                    
+
                     localStorage.setItem('isLoggedIn', 'true');
                     localStorage.setItem('userID', idValue);
                     localStorage.setItem('userType', userType);
-                    
+
                     window.location.href = isAuthority ? 'ahome.html' : 'index.html';
 
                 }, 1500);
@@ -537,7 +583,7 @@
             const dropdownHTML = Object.entries(LANGUAGES)
                 .map(([code, { name }]) => `<a href="#" class="dropdown-item notranslate" data-lang="${code}" data-name="${name}">${name}</a>`)
                 .join('');
-            
+
             document.getElementById('language-dropdown').innerHTML = dropdownHTML;
             document.getElementById('mobile-language-dropdown').innerHTML = dropdownHTML;
 
@@ -582,7 +628,7 @@
         function changeLanguage(lang, name) {
             localStorage.setItem('selectedLanguage', lang);
             localStorage.setItem('selectedLanguageName', name);
-            
+
             if (lang === 'en') {
                 document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
             } else {
@@ -594,7 +640,7 @@
 
         function updateLanguageUI(name, lang, LANGUAGES) {
             const shortCode = LANGUAGES[lang]?.short || lang.toUpperCase();
-            
+
             document.querySelector('.language-text').textContent = name;
             document.getElementById('current-lang').textContent = shortCode;
             document.querySelector('.mobile-language-text').textContent = name;
@@ -617,7 +663,7 @@
         function applyTheme(theme) {
             const sunIcons = document.querySelectorAll('.sun-icon');
             const moonIcons = document.querySelectorAll('.moon-icon');
-            
+
             if (theme === 'dark') {
                 document.documentElement.setAttribute('data-theme', 'dark');
                 sunIcons.forEach(icon => icon.classList.add('hidden'));
@@ -634,7 +680,7 @@
         function setupMobileMenu() {
             const mobileMenuBtn = document.getElementById('mobile-menu-btn');
             const mobileMenu = document.getElementById('mobile-menu');
-            
+
             mobileMenuBtn.addEventListener('click', () => {
                 // Toggle the 'open' class on the button for the animation
                 mobileMenuBtn.classList.toggle('open');
@@ -646,10 +692,10 @@
 
         function setupLogoAnimation() {
             const animatedName = document.getElementById('animated-name');
-            if(!animatedName) return;
+            if (!animatedName) return;
             const names = ['Setu', 'सेतु', 'সেতু', 'सेतू', 'સેતુ', 'ಸೇతు'];
             let nameIndex = 0;
-            
+
             setInterval(() => {
                 animatedName.style.opacity = '0';
                 setTimeout(() => {
@@ -660,7 +706,8 @@
             }, 4000);
         }
     </script>
-    
+
     <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async defer></script>
 </body>
+
 </html>
