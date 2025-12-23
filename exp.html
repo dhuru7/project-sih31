@@ -16,6 +16,8 @@
             background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 20.5V18H0v-2h20v5.1L6 4.1 4.1 6l23 23V20.5z' fill='%23463a2b' fill-opacity='0.4' fill-rule='evenodd'/%3E%3C/svg%3E");
             overscroll-behavior: none;
             -webkit-tap-highlight-color: transparent;
+            /* Fix for mobile 100vh issue */
+            height: 100dvh; 
         }
 
         /* 3D Button Styles (CoC Style) */
@@ -132,21 +134,21 @@
         }
     </style>
 </head>
-<body class="h-screen flex flex-col overflow-hidden text-gray-100 select-none">
+<body class="flex flex-col overflow-hidden text-gray-100 select-none h-[100dvh]">
 
     <!-- TOP HEADER -->
     <header class="flex-none z-50 bg-stone-900 border-b-4 border-stone-700 shadow-xl relative">
-        <div class="flex justify-between items-center px-4 py-3">
+        <div class="flex justify-between items-center px-3 py-2">
             <div class="flex items-center space-x-2">
                 <div class="w-8 h-8 bg-orange-500 rounded flex items-center justify-center border-2 border-orange-700 shadow">
                     <i class="fas fa-layer-group text-white text-sm"></i>
                 </div>
-                <h1 class="text-xl font-bold tracking-wide text-orange-400 drop-shadow-md">COLLAGE<span class="text-gray-300">PRO</span></h1>
+                <h1 class="text-lg md:text-xl font-bold tracking-wide text-orange-400 drop-shadow-md">COLLAGE<span class="text-gray-300">PRO</span></h1>
             </div>
             
             <!-- Page Size Selector -->
             <div class="relative">
-                <select id="pageSizeSelect" class="appearance-none bg-stone-800 text-stone-200 text-sm font-semibold py-2 pl-3 pr-8 rounded-lg border-2 border-stone-600 focus:outline-none focus:border-orange-500">
+                <select id="pageSizeSelect" class="appearance-none bg-stone-800 text-stone-200 text-xs md:text-sm font-semibold py-1.5 pl-2 pr-6 rounded-lg border-2 border-stone-600 focus:outline-none focus:border-orange-500 max-w-[120px] md:max-w-none">
                     <option value="a4">A4 (Standard)</option>
                     <option value="a3">A3 (Large Poster)</option>
                     <option value="a5">A5 (Flyer/Half A4)</option>
@@ -165,14 +167,14 @@
     </header>
 
     <!-- MAIN WORKSPACE -->
-    <main id="workspace" class="flex-grow relative overflow-auto flex items-center justify-center p-4 md:p-8">
+    <main id="workspace" class="flex-grow relative overflow-hidden flex items-center justify-center w-full">
         <!-- The Paper (Canvas) -->
         <!-- Will be resized by JS -->
-        <div id="paper" class="bg-white paper-shadow transition-all duration-300 relative mx-auto grid overflow-hidden">
+        <div id="paper" class="bg-white paper-shadow transition-all duration-300 relative grid overflow-hidden mx-auto">
             <!-- Empty State -->
             <div id="emptyState" class="absolute inset-0 flex flex-col items-center justify-center text-gray-400 pointer-events-none">
-                <i class="fas fa-images text-6xl mb-4 opacity-50"></i>
-                <p class="text-lg font-medium text-gray-500">Add photos to start</p>
+                <i class="fas fa-images text-5xl md:text-6xl mb-4 opacity-50"></i>
+                <p class="text-base md:text-lg font-medium text-gray-500">Add photos to start</p>
             </div>
             <!-- Images will be injected here -->
         </div>
@@ -197,35 +199,35 @@
 
     <!-- BOTTOM ACTION BAR -->
     <footer class="flex-none bg-stone-900 border-t-4 border-stone-700 pb-safe pt-2 px-2 z-50">
-        <div class="max-w-2xl mx-auto flex justify-between items-end pb-2">
+        <div class="max-w-2xl mx-auto flex justify-between items-end pb-2 md:pb-4">
             
             <!-- Add Photos -->
             <div class="flex flex-col items-center space-y-1">
                 <input type="file" id="fileInput" multiple accept="image/*" class="hidden">
-                <button onclick="document.getElementById('fileInput').click()" class="btn-coc w-16 h-14 flex items-center justify-center text-xl">
+                <button onclick="document.getElementById('fileInput').click()" class="btn-coc w-14 h-12 md:w-16 md:h-14 flex items-center justify-center text-xl">
                     <i class="fas fa-plus"></i>
                 </button>
-                <span class="text-xs font-bold text-stone-400 uppercase tracking-wider">Add</span>
+                <span class="text-[10px] md:text-xs font-bold text-stone-400 uppercase tracking-wider">Add</span>
             </div>
 
             <!-- Styles Group -->
-            <div class="flex space-x-3 mb-1">
+            <div class="flex space-x-2 md:space-x-3 mb-1">
                 <!-- Border Toggle -->
                 <div class="flex flex-col items-center space-y-1">
-                    <button id="btnBorder" class="btn-coc bg-gradient-to-b from-stone-200 to-stone-400 border-stone-600 text-stone-800 w-14 h-12 flex items-center justify-center">
-                        <i class="far fa-square text-lg"></i>
+                    <button id="btnBorder" class="btn-coc bg-gradient-to-b from-stone-200 to-stone-400 border-stone-600 text-stone-800 w-12 h-10 md:w-14 md:h-12 flex items-center justify-center">
+                        <i class="far fa-square text-base md:text-lg"></i>
                     </button>
-                    <span class="text-[10px] font-bold text-stone-500 uppercase">Resize</span>
+                    <span class="text-[9px] md:text-[10px] font-bold text-stone-500 uppercase">Resize</span>
                 </div>
             </div>
 
             <!-- Download -->
             <div class="flex flex-col items-center space-y-1">
-                <button id="btnDownload" class="btn-coc btn-coc-green w-32 h-14 flex items-center justify-center space-x-2">
-                    <span class="font-bold text-lg">EXPORT</span>
-                    <i class="fas fa-download"></i>
+                <button id="btnDownload" class="btn-coc btn-coc-green w-28 h-12 md:w-32 md:h-14 flex items-center justify-center space-x-2">
+                    <span class="font-bold text-base md:text-lg">EXPORT</span>
+                    <i class="fas fa-download text-sm md:text-base"></i>
                 </button>
-                <span class="text-xs font-bold text-stone-400 uppercase tracking-wider">Save</span>
+                <span class="text-[10px] md:text-xs font-bold text-stone-400 uppercase tracking-wider">Save</span>
             </div>
 
         </div>
@@ -289,8 +291,11 @@
 
         function updatePaperDimensions() {
             const config = pageSizes[state.pageSize];
-            const containerW = elements.workspace.clientWidth - 40; // padding
-            const containerH = elements.workspace.clientHeight - 40;
+            // Reduced margin for mobile to maximize space
+            const padding = window.innerWidth < 640 ? 16 : 40; 
+            
+            const containerW = elements.workspace.clientWidth - padding;
+            const containerH = elements.workspace.clientHeight - padding;
             
             // Calculate scale to fit
             let w, h;
