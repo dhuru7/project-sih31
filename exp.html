@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Pro Collage Builder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* CoC Theme & Animations */
+        @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;800&display=swap');
+
+        body {
+            font-family: 'Rubik', sans-serif;
+            background-color: #5c4b38; /* Dark wood base */
+            background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 20.5V18H0v-2h20v5.1L6 4.1 4.1 6l23 23V20.5z' fill='%23463a2b' fill-opacity='0.4' fill-rule='evenodd'/%3E%3C/svg%3E");
+            overscroll-behavior: none;
+            -webkit-tap-highlight-color: transparent;
+            /* Fix for mobile 100vh issue */
+            height: 100dvh;
+            overflow: hidden; /* Prevent body scroll */
+        }
+
+        /* 3D Button Styles (CoC Style) */
+        .btn-coc {
+            background: linear-gradient(to bottom, #fbbf24, #d97706);
+            border-bottom: 4px solid #92400e;
+            border-radius: 12px;
+            color: #431407;
+            text-shadow: 0 1px 0 rgba(255,255,255,0.4);
+            transition: all 0.1s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-coc:active {
+            transform: translateY(2px);
+            border-bottom-width: 0px;
+            margin-bottom: 4px; /* Compensate layout shift */
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .btn-coc-green {
+            background: linear-gradient(to bottom, #4ade80, #16a34a);
+            border-bottom: 4px solid #14532d;
+            color: #064e3b;
+        }
+        
+        .btn-coc-blue {
+            background: linear-gradient(to bottom, #60a5fa, #2563eb);
+            border-bottom: 4px solid #1e3a8a;
+            color: #1e3a8a;
+            color: white;
+            text-shadow: 0 1px 0 rgba(0,0,0,0.2);
+        }
+
+        /* Paper Area */
+        #workspace {
+            background-color: #27272a; /* Dark stone */
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+            background-image: radial-gradient(#3f3f46 1px, transparent 1px);
+            background-size: 20px 20px;
+            overscroll-behavior: none; /* Prevent scroll chaining */
+        }
+
+        .paper-shadow {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Slider Styling */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 24px;
+            width: 24px;
+            border-radius: 50%;
+            background: #fbbf24;
+            border: 2px solid #78350f;
+            margin-top: -10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+        }
+
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 6px;
+            cursor: pointer;
+            background: #4b5563;
+            border-radius: 3px;
+            border: 1px solid #1f2937;
+        }
+
+        /* Dragging Classes */
+        .dragging-mirror {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999; /* Ensure it's above everything */
+            opacity: 0.9;
+            transform: scale(1.05) rotate(2deg);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+            transition: none; /* Instant follow */
+            border: 2px solid #fbbf24;
+        }
+
+        .drag-placeholder {
+            opacity: 0.3;
+            background-color: #fbbf24;
+            border: 2px dashed #d97706;
+        }
+
+        /* Loader */
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #d97706;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Image Tool Overlay */
+        .img-tools {
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .grid-item:hover .img-tools {
+            opacity: 1;
+        }
+        
+        /* Mobile Touch Fixes */
+        .grid-item {
+            touch-action: none; /* Prevents browser scroll/zoom gestures on images */
+        }
+    </style>
+</head>
+<body class="flex flex-col overflow-hidden text-gray-100 select-none h-[100dvh]">
+
+    <!-- TOP HEADER -->
+    <header class="flex-none z-50 bg-stone-900 border-b-4 border-stone-700 shadow-xl relative">
+        <div class="flex justify-between items-center px-3 py-2">
+            <div class="flex items-center space-x-2">
+                <div class="w-8 h-8 bg-orange-500 rounded flex items-center justify-center border-2 border-orange-700 shadow">
+                    <i class="fas fa-layer-group text-white text-sm"></i>
+                </div>
+                <h1 class="text-lg md:text-xl font-bold tracking-wide text-orange-400 drop-shadow-md">COLLAGE<span class="text-gray-300">PRO</span></h1>
+            </div>
+            
+            <!-- Page Size Selector -->
+            <div class="relative">
+                <select id="pageSizeSelect" class="appearance-none bg-stone-800 text-stone-200 text-xs md:text-sm font-semibold py-1.5 pl-2 pr-6 rounded-lg border-2 border-stone-600 focus:outline-none focus:border-orange-500 max-w-[120px] md:max-w-none">
+                    <option value="a4">A4 (Standard)</option>
+                    <option value="a3">A3 (Large Poster)</option>
+                    <option value="a5">A5 (Flyer/Half A4)</option>
+                    <option value="4x6">4x6" (Postcard)</option>
+                    <option value="5x7">5x7" (Photo)</option>
+                    <option value="8x10">8x10" (Portrait)</option>
+                    <option value="letter">Letter</option>
+                    <option value="legal">Legal</option>
+                    <option value="square">Square (1:1)</option>
+                </select>
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-stone-400">
+                    <i class="fas fa-chevron-down text-xs"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN WORKSPACE -->
+    <main id="workspace" class="flex-grow relative overflow-hidden flex items-center justify-center w-full">
+        <!-- The Paper (Canvas) -->
+        <!-- Will be resized by JS -->
+        <div id="paper" class="bg-white paper-shadow transition-all duration-300 relative grid overflow-hidden mx-auto">
+            <!-- Empty State -->
+            <div id="emptyState" class="absolute inset-0 flex flex-col items-center justify-center text-gray-400 pointer-events-none">
+                <i class="fas fa-images text-5xl md:text-6xl mb-4 opacity-50"></i>
+                <p class="text-base md:text-lg font-medium text-gray-500">Add photos to start</p>
+            </div>
+            <!-- Images will be injected here -->
+        </div>
+    </main>
+
+    <!-- TOOLBAR CONTROLS (Sliders) -->
+    <!-- These appear when buttons are toggled -->
+    <div id="sliderPanel" class="hidden flex-none bg-stone-800 border-t-4 border-stone-700 p-4 animate-slide-up relative z-40">
+        <div class="flex flex-col space-y-4 max-w-md mx-auto w-full">
+            
+            <!-- Border Control -->
+            <div id="borderControl" class="hidden">
+                <div class="flex justify-between mb-1 text-sm font-bold text-gray-300">
+                    <span>Image Spacing</span>
+                    <span id="borderVal">0px</span>
+                </div>
+                <input type="range" id="borderInput" min="0" max="40" value="0" step="1">
+            </div>
+
+        </div>
+    </div>
+
+    <!-- BOTTOM ACTION BAR -->
+    <footer class="flex-none bg-stone-900 border-t-4 border-stone-700 pb-safe pt-2 px-2 z-50">
+        <div class="max-w-2xl mx-auto flex justify-between items-end pb-2 md:pb-4">
+            
+            <!-- Add Photos -->
+            <div class="flex flex-col items-center space-y-1">
+                <input type="file" id="fileInput" multiple accept="image/*" class="hidden">
+                <button onclick="document.getElementById('fileInput').click()" class="btn-coc w-14 h-12 md:w-16 md:h-14 flex items-center justify-center text-xl">
+                    <i class="fas fa-plus"></i>
+                </button>
+                <span class="text-[10px] md:text-xs font-bold text-stone-400 uppercase tracking-wider">Add</span>
+            </div>
+
+            <!-- Styles Group -->
+            <div class="flex space-x-2 md:space-x-3 mb-1">
+                <!-- Border Toggle -->
+                <div class="flex flex-col items-center space-y-1">
+                    <button id="btnBorder" class="btn-coc bg-gradient-to-b from-stone-200 to-stone-400 border-stone-600 text-stone-800 w-12 h-10 md:w-14 md:h-12 flex items-center justify-center">
+                        <i class="far fa-square text-base md:text-lg"></i>
+                    </button>
+                    <span class="text-[9px] md:text-[10px] font-bold text-stone-500 uppercase">Resize</span>
+                </div>
+            </div>
+
+            <!-- Download -->
+            <div class="flex flex-col items-center space-y-1">
+                <button id="btnDownload" class="btn-coc btn-coc-green w-28 h-12 md:w-32 md:h-14 flex items-center justify-center space-x-2">
+                    <span class="font-bold text-base md:text-lg">EXPORT</span>
+                    <i class="fas fa-download text-sm md:text-base"></i>
+                </button>
+                <span class="text-[10px] md:text-xs font-bold text-stone-400 uppercase tracking-wider">Save</span>
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- Hidden Canvas for rendering high-res output -->
+    <canvas id="exportCanvas" class="hidden"></canvas>
+
+    <script>
+        // --- CONFIGURATION & STATE ---
+        const state = {
+            images: [], // { id, src, rotation }
+            pageSize: 'a4',
+            borderWidth: 0,
+            activeControl: null, // 'border' | null
+        };
+
+        const pageSizes = {
+            'a4': { w: 2480, h: 3508, ratio: 0.707 },     // 210 x 297 mm
+            'a3': { w: 3508, h: 4961, ratio: 0.707 },     // 297 x 420 mm
+            'a5': { w: 1748, h: 2480, ratio: 0.705 },     // 148 x 210 mm
+            '4x6': { w: 1200, h: 1800, ratio: 0.666 },    // 4 x 6 inch
+            '5x7': { w: 1500, h: 2100, ratio: 0.714 },    // 5 x 7 inch
+            '8x10': { w: 2400, h: 3000, ratio: 0.8 },     // 8 x 10 inch
+            'letter': { w: 2550, h: 3300, ratio: 0.772 },
+            'legal': { w: 2550, h: 4200, ratio: 0.607 },
+            'square': { w: 3000, h: 3000, ratio: 1.0 },
+            'story': { w: 1080, h: 1920, ratio: 0.5625 }
+        };
+
+        // --- DOM ELEMENTS ---
+        const elements = {
+            paper: document.getElementById('paper'),
+            workspace: document.getElementById('workspace'),
+            fileInput: document.getElementById('fileInput'),
+            pageSizeSelect: document.getElementById('pageSizeSelect'),
+            emptyState: document.getElementById('emptyState'),
+            btnBorder: document.getElementById('btnBorder'),
+            sliderPanel: document.getElementById('sliderPanel'),
+            borderControl: document.getElementById('borderControl'),
+            borderInput: document.getElementById('borderInput'),
+            borderVal: document.getElementById('borderVal'),
+            btnDownload: document.getElementById('btnDownload'),
+            exportCanvas: document.getElementById('exportCanvas'),
+        };
+
+        // --- UTILS ---
+        const vibrate = () => {
+            if (navigator.vibrate) navigator.vibrate(15);
+        };
+
+        const generateId = () => Math.random().toString(36).substr(2, 9);
+
+        // --- CORE LOGIC ---
+
+        function init() {
+            updatePaperDimensions();
+            setupEventListeners();
+            window.addEventListener('resize', updatePaperDimensions);
+        }
+
+        function updatePaperDimensions() {
+            const config = pageSizes[state.pageSize];
+            // Reduced margin for mobile + 5% extra reduction for "optimistically small" feel
+            const padding = window.innerWidth < 640 ? 16 : 40; 
+            
+            // Reduce container size by 5% (multiply by 0.95) for better mobile fit
+            const containerW = (elements.workspace.clientWidth - padding) * 0.95;
+            const containerH = (elements.workspace.clientHeight - padding) * 0.95;
+            
+            // Calculate scale to fit
+            let w, h;
+            
+            if (containerW / containerH < config.ratio) {
+                // Constrained by width
+                w = containerW;
+                h = w / config.ratio;
+            } else {
+                // Constrained by height
+                h = containerH;
+                w = h * config.ratio;
+            }
+
+            elements.paper.style.width = `${w}px`;
+            elements.paper.style.height = `${h}px`;
+        }
+
+        function handleFiles(e) {
+            const files = Array.from(e.target.files);
+            if (files.length === 0) return;
+
+            let loadedCount = 0;
+            
+            files.forEach(file => {
+                const reader = new FileReader();
+                reader.onload = (evt) => {
+                    state.images.push({
+                        id: generateId(),
+                        src: evt.target.result,
+                        rotation: 0
+                    });
+                    loadedCount++;
+                    if (loadedCount === files.length) {
+                        renderGrid();
+                    }
+                };
+                reader.readAsDataURL(file);
+            });
+            
+            // Reset input so same file can be selected again
+            elements.fileInput.value = '';
+            vibrate();
+        }
+
+        function calculateGrid(count) {
+            // Simple logic to find best grid fit
+            // We want to fill the paper area. 
+            // sqrt(n) gives approximate side.
+            if (count === 0) return { cols: 1, rows: 1 };
+            
+            const paperRatio = pageSizes[state.pageSize].ratio; // w/h
+            
+            // Heuristic: try to keep cells roughly square or 4:3
+            let bestCols = 1;
+            let bestRows = 1;
+            let bestDiff = Infinity;
+
+            for (let c = 1; c <= count; c++) {
+                const r = Math.ceil(count / c);
+                // ratio of grid = (c * 1) / (r * 1) ? Assuming square images
+                // The paper has aspect P. We want (c/r) ~ P.
+                const gridRatio = c / r;
+                const diff = Math.abs(gridRatio - paperRatio);
+                
+                if (diff < bestDiff) {
+                    bestDiff = diff;
+                    bestCols = c;
+                    bestRows = r;
+                }
+            }
+            return { cols: bestCols, rows: bestRows };
+        }
+
+        function renderGrid() {
+            const count = state.images.length;
+            
+            if (count === 0) {
+                elements.emptyState.style.display = 'flex';
+                elements.paper.innerHTML = '';
+                elements.paper.appendChild(elements.emptyState);
+                return;
+            } else {
+                elements.emptyState.style.display = 'none';
+            }
+
+            const { cols, rows } = calculateGrid(count);
+            
+            // Update Paper Grid Styles
+            elements.paper.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+            elements.paper.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
+            
+            // Preserve existing DOM nodes if possible for performance, or rebuild? 
+            // Rebuild is safer for order.
+            elements.paper.innerHTML = '';
+            elements.paper.appendChild(elements.emptyState); // Keep it hidden but present
+
+            state.images.forEach((imgData, index) => {
+                const cell = document.createElement('div');
+                cell.className = 'grid-item relative w-full h-full overflow-hidden bg-gray-100 flex items-center justify-center cursor-move';
+                cell.dataset.index = index;
+                cell.dataset.id = imgData.id;
+                
+                // Border handling
+                cell.style.padding = `${state.borderWidth}px`;
+                cell.style.backgroundColor = state.borderWidth > 0 ? '#ffffff' : 'transparent';
+
+                // Image Container (for rotation/flip logic)
+                const imgContainer = document.createElement('div');
+                imgContainer.className = 'w-full h-full relative overflow-hidden bg-white';
+                
+                const img = document.createElement('img');
+                img.src = imgData.src;
+                img.className = 'w-full h-full object-contain pointer-events-none select-none';
+                img.style.transform = `rotate(${imgData.rotation}deg)`;
+                
+                // --- TOOLS OVERLAY (Flip/Rotate) ---
+                const tools = document.createElement('div');
+                tools.className = 'img-tools absolute top-2 right-2 flex space-x-2 z-10';
+                
+                const btnRotate = document.createElement('button');
+                btnRotate.className = 'w-8 h-8 bg-black/60 text-white rounded-full backdrop-blur-sm flex items-center justify-center hover:bg-orange-500 transition';
+                btnRotate.innerHTML = '<i class="fas fa-redo"></i>';
+                btnRotate.onclick = (e) => {
+                    e.stopPropagation();
+                    rotateImage(index);
+                };
+                
+                tools.appendChild(btnRotate);
+                
+                imgContainer.appendChild(img);
+                imgContainer.appendChild(tools);
+                cell.appendChild(imgContainer);
+                
+                // Touch Events
+                cell.addEventListener('mousedown', handleDragStart);
+                cell.addEventListener('touchstart', handleDragStart, { passive: false });
+
+                elements.paper.appendChild(cell);
+            });
+        }
+
+        function rotateImage(index) {
+            state.images[index].rotation = (state.images[index].rotation + 90) % 360;
+            renderGrid();
+            vibrate();
+        }
+
+        // --- DRAG AND DROP (SWAP LOGIC) ---
+        let dragSrcIndex = null;
+        let dragGhost = null;
+        let touchOffsetX = 0;
+        let touchOffsetY = 0;
+        let draggedItemWidth = 0;
+        let draggedItemHeight = 0;
+
+        function handleDragStart(e) {
+            // Check if clicking a button
+            if (e.target.closest('button')) return;
+
+            // Prevent default to stop browser scrolling/zooming/navigation bar jumps
+            if (e.cancelable) e.preventDefault();
+            
+            const target = e.currentTarget;
+            dragSrcIndex = parseInt(target.dataset.index);
+            
+            const rect = target.getBoundingClientRect();
+            draggedItemWidth = rect.width;
+            draggedItemHeight = rect.height;
+
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+            touchOffsetX = clientX - rect.left;
+            touchOffsetY = clientY - rect.top;
+
+            // Create Ghost
+            dragGhost = target.cloneNode(true);
+            dragGhost.classList.add('dragging-mirror');
+            dragGhost.style.width = `${rect.width}px`;
+            dragGhost.style.height = `${rect.height}px`;
+            dragGhost.style.left = `${rect.left}px`;
+            dragGhost.style.top = `${rect.top}px`;
+            
+            // Remove ID to avoid duplicate IDs
+            dragGhost.querySelectorAll('[id]').forEach(el => el.removeAttribute('id'));
+            
+            document.body.appendChild(dragGhost);
+            
+            // Add placeholder style to original
+            target.classList.add('drag-placeholder');
+            target.querySelector('img').style.opacity = '0';
+            
+            // Vibrate
+            vibrate();
+
+            document.addEventListener('mousemove', handleDragMove);
+            document.addEventListener('touchmove', handleDragMove, { passive: false });
+            document.addEventListener('mouseup', handleDragEnd);
+            document.addEventListener('touchend', handleDragEnd);
+        }
+
+        function handleDragMove(e) {
+            if (!dragGhost) return;
+            // Prevent default to stop browser scrolling
+            if (e.cancelable) e.preventDefault();
+
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+            dragGhost.style.left = `${clientX - touchOffsetX}px`;
+            dragGhost.style.top = `${clientY - touchOffsetY}px`;
+
+            // Detect Hover Swap
+            // We elementFromPoint to find the drop target
+            // We need to hide the ghost momentarily to see what's under it, or use offset logic
+            dragGhost.style.visibility = 'hidden';
+            let elemBelow = document.elementFromPoint(clientX, clientY);
+            dragGhost.style.visibility = 'visible';
+
+            const droppable = elemBelow ? elemBelow.closest('.grid-item') : null;
+            
+            if (droppable && droppable.dataset.index !== undefined) {
+                const targetIndex = parseInt(droppable.dataset.index);
+                if (targetIndex !== dragSrcIndex) {
+                    // Visual feedback could go here (highlight target)
+                    droppable.style.borderColor = '#fbbf24';
+                    droppable.style.borderWidth = '4px';
+                    droppable.style.borderStyle = 'solid';
+                }
+            }
+            
+            // Clear borders from others
+             document.querySelectorAll('.grid-item').forEach(el => {
+                if (el !== droppable) {
+                    el.style.borderWidth = '0px';
+                }
+            });
+        }
+
+        function handleDragEnd(e) {
+            document.removeEventListener('mousemove', handleDragMove);
+            document.removeEventListener('touchmove', handleDragMove);
+            document.removeEventListener('mouseup', handleDragEnd);
+            document.removeEventListener('touchend', handleDragEnd);
+
+            if (!dragGhost) return;
+
+            // Determine drop target
+            const clientX = e.changedTouches ? e.changedTouches[0].clientX : e.clientX;
+            const clientY = e.changedTouches ? e.changedTouches[0].clientY : e.clientY;
+
+            dragGhost.style.visibility = 'hidden';
+            let elemBelow = document.elementFromPoint(clientX, clientY);
+            
+            const droppable = elemBelow ? elemBelow.closest('.grid-item') : null;
+            
+            if (droppable && droppable.dataset.index !== undefined) {
+                const targetIndex = parseInt(droppable.dataset.index);
+                if (targetIndex !== dragSrcIndex) {
+                    // SWAP DATA
+                    const temp = state.images[dragSrcIndex];
+                    state.images[dragSrcIndex] = state.images[targetIndex];
+                    state.images[targetIndex] = temp;
+                    vibrate();
+                }
+            }
+
+            // Cleanup
+            document.body.removeChild(dragGhost);
+            dragGhost = null;
+            renderGrid();
+        }
+
+
+        // --- UI CONTROLS ---
+
+        function togglePanel(type) {
+            // type: 'border'
+            if (state.activeControl === type) {
+                // Close
+                state.activeControl = null;
+                elements.sliderPanel.classList.add('hidden');
+            } else {
+                // Open
+                state.activeControl = type;
+                elements.sliderPanel.classList.remove('hidden');
+                
+                // Show specific control
+                elements.borderControl.classList.remove('hidden');
+                
+                // Active Button styling
+                elements.btnBorder.style.borderColor = '#f59e0b';
+            }
+        }
+
+        function updateStyles() {
+            // Border
+            state.borderWidth = elements.borderInput.value;
+            elements.borderVal.innerText = `${state.borderWidth}px`;
+            renderGrid();
+        }
+
+        function setupEventListeners() {
+            elements.fileInput.addEventListener('change', handleFiles);
+            
+            elements.pageSizeSelect.addEventListener('change', (e) => {
+                state.pageSize = e.target.value;
+                updatePaperDimensions();
+                renderGrid(); // Re-calc grid ratio if needed
+            });
+
+            elements.btnBorder.addEventListener('click', () => togglePanel('border'));
+
+            elements.borderInput.addEventListener('input', updateStyles);
+
+            elements.btnDownload.addEventListener('click', exportHighRes);
+        }
+
+        // --- EXPORT ---
+
+        function exportHighRes() {
+            if (state.images.length === 0) return alert("Please add images first!");
+
+            vibrate();
+            const btn = elements.btnDownload;
+            const originalContent = btn.innerHTML;
+            btn.innerHTML = '<div class="loader"></div>';
+            btn.disabled = true;
+
+            // Use setTimeout to allow UI to update
+            setTimeout(async () => {
+                try {
+                    const canvas = elements.exportCanvas;
+                    const ctx = canvas.getContext('2d');
+                    
+                    const config = pageSizes[state.pageSize];
+                    // Limit max dimension for mobile stability (approx 4k max)
+                    const MAX_DIM = 4000;
+                    let exportW = config.w;
+                    let exportH = config.h;
+                    
+                    if (exportW > MAX_DIM || exportH > MAX_DIM) {
+                        const scale = Math.min(MAX_DIM/exportW, MAX_DIM/exportH);
+                        exportW *= scale;
+                        exportH *= scale;
+                    }
+
+                    canvas.width = exportW;
+                    canvas.height = exportH;
+
+                    // Draw White Background
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                    // WATERMARK LOGIC
+                    // Reserve bottom space for watermark
+                    const watermarkText = "Gautam Stationary";
+                    // Calculate dynamic font size based on width (e.g., 2% of width)
+                    const fontSize = Math.max(24, Math.floor(exportW * 0.025)); 
+                    const footerHeight = fontSize * 2.5; // Reserve space for text + padding
+                    
+                    // Available height for grid
+                    const gridH = exportH - footerHeight;
+
+                    // Calc grid
+                    const { cols, rows } = calculateGrid(state.images.length);
+                    const cellW = exportW / cols;
+                    const cellH = gridH / rows;
+
+                    // Load all images first (they are data URLs, so fast, but drawing takes time)
+                    // We iterate and draw
+                    for (let i = 0; i < state.images.length; i++) {
+                        const imgData = state.images[i];
+                        const row = Math.floor(i / cols);
+                        const col = i % cols;
+                        
+                        const x = col * cellW;
+                        const y = row * cellH;
+
+                        // Create a temporary image object
+                        const img = new Image();
+                        img.src = imgData.src;
+                        await new Promise(r => img.onload = r);
+
+                        // Save Context
+                        ctx.save();
+
+                        // Clip for Border/Radius Area
+                        // Math: We need to draw the background (black border) then the image (rounded)
+                        // Actually, border is padding. 
+                        
+                        // Map screen pixels to canvas pixels for border
+                        // If user selected 10px on screen, how much on canvas?
+                        // Let's assume ratio based on width
+                        const screenW = elements.paper.clientWidth;
+                        const scaleFactor = exportW / screenW;
+                        const borderPx = parseInt(state.borderWidth) * scaleFactor;
+                        
+                        // Draw Border Background (White for spacing effect)
+                        if (borderPx > 0) {
+                            ctx.fillStyle = '#ffffff';
+                            ctx.fillRect(x, y, cellW, cellH);
+                        }
+
+                        // Inner Area for Image
+                        const innerX = x + borderPx;
+                        const innerY = y + borderPx;
+                        const innerW = cellW - (borderPx * 2);
+                        const innerH = cellH - (borderPx * 2);
+
+                        // Just fill white in the content area
+                        ctx.fillStyle = '#ffffff';
+                        ctx.fillRect(innerX, innerY, innerW, innerH);
+                        
+                        // Clip to inner rect
+                        ctx.beginPath();
+                        ctx.rect(innerX, innerY, innerW, innerH);
+                        ctx.clip();
+
+                        // Draw Image (Object-Fit: Contain) logic
+                        // Center image in Inner Rect
+                        const imgRatio = img.width / img.height;
+                        const areaRatio = innerW / innerH;
+                        
+                        let drawW, drawH, drawX, drawY;
+
+                        if (imgRatio > areaRatio) {
+                            // Image is wider
+                            drawW = innerW;
+                            drawH = innerW / imgRatio;
+                            drawX = innerX;
+                            drawY = innerY + (innerH - drawH) / 2;
+                        } else {
+                            // Image is taller
+                            drawH = innerH;
+                            drawW = innerH * imgRatio;
+                            drawY = innerY;
+                            drawX = innerX + (innerW - drawW) / 2;
+                        }
+
+                        // Handle Rotation
+                        if (imgData.rotation !== 0) {
+                            ctx.translate(drawX + drawW/2, drawY + drawH/2);
+                            ctx.rotate(imgData.rotation * Math.PI / 180);
+                            
+                            // If rotated 90/270, dimensions might swap visually, but containment logic 
+                            // technically needs to recalculate fit if we want it perfect. 
+                            // For this MVP, we just rotate the drawn image.
+                            // To do it perfectly, we should swap W/H in ratio calc above if 90/270.
+                            // Re-calculating for rotation:
+                            if (imgData.rotation % 180 !== 0) {
+                                // Undo previous calc
+                                ctx.rotate(-imgData.rotation * Math.PI / 180);
+                                ctx.translate(-(drawX + drawW/2), -(drawY + drawH/2));
+
+                                // Recalc with swapped dims
+                                const rotImgRatio = img.height / img.width;
+                                if (rotImgRatio > areaRatio) {
+                                    drawW = innerW;
+                                    drawH = innerW / rotImgRatio;
+                                    drawX = innerX;
+                                    drawY = innerY + (innerH - drawH) / 2;
+                                } else {
+                                    drawH = innerH;
+                                    drawW = innerH * rotImgRatio;
+                                    drawY = innerY;
+                                    drawX = innerX + (innerW - drawW) / 2;
+                                }
+                                
+                                // Apply Rotation
+                                ctx.translate(drawX + drawW/2, drawY + drawH/2);
+                                ctx.rotate(imgData.rotation * Math.PI / 180);
+                                // Draw centered at 0,0 (swapped w/h)
+                                ctx.drawImage(img, -drawH/2, -drawW/2, drawH, drawW);
+                            } else {
+                                ctx.rotate(-imgData.rotation * Math.PI / 180); // Reset rot for normal draw (lazy way, actually just dont rotate above)
+                                ctx.drawImage(img, -drawW/2, -drawH/2, drawW, drawH);
+                            }
+                        } else {
+                             ctx.drawImage(img, drawX, drawY, drawW, drawH);
+                        }
+
+                        ctx.restore();
+                    }
+
+                    // DRAW WATERMARK
+                    ctx.save();
+                    ctx.fillStyle = "#555555"; // slightly darker for better visibility
+                    // Changed to a clean, professional sans-serif font
+                    ctx.font = `bold ${fontSize}px Arial, Helvetica, sans-serif`;
+                    ctx.textAlign = "center";
+                    ctx.textBaseline = "middle";
+                    
+                    // Position: Center of the footer area
+                    const footerCenterY = gridH + (footerHeight / 2);
+                    const footerCenterX = exportW / 2;
+
+                    ctx.fillText(watermarkText, footerCenterX, footerCenterY);
+                    ctx.restore();
+
+                    // Download
+                    const link = document.createElement('a');
+                    link.download = `Collage-${new Date().getTime()}.png`;
+                    link.href = canvas.toDataURL('image/png', 0.9);
+                    link.click();
+
+                } catch (err) {
+                    console.error(err);
+                    alert("Error creating collage.");
+                } finally {
+                    btn.innerHTML = originalContent;
+                    btn.disabled = false;
+                }
+            }, 100);
+        }
+
+        // Initialize
+        init();
+
+    </script>
+</body>
+</html>
