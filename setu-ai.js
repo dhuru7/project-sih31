@@ -106,6 +106,10 @@ class AiWidget {
         SetuAI.isAiActive = true;
         this.element.classList.add('active');
 
+        // Toggle Screen Edge Glow
+        const edgeGlow = document.querySelector('.screen-edge-glow');
+        if (edgeGlow) edgeGlow.classList.add('active');
+
         const mobileHeader = document.getElementById('mobile-header');
         if (this.isMobile && mobileHeader) mobileHeader.classList.add('ai-active');
 
@@ -122,6 +126,10 @@ class AiWidget {
         this.isActive = false;
         SetuAI.isAiActive = false;
         this.element.classList.remove('active', 'expanded-vertically', 'modern-animation');
+
+        // Toggle Screen Edge Glow
+        const edgeGlow = document.querySelector('.screen-edge-glow');
+        if (edgeGlow) edgeGlow.classList.remove('active');
 
         const mobileHeader = document.getElementById('mobile-header');
         if (this.isMobile && mobileHeader) mobileHeader.classList.remove('ai-active');
@@ -199,6 +207,41 @@ const SetuAI = {
                 this.widgets.forEach(w => w.deactivate());
             }
         });
+
+        // --- NEW: Inject Screen Edge Glow Element ---
+        if (!document.querySelector('.screen-edge-glow')) {
+            const glowEl = document.createElement('div');
+            glowEl.className = 'screen-edge-glow';
+            document.body.appendChild(glowEl);
+        }
+
+        // --- NEW: Global Touch Glow Listener ---
+        ['click', 'touchstart'].forEach(evtType => {
+            document.addEventListener(evtType, (e) => {
+                if (this.isAiActive) {
+                    this.createTouchRipple(e);
+                }
+            }, { passive: true });
+        });
+    },
+
+    createTouchRipple(e) {
+        const x = e.touches ? e.touches[0].clientX : e.clientX;
+        const y = e.touches ? e.touches[0].clientY : e.clientY;
+
+        const ripple = document.createElement('div');
+        ripple.className = 'touch-glow-ripple';
+        ripple.style.left = `${x}px`;
+        ripple.style.top = `${y}px`;
+        document.body.appendChild(ripple);
+
+        requestAnimationFrame(() => {
+            ripple.classList.add('animate');
+        });
+
+        setTimeout(() => {
+            ripple.remove();
+        }, 600);
     },
 
     setupButtonSpin() {
